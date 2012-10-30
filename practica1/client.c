@@ -124,6 +124,8 @@ void newUser(){
 	nick = "";
 	pass = "";
 
+	//user* usr;
+
 	printf("Nombre\n");
 	scanf("%s",nick);
 	printf("Contraseña\n");
