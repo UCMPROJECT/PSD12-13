@@ -120,7 +120,7 @@ void menuHome(){
 }
 void newUser(){
 
-	char* nick,pass;
+	char* nick,*pass;
 	nick = "";
 	pass = "";
 
