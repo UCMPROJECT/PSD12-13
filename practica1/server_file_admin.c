@@ -12,9 +12,8 @@ int serverInit(){
 }
 
 User* loadUsers(){
-	User* usr = malloc(User);
+	User* usr = (User*)malloc();
 	LUser *user;
 	user->listU[2]->nick = "hola";
 }
 
-loadFriends
