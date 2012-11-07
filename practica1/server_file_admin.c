@@ -1,8 +1,11 @@
+#ifndef server_file_admin
+#define server_file_admin
+
 #include <string.h>
 
 #include "server_user.c"
 
-const int MAXUSER = 100;
+#define  MAXUSER 100
 
 
 typedef struct{
@@ -22,7 +25,7 @@ int addUsers(LUser luser,char* nick,char* pass){
 	int found = 0;
 	int i = 0;
 	while(i < luser.numUser && found == 0){
-		if(strcmp(nick,luser.listU[i]) == 0){
+		if(strcmp(nick,luser.listU[i].nick) == 0){
 			found = 1;
 		}
 	}
@@ -40,7 +43,7 @@ int removeUser(LUser luser,char* nick){
 	int found = 0;
 	for(i = 0;i < luser.numUser;i++){
 		if(found == 0){
-			if(strcmp(nick,luser.listU[i]) == 0){
+			if(strcmp(nick,luser.listU[i].nick) == 0){
 				found = 1;
 				luser.listU[i] = luser.listU[i+1];
 			}
@@ -54,3 +57,4 @@ int removeUser(LUser luser,char* nick){
 
 }
 
+#endif

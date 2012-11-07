@@ -1,6 +1,9 @@
+#ifndef server_user
+#define server_user
+
 #include <string.h>
 
-const int MAXFRIENDS = 100;
+#define MAXFRIENDS 100
 
 typedef struct{
 	char* nick;
@@ -21,8 +24,8 @@ User userInit(char* nick,char* pass){
 }
 
 void userFree(User usr){
-	free(usr.nick);
-	free(usr.pass);
+	//free(usr.nick);
+	//free(usr.pass);
 }
 
 void setNick(User* usr,char* nick){
@@ -33,12 +36,12 @@ void setPass(User* usr,char* pass){
 	usr->pass  = pass;
 }
 
-int addFriend(User* usr,User* friend){
+int addFriend(User usr,User* friend){
 	int i,j = 0;
 	int found = 0;
-	User* aux;
+	User *aux;
 	while( i < MAXFRIENDS && found == 0){
-		aux = usr->friends[i];
+		aux = usr.friends[i];
 		if(aux != NULL){
 			if(strcasecmp(aux->nick,friend->nick) == 1){
 				found = 1;
@@ -49,17 +52,17 @@ int addFriend(User* usr,User* friend){
 		i++;
 	}
 	if(found == 0){
-		usr->friends[j] = friend;
+		usr.friends[j] = friend;
 	}
 	return found;
 }
 
-int removeFriend(User* usr,User* friend){
+int removeFriend(User usr,User* friend){
 	int i = 0;
 	int found = 0;
 	User* aux;
 	while(i < MAXFRIENDS && found == 0){
-		aux = usr->friends[i];
+		aux = usr.friends[i];
 		if(aux != NULL){
 			if(strcasecmp(aux->nick,friend->nick) == 1){
 				found = 1;
@@ -68,7 +71,9 @@ int removeFriend(User* usr,User* friend){
 		i++;
 	}
 	if(found == 1){
-		usr->friends[i] = NULL;
+		usr.friends[i] = NULL;
 	}
 	return found;
 }
+
+#endif

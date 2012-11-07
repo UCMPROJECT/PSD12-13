@@ -2,8 +2,23 @@
 #include "soapH.h"
 #include "ims.nsmap"
 
+#include "server_file_admin.c"
+
 int main(int argc, char **argv){ 
 
+
+	char* nick;
+	char* pass;
+	printf("Nombre\n");
+	scanf("%s",nick);
+	printf("Contraseña\n");
+	scanf("%s",pass);
+	LUser luser;
+	serverInit(luser);
+	addUsers(luser,nick,pass);
+	User a = luser.listU[0];
+	printf("%s",a.nick);
+	/*
   int m, s;
   struct soap soap;
 
@@ -39,7 +54,7 @@ int main(int argc, char **argv){
 		// Clean up!
 	  	soap_end(&soap);
 	}
-
+*/
   return 0;
 }
 
