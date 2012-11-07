@@ -8,17 +8,21 @@ typedef struct{
 	struct User* friends[MAXFRIENDS];
 }User;
 
-User* userInit(char* nick,char* pass,User* friends[100]){
-	User *usr;
-	usr->nick = nick;
-	usr->pass = pass;
-	usr->friends = friends;
-	return usr;
+User userInit(char* nick,char* pass){
+	User user;
+	user.nick = nick;
+	user.pass = pass;
+
+	int i;
+	for(i = 0;i < MAXFRIENDS;i++){
+		user.friends[i] = NULL;
+	}
+	return user;
 }
 
-void userFree(User *usr){
-	free(usr->nick);
-	free(usr->pass);
+void userFree(User usr){
+	free(usr.nick);
+	free(usr.pass);
 }
 
 void setNick(User* usr,char* nick){
