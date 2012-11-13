@@ -1,17 +1,8 @@
-#ifndef server_file_admin
-#define server_file_admin
 
 #include <string.h>
 
-#include "server_user.c"
+#include "server_file_admin.h"
 
-#define  MAXUSER 100
-
-
-typedef struct{
-	int numUser;
-	User listU[MAXUSER];
-}LUser;
 
 int serverInit(LUser luser){
 	luser.numUser = 0;
@@ -57,4 +48,3 @@ int removeUser(LUser luser,char* nick){
 
 }
 
-#endif

@@ -2,14 +2,7 @@
 #define server_user
 
 #include <string.h>
-
-#define MAXFRIENDS 100
-
-typedef struct{
-	char* nick;
-	char* pass;
-	struct User* friends[MAXFRIENDS];
-}User;
+#include "server_user.h"
 
 User userInit(char* nick,char* pass){
 	User user;

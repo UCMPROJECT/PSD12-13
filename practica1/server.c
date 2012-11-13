@@ -2,7 +2,7 @@
 #include "soapH.h"
 #include "ims.nsmap"
 
-#include "server_file_admin.c"
+#include "server_file_admin.h"
 
 int main(int argc, char **argv){ 
 
@@ -10,9 +10,14 @@ int main(int argc, char **argv){
 	char* nick;
 	char* pass;
 	printf("Nombre\n");
+	nick = malloc(256*sizeof(char));
 	scanf("%s",nick);
+
 	printf("Contraseña\n");
+	pass = malloc(256*sizeof(char));
 	scanf("%s",pass);
+
+
 	LUser luser;
 	serverInit(luser);
 	addUsers(luser,nick,pass);
