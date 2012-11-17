@@ -19,8 +19,8 @@ int main(int argc, char **argv){
 
 
 	LUser luser;
-	serverInit(luser);
-	addUsers(luser,nick,pass);
+	serverInit(&luser);
+	addUsers(&luser,nick,pass);
 	User a = luser.listU[0];
 	printf("%s",a.nick);
 	/*

@@ -4,19 +4,22 @@
 #include "server_file_admin.h"
 
 
-int serverInit(LUser luser){
-	luser.numUser = 0;
+int serverInit(LUser* luser){
+	LUser aux = *luser;
+	aux.numUser = 0;
+	luser = &aux;
 	return 0;
 }
 
-int addUsers(LUser luser,char* nick,char* pass){
-	if(luser.numUser >= MAXUSER){
+int addUsers(LUser* luser,char* nick,char* pass){
+	LUser aux = *luser;
+	if(aux.numUser >= MAXUSER){
 		return -1;
 	}
 	int found = 0;
 	int i = 0;
-	while(i < luser.numUser && found == 0){
-		if(strcmp(nick,luser.listU[i].nick) == 0){
+	while(i < aux.numUser && found == 0){
+		if(strcmp(nick,aux.listU[i].nick) == 0){
 			found = 1;
 		}
 	}
@@ -24,8 +27,9 @@ int addUsers(LUser luser,char* nick,char* pass){
 		return -2;
 	}
 	User usr = userInit(nick,pass);
-	luser.listU[luser.numUser] = usr;
-	luser.numUser++;
+	aux.listU[aux.numUser] = usr;
+	aux.numUser++;
+	luser = &aux;
 	return 0;
 }
 
