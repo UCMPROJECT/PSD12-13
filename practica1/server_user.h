@@ -18,10 +18,10 @@ typedef struct{
 }User;
 
 User userInit(char* nick,char* pass);
-void userFree(User usr);
+void userFree(User* usr);
 void setNick(User* usr,char* nick);
 void setPass(User* usr,char* pass);
-int addFriend(User usr,User* friend);
-int removeFriend(User usr,User* friend);
+int addFriend(User* usr,User* friend);
+int removeFriend(User* usr,User* friend);
 
 #endif /* SERVER_USER_H_ */

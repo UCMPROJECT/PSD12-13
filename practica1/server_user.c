@@ -4,21 +4,22 @@
 #include <string.h>
 #include "server_user.h"
 
-User userInit(char* nick,char* pass){
-	User user;
-	user.nick = nick;
-	user.pass = pass;
+User* userInit(char* nick,char* pass){
+	User *user;
+	user->nick = nick;
+	user->pass = pass;
 
 	int i;
 	for(i = 0;i < MAXFRIENDS;i++){
-		user.friends[i] = NULL;
+		user->friends[i] = NULL;
 	}
 	return user;
 }
 
-void userFree(User usr){
-	//free(usr.nick);
-	//free(usr.pass);
+void userFree(User* usr){
+	free(usr->nick);
+	free(usr->pass);
+	free(usr);
 }
 
 void setNick(User* usr,char* nick){
@@ -29,12 +30,12 @@ void setPass(User* usr,char* pass){
 	usr->pass  = pass;
 }
 
-int addFriend(User usr,User* friend){
+int addFriend(User* usr,User* friend){
 	int i,j = 0;
 	int found = 0;
 	User *aux;
 	while( i < MAXFRIENDS && found == 0){
-		aux = usr.friends[i];
+		aux = usr->friends[i];
 		if(aux != NULL){
 			if(strcasecmp(aux->nick,friend->nick) == 1){
 				found = 1;
@@ -45,17 +46,17 @@ int addFriend(User usr,User* friend){
 		i++;
 	}
 	if(found == 0){
-		usr.friends[j] = friend;
+		usr->friends[j] = friend;
 	}
 	return found;
 }
 
-int removeFriend(User usr,User* friend){
+int removeFriend(User* usr,User* friend){
 	int i = 0;
 	int found = 0;
 	User* aux;
 	while(i < MAXFRIENDS && found == 0){
-		aux = usr.friends[i];
+		aux = usr->friends[i];
 		if(aux != NULL){
 			if(strcasecmp(aux->nick,friend->nick) == 1){
 				found = 1;
@@ -64,7 +65,7 @@ int removeFriend(User usr,User* friend){
 		i++;
 	}
 	if(found == 1){
-		usr.friends[i] = NULL;
+		usr->friends[i] = NULL;
 	}
 	return found;
 }
