@@ -18,11 +18,11 @@ int main(int argc, char **argv){
 	scanf("%s",pass);
 
 
-	LUser luser;
+	LUser *luser = (struct LUser*)malloc(sizeof(struct LUser));
 	serverInit(&luser);
 	addUsers(&luser,nick,pass);
 	User a = luser.listU[0];
-	printf("%s",a.nick);
+	printf("final %s\n",a.nick);
 	/*
   int m, s;
   struct soap soap;

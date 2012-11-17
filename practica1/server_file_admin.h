@@ -13,11 +13,11 @@
 
 typedef struct{
 	int numUser;
-	User listU[MAXUSER];
+	User *listU[MAXUSER];
 }LUser;
 
 int serverInit(LUser* luser);
 int addUsers(LUser* luser,char* nick,char* pass);
-int removeUser(LUser luser,char* nick);
+int removeUser(LUser* luser,char* nick);
 
 #endif /* SERVER_FILE_ADMIN_H_ */
