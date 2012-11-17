@@ -5,7 +5,7 @@
 #include "server_user.h"
 
 User* userInit(char* nick,char* pass){
-	User *user;
+	User *user = (User*)malloc(sizeof(User));
 	user->nick = nick;
 	user->pass = pass;
 

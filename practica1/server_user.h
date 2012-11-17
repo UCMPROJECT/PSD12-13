@@ -17,7 +17,7 @@ typedef struct{
 	struct User* friends[MAXFRIENDS];
 }User;
 
-User userInit(char* nick,char* pass);
+User* userInit(char* nick,char* pass);
 void userFree(User* usr);
 void setNick(User* usr,char* nick);
 void setPass(User* usr,char* pass);
