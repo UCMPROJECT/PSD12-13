@@ -9,16 +9,29 @@ int serverInit(LUser* luser){
 	return 0;
 }
 
+void serverFree(LUser* luser){
+	int i;
+	User *usr;
+	for(i = 0;i<luser->numUser;i++){
+		usr = luser->listU[1];
+		userFree(usr);
+	}
+	free(luser);
+}
+
 int addUsers(LUser* luser,char* nick,char* pass){
 	if(luser->numUser >= MAXUSER){
 		return -1;
 	}
 	int found = 0;
 	int i = 0;
+
 	while(i < luser->numUser && found == 0){
 		if(strcmp(nick,luser->listU[i]->nick) == 0){
 			found = 1;
 		}
+		i++;
+
 	}
 	if(found == 1){
 		return -2;

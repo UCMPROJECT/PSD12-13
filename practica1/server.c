@@ -18,11 +18,21 @@ int main(int argc, char **argv){
 	scanf("%s",pass);
 
 
-	LUser *luser = (struct LUser*)malloc(sizeof(LUser));
+	LUser *luser = (LUser*)malloc(sizeof(LUser));
 	serverInit(luser);
 	addUsers(luser,nick,pass);
 	User *a = luser->listU[0];
-	printf("final %s\n",a->nick);
+	char *nombre="oscar";
+	char *pass2="tetas";
+	addUsers(luser,nombre,pass2);
+	User *b = luser->listU[1];
+
+	addFriend(a,b);
+	removeFriend(a,b);
+	removeUser(luser,"oscar");
+	removeUser(luser,nick);
+
+	serverFree(luser);
 	/*
   int m, s;
   struct soap soap;
