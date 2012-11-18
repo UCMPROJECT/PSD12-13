@@ -77,13 +77,11 @@ int main(int argc, char **argv){
   return 0;
 }
 int ims__sendMessage (struct soap *soap, struct Message myMessage, int *result){
+	/*char* data[2];
+	char *a;
+	data = myMessage.msg;*/
+	//char* a = data[0];
 	printf ("Servidor -> user:%s - msg:%s\n", myMessage.name, myMessage.msg);
-	return SOAP_OK;
-}
-
-int ims__addFriend (struct soap *soap, struct Message myMessage, int *result){
-
-	printf ("añadir amigo");
 	return SOAP_OK;
 }
 

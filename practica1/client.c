@@ -81,29 +81,35 @@ int main(int argc, char **argv){
 
   return 0;
 }
-void newUser(){
 
-}
-void login(){
+int menuLogin(struct soap soap,char *serverURL){
+	int op = -1;
+	int res = -1;
 
-}
-void menuLogin(struct soap soap,char *serverURL){
-	printf("1.-Log in.\n");
-	printf("1.-Darse de alta.\n");
+	while(op != 0 && res != 0){
+		printf("1.-Log in.\n");
+		printf("2.-Darse de alta.\n");
+		printf("0.-Salir.\n");
 
-	int op = 0;
-	scanf("%d",&op);
+		scanf("%d",&op);
 
-	switch (op){
-	case 1:
-		break;
-	case 2:
-		addNewUser(soap,serverURL);
-		break;
-	default:
-		printf("Opcion no valida.\n");
-		break;
+		switch (op){
+		case 1:
+			res = login();
+			break;
+		case 2:
+			addNewUser(soap,serverURL);
+			op = -1;
+			break;
+		case 0:
+			break;
+		default:
+			printf("Opcion no valida.\n");
+			break;
+		}
 	}
+
+	return res;
 }
 void menuHome(){
 	printf("1.-Añadir amigo.\n");
@@ -135,6 +141,8 @@ void addNewUser(struct soap soap,char *serverURL){
 	struct Message myMsgA;
 	int res;
 
+	char* data[2];
+
 	nick = malloc(256*sizeof(char));
 	pass = malloc(256*sizeof(char));
 
@@ -148,14 +156,25 @@ void addNewUser(struct soap soap,char *serverURL){
 	// Alloc memory, init to zero and copy the name
 	myMsgA.name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 	bzero (myMsgA.name, IMS_MAX_MSG_SIZE);
-	strcpy (myMsgA.name, nick);
+	strcpy (myMsgA.name, "newUser");
 	//myMsgA.msg =  data;
-	strcpy (myMsgA.msg, pass);
+	//strcpy (myMsgA.msg, pass);
+	data[0] = nick;
+	data[0] = pass;
 
-	printf("llega a enviar\n");
+	myMsgA.msg = data;
+
+	printf("%s\n",myMsgA.msg[0]);
 
     soap_call_ims__sendMessage (&soap, serverURL, "", myMsgA, &res);
 
+   // free(nick);
+    //free(pass);
+}
 
+int login(){
+	int res;
+
+	return res;
 }
 
