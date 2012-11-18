@@ -51,14 +51,14 @@ int addFriend(User* usr,User* friend){
 	return found;
 }
 
-int removeFriend(User* usr,User* friend){
+int removeFriend(User* usr,char* friend){
 	int i = 0;
 	int found = 0;
 	User* aux;
 	while(i < MAXFRIENDS && found == 0){
 		aux = usr->friends[i];
 		if(aux != NULL){
-			if(strcasecmp(aux->nick,friend->nick) == 1){
+			if(strcasecmp(aux->nick,friend) == 1){
 				found = 1;
 			}
 		}
@@ -69,5 +69,18 @@ int removeFriend(User* usr,User* friend){
 	}
 	return found;
 }
+int isFriend(User* usr,char *friend){
+	int found = 0;
+	int i = 0;
+	User* aux;
 
+	while(found == 0 && i < MAXFRIENDS){
+		aux = usr->friends[i];
+		if(strcasecmp(aux->nick,friend) == 1){
+			found = 1;
+		}
+		i++;
+	}
+	return found;
+}
 #endif

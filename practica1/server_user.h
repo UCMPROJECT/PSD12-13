@@ -22,6 +22,7 @@ void userFree(User* usr);
 void setNick(User* usr,char* nick);
 void setPass(User* usr,char* pass);
 int addFriend(User* usr,User* friend);
-int removeFriend(User* usr,User* friend);
+int removeFriend(User* usr,char* friend);
+int isFriend(User* usr,char *friend);
 
 #endif /* SERVER_USER_H_ */
