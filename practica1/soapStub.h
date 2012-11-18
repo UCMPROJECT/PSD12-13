@@ -93,10 +93,29 @@ struct ims__receiveMessage
 };
 #endif
 
+#ifndef SOAP_TYPE_ims__addUserResponse
+#define SOAP_TYPE_ims__addUserResponse (18)
+/* ims:addUserResponse */
+struct ims__addUserResponse
+{
+	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__addUser
+#define SOAP_TYPE_ims__addUser (19)
+/* ims:addUser */
+struct ims__addUser
+{
+	char *nick;	/* optional element of type xsd:string */
+	char *pass;	/* optional element of type xsd:string */
+};
+#endif
+
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (17)
+#define SOAP_TYPE_SOAP_ENV__Header (20)
 /* SOAP Header: */
 struct SOAP_ENV__Header
 {
@@ -111,7 +130,7 @@ struct SOAP_ENV__Header
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (18)
+#define SOAP_TYPE_SOAP_ENV__Code (21)
 /* SOAP Fault Code: */
 struct SOAP_ENV__Code
 {
@@ -125,7 +144,7 @@ struct SOAP_ENV__Code
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (20)
+#define SOAP_TYPE_SOAP_ENV__Detail (23)
 /* SOAP-ENV:Detail */
 struct SOAP_ENV__Detail
 {
@@ -140,7 +159,7 @@ struct SOAP_ENV__Detail
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (23)
+#define SOAP_TYPE_SOAP_ENV__Reason (26)
 /* SOAP-ENV:Reason */
 struct SOAP_ENV__Reason
 {
@@ -153,7 +172,7 @@ struct SOAP_ENV__Reason
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (24)
+#define SOAP_TYPE_SOAP_ENV__Fault (27)
 /* SOAP Fault: */
 struct SOAP_ENV__Fault
 {
@@ -211,6 +230,8 @@ SOAP_FMAC5 int SOAP_FMAC6 ims__sendMessage(struct soap*, struct Message myMessag
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__receiveMessage(struct soap*, struct Message *myMessage);
 
+SOAP_FMAC5 int SOAP_FMAC6 ims__addUser(struct soap*, char *nick, char *pass, int *result);
+
 /******************************************************************************\
  *                                                                            *
  * Server-Side Skeletons to Invoke Service Operations                         *
@@ -225,6 +246,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendMessage(struct soap*);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__receiveMessage(struct soap*);
 
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addUser(struct soap*);
+
 /******************************************************************************\
  *                                                                            *
  * Client-Side Call Stubs                                                     *
@@ -235,6 +258,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__receiveMessage(struct soap*);
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct Message myMessage, int *result);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct Message *myMessage);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__addUser(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, char *pass, int *result);
 
 #ifdef __cplusplus
 }

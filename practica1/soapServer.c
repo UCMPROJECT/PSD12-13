@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-18 17:41:35 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-18 19:06:43 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
@@ -63,6 +63,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 		return soap_serve_ims__sendMessage(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:receiveMessage"))
 		return soap_serve_ims__receiveMessage(soap);
+	if (!soap_match_tag(soap, soap->tag, "ims:addUser"))
+		return soap_serve_ims__addUser(soap);
 	return soap->error = SOAP_NO_METHOD;
 }
 #endif
@@ -148,6 +150,50 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__receiveMessage(struct soap *soap)
 	 || soap_putheader(soap)
 	 || soap_body_begin_out(soap)
 	 || soap_put_ims__receiveMessageResponse(soap, &soap_tmp_ims__receiveMessageResponse, "ims:receiveMessageResponse", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap->error;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addUser(struct soap *soap)
+{	struct ims__addUser soap_tmp_ims__addUser;
+	struct ims__addUserResponse soap_tmp_ims__addUserResponse;
+	int soap_tmp_int;
+	soap_default_ims__addUserResponse(soap, &soap_tmp_ims__addUserResponse);
+	soap_default_int(soap, &soap_tmp_int);
+	soap_tmp_ims__addUserResponse.result = &soap_tmp_int;
+	soap_default_ims__addUser(soap, &soap_tmp_ims__addUser);
+	soap->encodingStyle = NULL;
+	if (!soap_get_ims__addUser(soap, &soap_tmp_ims__addUser, "ims:addUser", NULL))
+		return soap->error;
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap->error;
+	soap->error = ims__addUser(soap, soap_tmp_ims__addUser.nick, soap_tmp_ims__addUser.pass, soap_tmp_ims__addUserResponse.result);
+	if (soap->error)
+		return soap->error;
+	soap_serializeheader(soap);
+	soap_serialize_ims__addUserResponse(soap, &soap_tmp_ims__addUserResponse);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__addUserResponse(soap, &soap_tmp_ims__addUserResponse, "ims:addUserResponse", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	};
+	if (soap_end_count(soap)
+	 || soap_response(soap, SOAP_OK)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__addUserResponse(soap, &soap_tmp_ims__addUserResponse, "ims:addUserResponse", NULL)
 	 || soap_body_end_out(soap)
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))

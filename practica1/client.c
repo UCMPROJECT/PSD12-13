@@ -152,7 +152,7 @@ void addNewUser(struct soap soap,char *serverURL){
 	scanf("%s",nick);
 	printf("Contraseña\n");
 	scanf("%s",pass);
-
+	/*
 	// Alloc memory, init to zero and copy the name
 	myMsgA.name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 	bzero (myMsgA.name, IMS_MAX_MSG_SIZE);
@@ -167,7 +167,8 @@ void addNewUser(struct soap soap,char *serverURL){
 	//((printf("%s\n",myMsgA.msg[0]);
 
     soap_call_ims__sendMessage (&soap, serverURL, "", myMsgA, &res);
-
+	*/
+	soap_call_ims__addUser(&soap, serverURL, "",nick,pass,&res);
    // free(nick);
     //free(pass);
 }

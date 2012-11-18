@@ -4,6 +4,8 @@
 
 #include "server_file_admin.h"
 
+LUser *luser;
+
 int main(int argc, char **argv){ 
 
 
@@ -37,7 +39,7 @@ int main(int argc, char **argv){
 	int m, s;
 	struct soap soap;
 
-	LUser *luser = (LUser*)malloc(sizeof(LUser));
+	luser = (LUser*)malloc(sizeof(LUser));
 	serverInit(luser);
 
 
@@ -106,5 +108,12 @@ int ims__receiveMessage (struct soap *soap, struct Message *myMessage){
 	return SOAP_OK;
 }
 
+int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
+{
+	//if(0 != addUsers(luser,nick,pass))
+		//return -1;
+	addUsers(luser,nick,pass);
+	printf("%s\n",luser->listU[0]->nick);
 
-
+	return SOAP_OK;
+}

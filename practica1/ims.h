@@ -13,3 +13,4 @@ struct Message{
 
 int ims__sendMessage (struct Message myMessage, int *result);
 int ims__receiveMessage (struct Message *myMessage);
+int ims__addUser(char* nick, char* pass, int *result);
