@@ -7,7 +7,7 @@
 int main(int argc, char **argv){ 
 
 
-	char* nick;
+	/*char* nick;
 	char* pass;
 	printf("Nombre\n");
 	nick = malloc(256*sizeof(char));
@@ -32,10 +32,14 @@ int main(int argc, char **argv){
 	removeUser(luser,"oscar");
 	removeUser(luser,nick);
 
-	serverFree(luser);
-	/*
-  int m, s;
-  struct soap soap;
+	serverFree(luser);*/
+
+	int m, s;
+	struct soap soap;
+
+	LUser *luser = (LUser*)malloc(sizeof(LUser));
+	serverInit(luser);
+
 
   	if (argc < 2) {
     	printf("Usage: %s <port>\n",argv[0]); 
@@ -69,15 +73,25 @@ int main(int argc, char **argv){
 		// Clean up!
 	  	soap_end(&soap);
 	}
-*/
+	serverFree(luser);
   return 0;
 }
-
 int ims__sendMessage (struct soap *soap, struct Message myMessage, int *result){
-
 	printf ("Servidor -> user:%s - msg:%s\n", myMessage.name, myMessage.msg);
 	return SOAP_OK;
 }
+
+int ims__addFriend (struct soap *soap, struct Message myMessage, int *result){
+
+	printf ("añadir amigo");
+	return SOAP_OK;
+}
+
+/*int ims__sendMessage (struct soap *soap, struct Message myMessage, int *result){
+
+	printf ("enviando mensaje");
+	return SOAP_OK;
+}*/
 
 
 int ims__receiveMessage (struct soap *soap, struct Message *myMessage){
