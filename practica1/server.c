@@ -64,8 +64,8 @@ int main(int argc, char **argv){
 	// Listen to next connection
 	while (1) { 
 		// accept
-	  	s = soap_accept(&soap);    
-	  	printf("llega aqui\n");
+	  	s = soap_accept(&soap);
+
 	  	if (s < 0) {
 			soap_print_fault(&soap, stderr); exit(-1);
 	  	}
@@ -83,24 +83,34 @@ int main(int argc, char **argv){
 
 int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
 {
-	//if(0 != addUsers(luser,nick,pass))
-		//return -1;
-
-	addUsers(luser,nick,pass);
-	if(DEBUG_MODE){
-		printf("Añadido: %s\n",luser->listU[0]->nick);
+	*res = addUsers(luser,nick,pass);
+	if(DEBUG_MODE && *res == 0){
+		printf("Añadido: %s %s\n",luser->listU[luser->numUser-1]->nick,luser->listU[luser->numUser-1]->pass);
 	}
 
 	return SOAP_OK;
 }
 int ims__userLogin(struct soap *soap, char* nick, char* pass, int *result){
-	result = userLogin(luser,nick,pass);
+	*result = userLogin(luser,nick,pass);
 
+	if(DEBUG_MODE && *result == 0){
+		printf("Se ha logueado: %s\n",nick);
+	}
 	return SOAP_OK;
 }
 int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *result){
 	User *usr = getUser(luser,user);
-	result = addFriend(usr,friend_nick);
+	User *friend = getUser(luser,friend_nick);
+
+	if(friend == NULL){
+		*result = -3;
+	}
+	else if(usr->online == 1){
+		result = addFriend(usr,friend_nick);
+	}
+	else{
+		*result = -2;
+	}
 
 	return SOAP_OK;
 }

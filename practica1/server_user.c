@@ -6,8 +6,14 @@
 
 User* userInit(char* nick,char* pass){
 	User *user = (User*)malloc(sizeof(User));
-	user->nick = nick;
-	user->pass = pass;
+	user->nick = (char*)malloc(sizeof(char*));
+	strcpy (user->nick, nick);
+	user->pass = (char*)malloc(sizeof(char*));
+	strcpy (user->pass, pass);
+
+	/*user->nick = nick;
+	user->pass = pass;*/
+
 
 	int i;
 	for(i = 0;i < MAXFRIENDS;i++){
@@ -35,11 +41,16 @@ void setPass(User* usr,char* pass){
 int addFriend(User* usr,char* friend_nick){
 	int i,j = 0;
 	int found = 0;
+
+	if(strcmp(usr->nick,friend_nick) == 0){
+		return -1;
+	}
+
 	User *aux;
 	while( i < MAXFRIENDS && found == 0){
 		aux = usr->friends[i];
 		if(aux != NULL){
-			if(strcasecmp(aux->nick,friend_nick) == 1){
+			if(strcasecmp(aux->nick,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -49,7 +60,8 @@ int addFriend(User* usr,char* friend_nick){
 		i++;
 	}
 	if(found == 0){
-		usr->friends[j] = friend_nick;
+		usr->friends[j] = (char*)malloc(sizeof(char*));
+		strcpy(usr->friends[j] , friend_nick);
 	}
 	return found;
 }
@@ -61,7 +73,7 @@ int removeFriend(User* usr,char* friend_nick){
 	while(i < MAXFRIENDS && found == 0){
 		aux = usr->friends[i];
 		if(aux != NULL){
-			if(strcasecmp(aux->nick,friend_nick) == 1){
+			if(strcasecmp(aux->nick,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -80,7 +92,7 @@ int addSlopeFriend(User* usr,char* friend_nick){
 	while( i < MAXFRIENDS && found == 0){
 		aux = usr->slope_friends[i];
 		if(aux != NULL){
-			if(strcasecmp(aux->nick,friend_nick) == 1){
+			if(strcasecmp(aux->nick,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -102,7 +114,7 @@ int removeSlopeFriend(User* usr,char* friend_nick){
 	while(i < MAXFRIENDS && found == 0){
 		aux = usr->slope_friends[i];
 		if(aux != NULL){
-			if(strcasecmp(aux->nick,friend_nick) == 1){
+			if(strcasecmp(aux->nick,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -121,7 +133,7 @@ int isFriend(User* usr,char *friend_nick){
 
 	while(found == 0 && i < MAXFRIENDS){
 		aux = usr->friends[i];
-		if(strcasecmp(aux->nick,friend_nick) == 1){
+		if(strcasecmp(aux->nick,friend_nick) == 0){
 			found = 1;
 		}
 		i++;
@@ -135,7 +147,7 @@ int isSlopeFriend(User* usr,char *friend_nick){
 
 	while(found == 0 && i < MAXFRIENDS){
 		aux = usr->slope_friends[i];
-		if(strcasecmp(aux->nick,friend_nick) == 1){
+		if(strcasecmp(aux->nick,friend_nick) == 0){
 			found = 1;
 		}
 		i++;

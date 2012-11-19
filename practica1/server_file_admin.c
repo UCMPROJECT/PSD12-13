@@ -80,7 +80,6 @@ int userLogin(LUser* luser,char* nick,char* pass){
 	int found = 0;
 	int i = 0;
 	User *user = NULL;
-
 	while(i < luser->numUser && found == 0){
 		if(strcmp(nick,luser->listU[i]->nick) == 0){
 			found = 1;
@@ -88,8 +87,7 @@ int userLogin(LUser* luser,char* nick,char* pass){
 		}
 		i++;
 	}
-
-	if(strcmp(pass,user->pass) == 0){
+	if(found == 1 && strcmp(pass,user->pass) == 0){
 		user->online = 1;
 		return 0;
 	}
