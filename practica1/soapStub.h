@@ -112,10 +112,48 @@ struct ims__addUser
 };
 #endif
 
+#ifndef SOAP_TYPE_ims__userLoginResponse
+#define SOAP_TYPE_ims__userLoginResponse (21)
+/* ims:userLoginResponse */
+struct ims__userLoginResponse
+{
+	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__userLogin
+#define SOAP_TYPE_ims__userLogin (22)
+/* ims:userLogin */
+struct ims__userLogin
+{
+	char *nick;	/* optional element of type xsd:string */
+	char *pass;	/* optional element of type xsd:string */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__addFriendResponse
+#define SOAP_TYPE_ims__addFriendResponse (24)
+/* ims:addFriendResponse */
+struct ims__addFriendResponse
+{
+	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__addFriend
+#define SOAP_TYPE_ims__addFriend (25)
+/* ims:addFriend */
+struct ims__addFriend
+{
+	char *user;	/* optional element of type xsd:string */
+	char *friend_nick;	/* optional element of type xsd:string */
+};
+#endif
+
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (20)
+#define SOAP_TYPE_SOAP_ENV__Header (26)
 /* SOAP Header: */
 struct SOAP_ENV__Header
 {
@@ -130,7 +168,7 @@ struct SOAP_ENV__Header
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (21)
+#define SOAP_TYPE_SOAP_ENV__Code (27)
 /* SOAP Fault Code: */
 struct SOAP_ENV__Code
 {
@@ -144,7 +182,7 @@ struct SOAP_ENV__Code
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (23)
+#define SOAP_TYPE_SOAP_ENV__Detail (29)
 /* SOAP-ENV:Detail */
 struct SOAP_ENV__Detail
 {
@@ -159,7 +197,7 @@ struct SOAP_ENV__Detail
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (26)
+#define SOAP_TYPE_SOAP_ENV__Reason (32)
 /* SOAP-ENV:Reason */
 struct SOAP_ENV__Reason
 {
@@ -172,7 +210,7 @@ struct SOAP_ENV__Reason
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (27)
+#define SOAP_TYPE_SOAP_ENV__Fault (33)
 /* SOAP Fault: */
 struct SOAP_ENV__Fault
 {
@@ -232,6 +270,10 @@ SOAP_FMAC5 int SOAP_FMAC6 ims__receiveMessage(struct soap*, struct Message *myMe
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__addUser(struct soap*, char *nick, char *pass, int *result);
 
+SOAP_FMAC5 int SOAP_FMAC6 ims__userLogin(struct soap*, char *nick, char *pass, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 ims__addFriend(struct soap*, char *user, char *friend_nick, int *result);
+
 /******************************************************************************\
  *                                                                            *
  * Server-Side Skeletons to Invoke Service Operations                         *
@@ -248,6 +290,10 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__receiveMessage(struct soap*);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addUser(struct soap*);
 
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__userLogin(struct soap*);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addFriend(struct soap*);
+
 /******************************************************************************\
  *                                                                            *
  * Client-Side Call Stubs                                                     *
@@ -260,6 +306,10 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const ch
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct Message *myMessage);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__addUser(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, char *pass, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__userLogin(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, char *pass, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__addFriend(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result);
 
 #ifdef __cplusplus
 }

@@ -14,6 +14,8 @@ int main(int argc, char **argv){
 	char *msg;
 	int res;
 
+	printf("Usage: %s http://server:port message\n",argv[0]);
+
 	// Usage
   	if (argc != 2) {
     	   printf("Usage: %s http://server:port message\n",argv[0]);
@@ -32,7 +34,6 @@ int main(int argc, char **argv){
 	// Debug?
 	if (DEBUG_MODE){
 		printf ("Server: %s\n", serverURL);
-		printf ("Message: %s\n", msg);
 	}
 
 	menuLogin(soap,serverURL);
@@ -95,7 +96,7 @@ int menuLogin(struct soap soap,char *serverURL){
 
 		switch (op){
 		case 1:
-			res = login();
+			res = login(soap,serverURL);
 			break;
 		case 2:
 			addNewUser(soap,serverURL);
@@ -138,10 +139,7 @@ void menuHome(){
 void addNewUser(struct soap soap,char *serverURL){
 
 	char* nick,*pass;
-	struct Message myMsgA;
 	int res;
-
-	char* data[2];
 
 	nick = malloc(256*sizeof(char));
 	pass = malloc(256*sizeof(char));
@@ -152,29 +150,33 @@ void addNewUser(struct soap soap,char *serverURL){
 	scanf("%s",nick);
 	printf("Contraseña\n");
 	scanf("%s",pass);
-	/*
-	// Alloc memory, init to zero and copy the name
-	myMsgA.name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
-	bzero (myMsgA.name, IMS_MAX_MSG_SIZE);
-	strcpy (myMsgA.name, nick);
-	//myMsgA.msg =  data;
-	strcpy (myMsgA.msg, pass);
-	//data[0] = nick;
-	//data[0] = pass;
-
-	//myMsgA.msg = data;
-
-	//((printf("%s\n",myMsgA.msg[0]);
-
-    soap_call_ims__sendMessage (&soap, serverURL, "", myMsgA, &res);
-	*/
 	soap_call_ims__addUser(&soap, serverURL, "",nick,pass,&res);
-   // free(nick);
+    //free(nick);
     //free(pass);
 }
 
-int login(){
+int login(struct soap soap,char *serverURL){
+	char* nick,*pass;
 	int res;
+
+	nick = malloc(256*sizeof(char));
+	pass = malloc(256*sizeof(char));
+
+	//user* usr;
+
+	printf("\nNombre\n");
+	scanf("%s",nick);
+	printf("Contraseña\n");
+	scanf("%s",pass);
+
+	soap_call_ims__userLogin(&soap, serverURL, "",nick,pass,&res);
+
+	if(res == -1){
+		printf("Nombre de usuario o contraseña incorrectos\n");
+	}
+
+	free(nick);
+	free(pass);
 
 	return res;
 }

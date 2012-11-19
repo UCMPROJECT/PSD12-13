@@ -4,6 +4,8 @@
 
 #include "server_file_admin.h"
 
+#define DEBUG_MODE 1
+
 LUser *luser;
 
 int main(int argc, char **argv){ 
@@ -61,10 +63,9 @@ int main(int argc, char **argv){
 
 	// Listen to next connection
 	while (1) { 
-
 		// accept
 	  	s = soap_accept(&soap);    
-
+	  	printf("llega aqui\n");
 	  	if (s < 0) {
 			soap_print_fault(&soap, stderr); exit(-1);
 	  	}
@@ -78,6 +79,32 @@ int main(int argc, char **argv){
 	serverFree(luser);
   return 0;
 }
+
+
+int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
+{
+	//if(0 != addUsers(luser,nick,pass))
+		//return -1;
+
+	addUsers(luser,nick,pass);
+	if(DEBUG_MODE){
+		printf("Añadido: %s\n",luser->listU[0]->nick);
+	}
+
+	return SOAP_OK;
+}
+int ims__userLogin(struct soap *soap, char* nick, char* pass, int *result){
+	result = userLogin(luser,nick,pass);
+
+	return SOAP_OK;
+}
+int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *result){
+	User *usr = getUser(luser,user);
+	result = addFriend(usr,friend_nick);
+
+	return SOAP_OK;
+}
+
 int ims__sendMessage (struct soap *soap, struct Message myMessage, int *result){
 	/*char* data[2];
 	char *a;
@@ -104,16 +131,6 @@ int ims__receiveMessage (struct soap *soap, struct Message *myMessage){
 	myMessage->name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 	bzero (myMessage->name, IMS_MAX_MSG_SIZE);
 	strcpy (myMessage->name, "Server");	
-
-	return SOAP_OK;
-}
-
-int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
-{
-	//if(0 != addUsers(luser,nick,pass))
-		//return -1;
-	addUsers(luser,nick,pass);
-	printf("%s\n",luser->listU[0]->nick);
 
 	return SOAP_OK;
 }
