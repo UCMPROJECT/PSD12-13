@@ -19,7 +19,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-20 02:14:28 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-20 12:36:18 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -224,8 +224,12 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		return soap_in_ims__sendMessage(soap, NULL, NULL, "ims:sendMessage");
 	case SOAP_TYPE_ims__sendMessageResponse:
 		return soap_in_ims__sendMessageResponse(soap, NULL, NULL, "ims:sendMessageResponse");
+	case SOAP_TYPE_Char_vector:
+		return soap_in_Char_vector(soap, NULL, NULL, "Char-vector");
 	case SOAP_TYPE_Message:
 		return soap_in_Message(soap, NULL, NULL, "Message");
+	case SOAP_TYPE_PointerToChar_vector:
+		return soap_in_PointerToChar_vector(soap, NULL, NULL, "Char-vector");
 	case SOAP_TYPE_PointerToMessage:
 		return soap_in_PointerToMessage(soap, NULL, NULL, "Message");
 	case SOAP_TYPE_PointerToint:
@@ -245,6 +249,8 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		s = soap_in_string(soap, NULL, NULL, "xsd:string");
 		return s ? *s : NULL;
 	}
+	case SOAP_TYPE_Array100Ofstring:
+		return soap_in_Array100Ofstring(soap, NULL, NULL, "xsd:string");
 	default:
 	{	const char *t = soap->type;
 		if (!*t)
@@ -321,6 +327,10 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		{	*type = SOAP_TYPE_ims__sendMessageResponse;
 			return soap_in_ims__sendMessageResponse(soap, NULL, NULL, NULL);
 		}
+		if (!soap_match_tag(soap, t, "Char-vector"))
+		{	*type = SOAP_TYPE_Char_vector;
+			return soap_in_Char_vector(soap, NULL, NULL, NULL);
+		}
 		if (!soap_match_tag(soap, t, "Message"))
 		{	*type = SOAP_TYPE_Message;
 			return soap_in_Message(soap, NULL, NULL, NULL);
@@ -343,7 +353,15 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 			s = soap_in_string(soap, NULL, NULL, NULL);
 			return s ? *s : NULL;
 		}
+		if (!soap_match_tag(soap, t, "xsd:string"))
+		{	*type = SOAP_TYPE_Array100Ofstring;
+			return soap_in_Array100Ofstring(soap, NULL, NULL, NULL);
+		}
 		t = soap->tag;
+		if (!soap_match_tag(soap, t, "Struct-1"))
+		{	*type = SOAP_TYPE__Struct_1;
+			return soap_in__Struct_1(soap, NULL, NULL, NULL);
+		}
 	}
 	}
 	soap->error = SOAP_TAG_MISMATCH;
@@ -437,8 +455,14 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 		return soap_out_ims__sendMessage(soap, tag, id, (const struct ims__sendMessage *)ptr, "ims:sendMessage");
 	case SOAP_TYPE_ims__sendMessageResponse:
 		return soap_out_ims__sendMessageResponse(soap, tag, id, (const struct ims__sendMessageResponse *)ptr, "ims:sendMessageResponse");
+	case SOAP_TYPE_Char_vector:
+		return soap_out_Char_vector(soap, tag, id, (const struct _Struct_1 *)ptr, "Char-vector");
+	case SOAP_TYPE__Struct_1:
+		return soap_out__Struct_1(soap, "Struct-1", id, (const struct _Struct_1 *)ptr, NULL);
 	case SOAP_TYPE_Message:
 		return soap_out_Message(soap, tag, id, (const struct Message *)ptr, "Message");
+	case SOAP_TYPE_PointerToChar_vector:
+		return soap_out_PointerToChar_vector(soap, tag, id, (struct _Struct_1 *const*)ptr, "Char-vector");
 	case SOAP_TYPE_PointerToMessage:
 		return soap_out_PointerToMessage(soap, tag, id, (struct Message *const*)ptr, "Message");
 	case SOAP_TYPE_PointerToint:
@@ -449,6 +473,8 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 		return soap_out_string(soap, tag, id, (char*const*)&ptr, "xsd:QName");
 	case SOAP_TYPE_string:
 		return soap_out_string(soap, tag, id, (char*const*)&ptr, "xsd:string");
+	case SOAP_TYPE_Array100Ofstring:
+		return soap_out_Array100Ofstring(soap, tag, id, (char *(*))ptr, "xsd:string");
 	}
 	return SOAP_OK;
 }
@@ -508,8 +534,17 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_markelement(struct soap *soap, const void *ptr, 
 	case SOAP_TYPE_ims__sendMessageResponse:
 		soap_serialize_ims__sendMessageResponse(soap, (const struct ims__sendMessageResponse *)ptr);
 		break;
+	case SOAP_TYPE_Char_vector:
+		soap_serialize_Char_vector(soap, (const struct _Struct_1 *)ptr);
+		break;
+	case SOAP_TYPE__Struct_1:
+		soap_serialize__Struct_1(soap, (const struct _Struct_1 *)ptr);
+		break;
 	case SOAP_TYPE_Message:
 		soap_serialize_Message(soap, (const struct Message *)ptr);
+		break;
+	case SOAP_TYPE_PointerToChar_vector:
+		soap_serialize_PointerToChar_vector(soap, (struct _Struct_1 *const*)ptr);
 		break;
 	case SOAP_TYPE_PointerToMessage:
 		soap_serialize_PointerToMessage(soap, (struct Message *const*)ptr);
@@ -525,6 +560,9 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_markelement(struct soap *soap, const void *ptr, 
 		break;
 	case SOAP_TYPE_string:
 		soap_serialize_string(soap, (char*const*)&ptr);
+		break;
+	case SOAP_TYPE_Array100Ofstring:
+		soap_serialize_Array100Ofstring(soap, (char *(*))ptr);
 		break;
 	}
 }
@@ -1249,14 +1287,14 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendshipRequests(struct soap *
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
 	soap_default_string(soap, &a->user);
-	soap_default_string(soap, &a->friends);
+	a->friends = NULL;
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendshipRequests(struct soap *soap, const struct ims__getFriendshipRequests *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
 	soap_serialize_string(soap, &a->user);
-	soap_serialize_string(soap, &a->friends);
+	soap_serialize_PointerToChar_vector(soap, &a->friends);
 }
 
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriendshipRequests(struct soap *soap, const char *tag, int id, const struct ims__getFriendshipRequests *a, const char *type)
@@ -1266,7 +1304,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriendshipRequests(struct soap *soap,
 		return soap->error;
 	if (soap_out_string(soap, "user", -1, &a->user, ""))
 		return soap->error;
-	if (soap_out_string(soap, "friends", -1, &a->friends, ""))
+	if (soap_out_PointerToChar_vector(soap, "friends", -1, &a->friends, ""))
 		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
@@ -1290,8 +1328,8 @@ SOAP_FMAC3 struct ims__getFriendshipRequests * SOAP_FMAC4 soap_in_ims__getFriend
 				{	soap_flag_user--;
 					continue;
 				}
-			if (soap_flag_friends && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
-				if (soap_in_string(soap, "friends", &a->friends, "xsd:string"))
+			if (soap_flag_friends && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToChar_vector(soap, "friends", &a->friends, "Char-vector"))
 				{	soap_flag_friends--;
 					continue;
 				}
@@ -2326,6 +2364,148 @@ SOAP_FMAC3 struct ims__sendMessageResponse * SOAP_FMAC4 soap_get_ims__sendMessag
 	return p;
 }
 
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_Char_vector(struct soap *soap, const char *tag, int id, const struct _Struct_1 *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_Char_vector), type))
+		return soap->error;
+	soap_out_Array100Ofstring(soap, "data", -1, a->data, "");
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in_Char_vector(struct soap *soap, const char *tag, struct _Struct_1 *a, const char *type)
+{
+	size_t soap_flag_data = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct _Struct_1 *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_Char_vector, sizeof(struct _Struct_1), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_Char_vector(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_data && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_Array100Ofstring(soap, "data", a->data, "xsd:string"))
+				{	soap_flag_data--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct _Struct_1 *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_Char_vector, 0, sizeof(struct _Struct_1), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_data > 0))
+	{	soap->error = SOAP_OCCURS;
+		return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_Char_vector(struct soap *soap, const struct _Struct_1 *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_Char_vector);
+	if (soap_out_Char_vector(soap, tag?tag:"Char-vector", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_get_Char_vector(struct soap *soap, struct _Struct_1 *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_Char_vector(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default__Struct_1(struct soap *soap, struct _Struct_1 *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_Array100Ofstring(soap, a->data);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize__Struct_1(struct soap *soap, const struct _Struct_1 *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_Array100Ofstring(soap, a->data);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out__Struct_1(struct soap *soap, const char *tag, int id, const struct _Struct_1 *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE__Struct_1), type))
+		return soap->error;
+	soap_out_Array100Ofstring(soap, "data", -1, a->data, "");
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in__Struct_1(struct soap *soap, const char *tag, struct _Struct_1 *a, const char *type)
+{
+	size_t soap_flag_data = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct _Struct_1 *)soap_id_enter(soap, soap->id, a, SOAP_TYPE__Struct_1, sizeof(struct _Struct_1), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default__Struct_1(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_data && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_Array100Ofstring(soap, "data", a->data, "xsd:string"))
+				{	soap_flag_data--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct _Struct_1 *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE__Struct_1, 0, sizeof(struct _Struct_1), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_data > 0))
+	{	soap->error = SOAP_OCCURS;
+		return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put__Struct_1(struct soap *soap, const struct _Struct_1 *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE__Struct_1);
+	if (soap_out__Struct_1(soap, tag?tag:"Struct-1", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_get__Struct_1(struct soap *soap, struct _Struct_1 *p, const char *tag, const char *type)
+{
+	if ((p = soap_in__Struct_1(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_Message(struct soap *soap, struct Message *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
@@ -2581,6 +2761,59 @@ SOAP_FMAC3 struct SOAP_ENV__Code ** SOAP_FMAC4 soap_get_PointerToSOAP_ENV__Code(
 
 #endif
 
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToChar_vector(struct soap *soap, struct _Struct_1 *const*a)
+{
+	if (!soap_reference(soap, *a, SOAP_TYPE_Char_vector))
+		soap_serialize_Char_vector(soap, *a);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToChar_vector(struct soap *soap, const char *tag, int id, struct _Struct_1 *const*a, const char *type)
+{
+	id = soap_element_id(soap, tag, id, *a, NULL, 0, type, SOAP_TYPE_Char_vector);
+	if (id < 0)
+		return soap->error;
+	return soap_out_Char_vector(soap, tag, id, *a, type);
+}
+
+SOAP_FMAC3 struct _Struct_1 ** SOAP_FMAC4 soap_in_PointerToChar_vector(struct soap *soap, const char *tag, struct _Struct_1 **a, const char *type)
+{
+	if (soap_element_begin_in(soap, tag, 1, NULL))
+		return NULL;
+	if (!a)
+		if (!(a = (struct _Struct_1 **)soap_malloc(soap, sizeof(struct _Struct_1 *))))
+			return NULL;
+	*a = NULL;
+	if (!soap->null && *soap->href != '#')
+	{	soap_revert(soap);
+		*a = (struct _Struct_1 *)soap_malloc(soap, sizeof(struct _Struct_1));
+		soap_default_Char_vector(soap, *a);
+		if (!(*a = soap_in_Char_vector(soap, tag, *a, type)))
+			return NULL;
+	}
+	else
+	{	a = (struct _Struct_1 **)soap_id_lookup(soap, soap->href, (void**)a, SOAP_TYPE_Char_vector, sizeof(struct _Struct_1), 0);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_PointerToChar_vector(struct soap *soap, struct _Struct_1 *const*a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_PointerToChar_vector);
+	if (soap_out_PointerToChar_vector(soap, tag?tag:"Char-vector", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct _Struct_1 ** SOAP_FMAC4 soap_get_PointerToChar_vector(struct soap *soap, struct _Struct_1 **p, const char *tag, const char *type)
+{
+	if ((p = soap_in_PointerToChar_vector(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToMessage(struct soap *soap, struct Message *const*a)
 {
 	if (!soap_reference(soap, *a, SOAP_TYPE_Message))
@@ -2775,6 +3008,101 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_string(struct soap *soap, char *const*a, cons
 SOAP_FMAC3 char ** SOAP_FMAC4 soap_get_string(struct soap *soap, char **p, const char *tag, const char *type)
 {
 	if ((p = soap_in_string(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_Array100Ofstring(struct soap *soap, char *a[100])
+{
+	int i;
+	(void)soap; /* appease -Wall -Werror */
+	for (i = 0; i < 100; i++)
+	a[i] = NULL;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_Array100Ofstring(struct soap *soap, char *const a[100])
+{	int i;
+	for(i = 0; i < 100; i++)
+	{
+	soap_serialize_string(soap, a+i);
+	}
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_Array100Ofstring(struct soap *soap, const char *tag, int id, char *const a[100], const char *type)
+{
+	int i;
+	soap_array_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_Array100Ofstring), "xsd:string[100]", 0);
+	for (i = 0; i < 100; i++)
+	{
+		soap->position = 1;
+		soap->positions[0] = i;
+		soap_out_string(soap, "item", -1, a+i, "");
+	}
+	soap->position = 0;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 char ** SOAP_FMAC4 soap_in_Array100Ofstring(struct soap *soap, const char *tag, char *a[100], const char *type)
+{
+	if (soap_element_begin_in(soap, tag, 0, NULL))
+		return NULL;
+	if (soap_match_array(soap, type))
+	{	soap->error = SOAP_TYPE;
+		return NULL;
+	}
+	a = (char *(*))soap_id_enter(soap, soap->id, a, SOAP_TYPE_Array100Ofstring, sizeof(char *[100]), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_Array100Ofstring(soap, a);
+	if (soap->body && !*soap->href)
+	{	int i;
+		for (i = 0; i < 100; i++)
+		{	soap_peek_element(soap);
+			if (soap->position)
+			{	i = soap->positions[0];
+				if (i < 0 || i >= 100)
+				{	soap->error = SOAP_IOB;
+					return NULL;
+				}
+			}
+			if (!soap_in_string(soap, NULL, a+i, "xsd:string"))
+			{	if (soap->error != SOAP_NO_TAG)
+					return NULL;
+				soap->error = SOAP_OK;
+				break;
+			}
+		}
+		if (soap->mode & SOAP_C_NOIOB)
+			while (soap_element_end_in(soap, tag) == SOAP_SYNTAX_ERROR)
+			{	soap->peeked = 1;
+				soap_ignore_element(soap);
+			}
+		else if (soap_element_end_in(soap, tag))
+		{	if (soap->error == SOAP_SYNTAX_ERROR)
+				soap->error = SOAP_IOB;
+			return NULL;
+		}
+	}
+	else
+	{	a = (char *(*))soap_id_forward(soap, soap->href, (void*)soap_id_enter(soap, soap->id, a, SOAP_TYPE_Array100Ofstring, sizeof(char *[100]), 0, NULL, NULL, NULL), 0, SOAP_TYPE_Array100Ofstring, 0, sizeof(char *[100]), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return (char **)a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_Array100Ofstring(struct soap *soap, char *const a[100], const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_Array100Ofstring);
+	if (soap_out_Array100Ofstring(soap, tag?tag:"SOAP-ENC:Array", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 char * * SOAP_FMAC4 soap_get_Array100Ofstring(struct soap *soap, char *a[100], const char *tag, const char *type)
+{	char *(*p);
+	if ((p = soap_in_Array100Ofstring(soap, tag, a, type)))
 		if (soap_getindependent(soap))
 			return NULL;
 	return p;

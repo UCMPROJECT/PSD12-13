@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-20 02:14:28 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-20 12:36:18 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct Message myMessage, int *result)
@@ -323,7 +323,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendFriendshipRequest(struct soap *soap
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friends, int *result)
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends, int *result)
 {	struct ims__getFriendshipRequests soap_tmp_ims__getFriendshipRequests;
 	struct ims__getFriendshipRequestsResponse *soap_tmp_ims__getFriendshipRequestsResponse;
 	soap->encodingStyle = NULL;

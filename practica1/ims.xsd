@@ -9,6 +9,13 @@
   elementFormDefault="unqualified"
   attributeFormDefault="unqualified">
   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="Array100Ofstring">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:string[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
   <!-- operation request element -->
   <element name="sendMessage">
    <complexType>
@@ -113,7 +120,7 @@
    <complexType>
     <sequence>
      <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::user -->
-     <element name="friends" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::friends -->
+     <element name="friends" type="Char-vector" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::friends -->
     </sequence>
    </complexType>
   </element>

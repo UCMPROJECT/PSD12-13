@@ -4,8 +4,10 @@
 #include <stdlib.h>
 
 #define DEBUG_MODE 1
+#define MAXFRIENDS 100
 
 char *user;
+
 
 int main(int argc, char **argv){
 
@@ -88,7 +90,7 @@ int menuLogin(struct soap soap,char *serverURL){
 	int res = -1;
 
 	while(op != 0 && res != 0){
-		system("clear");
+		//system("clear");
 		printf("1.-Log in.\n");
 		printf("2.-Darse de alta.\n");
 		printf("0.-Salir.\n");
@@ -119,8 +121,7 @@ int menuLogin(struct soap soap,char *serverURL){
 void menuHome(struct soap soap,char *serverURL){
 	int op=-1;
 	while(op != 0){
-		system("clear");
-		printf("1.-Añadir amigo.\n");
+		//system("clear");
 		printf("2.-Enviar mensaje.\n");
 		printf("3.-Leer mensaje.\n");
 		printf("4.-Enviar peticion de amistad\n");
@@ -171,7 +172,7 @@ void addNewUser(struct soap soap,char *serverURL){
 	pass = (char*)malloc(sizeof(char*));
 
 	//user* usr;
-	system("clear");
+	//system("clear");
 	printf("\nNombre\n");
 	scanf("%s",nick);
 	printf("Contraseña\n");
@@ -203,7 +204,7 @@ int login(struct soap soap,char *serverURL){
 	pass = (char*)malloc(sizeof(char*));
 
 	//user* usr;
-	system("clear");
+
 	printf("\nNombre\n");
 	scanf("%s",nick);
 	printf("Contraseña\n");
@@ -293,12 +294,25 @@ void sendFriendRequest(struct soap soap,char *serverURL)
 //
 void getFriendRequest(struct soap soap,char *serverURL)
 {
-	char* friends = (char*)malloc(sizeof(char*));
+	Char_vector *friends = (Char_vector*)malloc(sizeof(Char_vector));
 	int result;
+
+	int i;
+
+	for(i = 0;i < MAXFRIENDS;i++){
+		friends->data[i] = (char*)malloc(sizeof(char*));
+	}
+	strcpy(friends->data[0],"ME CAGO EN DIOS");
+
 
 	soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends, &result);
 
 	system("clear");
 	printf("Lista de amistades sin aceptar:\n");
-	printf(" %s\n",friends);
+
+	for(i=0;i < MAXFRIENDS;i++){
+		if(friends->data[i] != NULL){
+			printf("%d: %s\n",i,friends->data[i]);
+		}
+	}
 }

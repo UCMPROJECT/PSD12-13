@@ -32,6 +32,19 @@
      <element name="msg" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Message::msg -->
    </sequence>
   </complexType>
+  <complexType name="Struct-1"><!-- _Struct_1 -->
+
+   <sequence>
+     <element name="data" type="ims:Array100Ofstring" minOccurs="1" maxOccurs="1" nillable="true"/><!-- _Struct_1::data -->
+   </sequence>
+  </complexType>
+  <complexType name="Array100Ofstring">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:string[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
   <!-- operation request element -->
   <element name="sendMessage">
    <complexType>
@@ -136,7 +149,7 @@
    <complexType>
     <sequence>
      <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::user -->
-     <element name="friends" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::friends -->
+     <element name="friends" type="Char-vector" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::friends -->
     </sequence>
    </complexType>
   </element>

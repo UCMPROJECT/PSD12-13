@@ -44,6 +44,10 @@ int main(int argc, char **argv){
 	luser = (LUser*)malloc(sizeof(LUser));
 	serverInit(luser);
 
+	addUsers(luser,"adios","mundo");
+	addUsers(luser,"hola","mundo");
+	addFriendRequestPending(luser->listU[0],"hola");
+
 
   	if (argc < 2) {
     	printf("Usage: %s <port>\n",argv[0]); 
@@ -139,6 +143,11 @@ int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick,
 		*result = -3;
 	}else if(usr->online == 1)
 	{
+		*result = isFriend(usr,friend_nick);
+		if(*result == 1){
+			*result = -4;
+			return SOAP_OK;
+		}
 		*result = addFriendRequestSend(usr,friend_nick);
 		if(*result == 0)
 		{
@@ -156,14 +165,20 @@ int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick,
 //
 //
 //
-int ims__getFriendshipRequests(struct soap *soap, char* user, char* friends, int *result)
+int ims__getFriendshipRequests(struct soap *soap, char* user,Char_vector *friends, int *result)
 {
 	User *usr = getUser(luser,user);
 
 	if(usr->online == 1)
 	{
-		*result = getFriendRequestPending(usr,friends);
-		if(DEBUG_MODE && *result == 0) printf("%s quiere su lista de peticiones pendientes: %s\n",usr->nick,friends);
+		printf("%s\n",friends->data[0]);
+		//Char_vector * aux_friends = (Char_vector*)malloc(sizeof(Char_vector));
+
+		*result = getFriendRequestPending(usr,&friends->data);
+		//*friends = *aux_friends;
+		printf("%s\n",friends->data[0]);
+		if(DEBUG_MODE && *result == 0)
+			printf("%s quiere su lista de peticiones pendientes\n",usr->nick);
 	}
 
 	return SOAP_OK;

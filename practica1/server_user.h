@@ -8,6 +8,7 @@
 #ifndef SERVER_USER_H_
 #define SERVER_USER_H_
 
+#include "soapH.h"
 
 #define MAXFRIENDS 100
 
@@ -39,6 +40,6 @@ int isFriendRequestSend(User* usr,char* friend_nick);
 int addFriendRequestPending(User* usr,char* friend_nick);
 int removeFriendRequestPending(User* usr,char* friend_nick);
 int isFriendRequestPending(User* usr,char* friend_nick);
-int getFriendRequestPending(User* usr,char* friends);
+int getFriendRequestPending(User* usr,char* friends[MAXFRIENDS]);
 
 #endif /* SERVER_USER_H_ */

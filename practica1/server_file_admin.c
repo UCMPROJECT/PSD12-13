@@ -45,16 +45,21 @@ int addUsers(LUser* luser,char* nick,char* pass){
 int removeUser(LUser *luser,char* nick){
 	int i;
 	int found = 0;
+	User *usr;
 	for(i = 0;i < luser->numUser;i++){
 		if(found == 0){
 			if(strcmp(nick,luser->listU[i]->nick) == 0){
 				found = 1;
+				usr = luser->listU[i];
 				luser->listU[i] = luser->listU[i+1];
 			}
 		}
 		else{
 			luser->listU[i] = luser->listU[i+1];
 		}
+	}
+	if(found == 1){
+		userFree(usr);
 	}
 	luser->numUser--;
 	return 0;
