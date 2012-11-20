@@ -80,7 +80,9 @@ int main(int argc, char **argv){
   return 0;
 }
 
-
+//
+//
+//
 int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
 {
 	*res = addUsers(luser,nick,pass);
@@ -90,6 +92,10 @@ int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
 
 	return SOAP_OK;
 }
+
+//
+//
+//
 int ims__userLogin(struct soap *soap, char* nick, char* pass, int *result){
 	*result = userLogin(luser,nick,pass);
 
@@ -98,6 +104,10 @@ int ims__userLogin(struct soap *soap, char* nick, char* pass, int *result){
 	}
 	return SOAP_OK;
 }
+
+//
+//
+//
 int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *result){
 	User *usr = getUser(luser,user);
 	User *friend = getUser(luser,friend_nick);
@@ -106,7 +116,8 @@ int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *result
 		*result = -3;
 	}
 	else if(usr->online == 1){
-		result = addFriend(usr,friend_nick);
+		*result = addFriend(usr,friend_nick);
+		if(DEBUG_MODE && friend != NULL && *result == 0) printf("Añadido amigo %s al usuario %s\n",friend->nick,usr->nick);
 	}
 	else{
 		*result = -2;
@@ -114,6 +125,61 @@ int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *result
 
 	return SOAP_OK;
 }
+
+//
+//
+//
+int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick, int *result)
+{
+	User *usr = getUser(luser,user);
+	User *friend = getUser(luser,friend_nick);
+
+	if(friend == NULL)
+	{
+		*result = -3;
+	}else if(usr->online == 1)
+	{
+		*result = addFriendRequestSend(usr,friend_nick);
+		if(*result == 0)
+		{
+			*result = addFriendRequestPending(friend,user);
+			if(DEBUG_MODE && friend != NULL && *result == 0) printf("%s envia peticion de amistad a %s\n",usr->nick,friend->nick);
+		}
+	}else
+	{
+		*result = -2;
+	}
+
+	return SOAP_OK;
+}
+
+//
+//
+//
+int ims__getFriendshipRequests(struct soap *soap, char* user, char* friends, int *result)
+{
+	User *usr = getUser(luser,user);
+
+	if(usr->online == 1)
+	{
+		*result = getFriendRequestPending(usr,friends);
+		if(DEBUG_MODE && *result == 0) printf("%s quiere su lista de peticiones pendientes: %s\n",usr->nick,friends);
+	}
+
+	return SOAP_OK;
+}
+
+//
+//
+//
+int ims__acceptFriendshipRequest(struct soap *soap, char* user ,char* friend_nick, int *result)
+{
+	return SOAP_OK;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ims__sendMessage (struct soap *soap, struct Message myMessage, int *result){
 	/*char* data[2];

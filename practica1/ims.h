@@ -13,6 +13,11 @@ struct Message{
 
 int ims__sendMessage (struct Message myMessage, int *result);
 int ims__receiveMessage (struct Message *myMessage);
+
 int ims__addUser(char* nick, char* pass, int *result);
 int ims__userLogin(char* nick, char* pass, int *result);
+
 int ims__addFriend(char* user ,char* friend_nick, int *result);
+int ims__sendFriendshipRequest(char* user ,char* friend_nick, int *result);
+int ims__getFriendshipRequests(char* user ,char* friends, int *result);
+int ims__acceptFriendshipRequest(char* user ,char* friend_nick, int *result);

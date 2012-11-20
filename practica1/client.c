@@ -1,6 +1,7 @@
 #include "soapH.h"
 #include "ims.nsmap"
 #include <string.h>
+#include <stdlib.h>
 
 #define DEBUG_MODE 1
 
@@ -87,6 +88,7 @@ int menuLogin(struct soap soap,char *serverURL){
 	int res = -1;
 
 	while(op != 0 && res != 0){
+		system("clear");
 		printf("1.-Log in.\n");
 		printf("2.-Darse de alta.\n");
 		printf("0.-Salir.\n");
@@ -117,9 +119,14 @@ int menuLogin(struct soap soap,char *serverURL){
 void menuHome(struct soap soap,char *serverURL){
 	int op=-1;
 	while(op != 0){
+		system("clear");
 		printf("1.-Añadir amigo.\n");
 		printf("2.-Enviar mensaje.\n");
 		printf("3.-Leer mensaje.\n");
+		printf("4.-Enviar peticion de amistad\n");
+		printf("5.-Ver peticiones de amistad\n");
+		printf("6.-Aceptar peticion de amistad\n");
+		printf("7.-Ver lista de amigos\n");
 		printf("0.-Salir.\n");
 
 		scanf("%d",&op);
@@ -132,6 +139,16 @@ void menuHome(struct soap soap,char *serverURL){
 			break;
 		case 3:
 			break;
+		case 4:
+			sendFriendRequest(soap,serverURL);
+			break;
+		case 5:
+			getFriendRequest(soap,serverURL);
+			break;
+		case 6:
+			break;
+		case 7:
+			break;
 		case 0:
 			break;
 		default:
@@ -141,6 +158,10 @@ void menuHome(struct soap soap,char *serverURL){
 	}
 
 }
+
+//
+//
+//
 void addNewUser(struct soap soap,char *serverURL){
 
 	char* nick,*pass;
@@ -150,7 +171,7 @@ void addNewUser(struct soap soap,char *serverURL){
 	pass = (char*)malloc(sizeof(char*));
 
 	//user* usr;
-
+	system("clear");
 	printf("\nNombre\n");
 	scanf("%s",nick);
 	printf("Contraseña\n");
@@ -171,6 +192,9 @@ void addNewUser(struct soap soap,char *serverURL){
     free(pass);
 }
 
+//
+//
+//
 int login(struct soap soap,char *serverURL){
 	char* nick,*pass;
 	int res;
@@ -179,6 +203,7 @@ int login(struct soap soap,char *serverURL){
 	pass = (char*)malloc(sizeof(char*));
 
 	//user* usr;
+	system("clear");
 	printf("\nNombre\n");
 	scanf("%s",nick);
 	printf("Contraseña\n");
@@ -197,10 +222,14 @@ int login(struct soap soap,char *serverURL){
 
 	return res;
 }
+
+//
+//
+//
 void addNewFriend(struct soap soap,char *serverURL){
 	char* friend_nick = (char*)malloc(sizeof(char*));
 	int result;
-
+	system("clear");
 	printf("\nNombre del amigo:\n");
 	scanf("%s",friend_nick);
 
@@ -224,6 +253,52 @@ void addNewFriend(struct soap soap,char *serverURL){
 	else{
 		printf("Invitacion enviada correctamente:\n");
 	}
-
 }
 
+//
+//
+//
+void sendFriendRequest(struct soap soap,char *serverURL)
+{
+	char* friend_nick = (char*)malloc(sizeof(char*));
+	int result;
+	system("clear");
+	printf("\nNombre del amigo:\n");
+	scanf("%s",friend_nick);
+
+	soap_call_ims__sendFriendshipRequest(&soap, serverURL, "",user ,friend_nick, &result);
+
+	if(result == 0){
+		printf("Solicitud enviada\n");
+	}
+	else if(result == 1){
+		printf("Ese usuario ya es tu amido\n");
+	}
+	else if(result == -1){
+		printf("No te puedes añadir a ti mismo\n");
+	}
+	else if(result == -2){
+		printf("No estas logueado\n");
+	}
+	else if(result == -3){
+		printf("Ese usuario no existe\n");
+	}
+	else{
+		printf("Invitacion enviada correctamente:\n");
+	}
+}
+
+//
+//
+//
+void getFriendRequest(struct soap soap,char *serverURL)
+{
+	char* friends = (char*)malloc(sizeof(char*));
+	int result;
+
+	soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends, &result);
+
+	system("clear");
+	printf("Lista de amistades sin aceptar:\n");
+	printf(" %s\n",friends);
+}

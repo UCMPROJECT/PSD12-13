@@ -19,7 +19,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-19 22:22:49 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-20 02:14:28 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -192,6 +192,18 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		return soap_in_byte(soap, NULL, NULL, "xsd:byte");
 	case SOAP_TYPE_int:
 		return soap_in_int(soap, NULL, NULL, "xsd:int");
+	case SOAP_TYPE_ims__acceptFriendshipRequest:
+		return soap_in_ims__acceptFriendshipRequest(soap, NULL, NULL, "ims:acceptFriendshipRequest");
+	case SOAP_TYPE_ims__acceptFriendshipRequestResponse:
+		return soap_in_ims__acceptFriendshipRequestResponse(soap, NULL, NULL, "ims:acceptFriendshipRequestResponse");
+	case SOAP_TYPE_ims__getFriendshipRequests:
+		return soap_in_ims__getFriendshipRequests(soap, NULL, NULL, "ims:getFriendshipRequests");
+	case SOAP_TYPE_ims__getFriendshipRequestsResponse:
+		return soap_in_ims__getFriendshipRequestsResponse(soap, NULL, NULL, "ims:getFriendshipRequestsResponse");
+	case SOAP_TYPE_ims__sendFriendshipRequest:
+		return soap_in_ims__sendFriendshipRequest(soap, NULL, NULL, "ims:sendFriendshipRequest");
+	case SOAP_TYPE_ims__sendFriendshipRequestResponse:
+		return soap_in_ims__sendFriendshipRequestResponse(soap, NULL, NULL, "ims:sendFriendshipRequestResponse");
 	case SOAP_TYPE_ims__addFriend:
 		return soap_in_ims__addFriend(soap, NULL, NULL, "ims:addFriend");
 	case SOAP_TYPE_ims__addFriendResponse:
@@ -244,6 +256,30 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		if (!soap_match_tag(soap, t, "xsd:int"))
 		{	*type = SOAP_TYPE_int;
 			return soap_in_int(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:acceptFriendshipRequest"))
+		{	*type = SOAP_TYPE_ims__acceptFriendshipRequest;
+			return soap_in_ims__acceptFriendshipRequest(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:acceptFriendshipRequestResponse"))
+		{	*type = SOAP_TYPE_ims__acceptFriendshipRequestResponse;
+			return soap_in_ims__acceptFriendshipRequestResponse(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:getFriendshipRequests"))
+		{	*type = SOAP_TYPE_ims__getFriendshipRequests;
+			return soap_in_ims__getFriendshipRequests(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:getFriendshipRequestsResponse"))
+		{	*type = SOAP_TYPE_ims__getFriendshipRequestsResponse;
+			return soap_in_ims__getFriendshipRequestsResponse(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:sendFriendshipRequest"))
+		{	*type = SOAP_TYPE_ims__sendFriendshipRequest;
+			return soap_in_ims__sendFriendshipRequest(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:sendFriendshipRequestResponse"))
+		{	*type = SOAP_TYPE_ims__sendFriendshipRequestResponse;
+			return soap_in_ims__sendFriendshipRequestResponse(soap, NULL, NULL, NULL);
 		}
 		if (!soap_match_tag(soap, t, "ims:addFriend"))
 		{	*type = SOAP_TYPE_ims__addFriend;
@@ -369,6 +405,18 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 		return soap_out_byte(soap, tag, id, (const char *)ptr, "xsd:byte");
 	case SOAP_TYPE_int:
 		return soap_out_int(soap, tag, id, (const int *)ptr, "xsd:int");
+	case SOAP_TYPE_ims__acceptFriendshipRequest:
+		return soap_out_ims__acceptFriendshipRequest(soap, tag, id, (const struct ims__acceptFriendshipRequest *)ptr, "ims:acceptFriendshipRequest");
+	case SOAP_TYPE_ims__acceptFriendshipRequestResponse:
+		return soap_out_ims__acceptFriendshipRequestResponse(soap, tag, id, (const struct ims__acceptFriendshipRequestResponse *)ptr, "ims:acceptFriendshipRequestResponse");
+	case SOAP_TYPE_ims__getFriendshipRequests:
+		return soap_out_ims__getFriendshipRequests(soap, tag, id, (const struct ims__getFriendshipRequests *)ptr, "ims:getFriendshipRequests");
+	case SOAP_TYPE_ims__getFriendshipRequestsResponse:
+		return soap_out_ims__getFriendshipRequestsResponse(soap, tag, id, (const struct ims__getFriendshipRequestsResponse *)ptr, "ims:getFriendshipRequestsResponse");
+	case SOAP_TYPE_ims__sendFriendshipRequest:
+		return soap_out_ims__sendFriendshipRequest(soap, tag, id, (const struct ims__sendFriendshipRequest *)ptr, "ims:sendFriendshipRequest");
+	case SOAP_TYPE_ims__sendFriendshipRequestResponse:
+		return soap_out_ims__sendFriendshipRequestResponse(soap, tag, id, (const struct ims__sendFriendshipRequestResponse *)ptr, "ims:sendFriendshipRequestResponse");
 	case SOAP_TYPE_ims__addFriend:
 		return soap_out_ims__addFriend(soap, tag, id, (const struct ims__addFriend *)ptr, "ims:addFriend");
 	case SOAP_TYPE_ims__addFriendResponse:
@@ -412,6 +460,24 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_markelement(struct soap *soap, const void *ptr, 
 	(void)soap; (void)ptr; (void)type; /* appease -Wall -Werror */
 	switch (type)
 	{
+	case SOAP_TYPE_ims__acceptFriendshipRequest:
+		soap_serialize_ims__acceptFriendshipRequest(soap, (const struct ims__acceptFriendshipRequest *)ptr);
+		break;
+	case SOAP_TYPE_ims__acceptFriendshipRequestResponse:
+		soap_serialize_ims__acceptFriendshipRequestResponse(soap, (const struct ims__acceptFriendshipRequestResponse *)ptr);
+		break;
+	case SOAP_TYPE_ims__getFriendshipRequests:
+		soap_serialize_ims__getFriendshipRequests(soap, (const struct ims__getFriendshipRequests *)ptr);
+		break;
+	case SOAP_TYPE_ims__getFriendshipRequestsResponse:
+		soap_serialize_ims__getFriendshipRequestsResponse(soap, (const struct ims__getFriendshipRequestsResponse *)ptr);
+		break;
+	case SOAP_TYPE_ims__sendFriendshipRequest:
+		soap_serialize_ims__sendFriendshipRequest(soap, (const struct ims__sendFriendshipRequest *)ptr);
+		break;
+	case SOAP_TYPE_ims__sendFriendshipRequestResponse:
+		soap_serialize_ims__sendFriendshipRequestResponse(soap, (const struct ims__sendFriendshipRequestResponse *)ptr);
+		break;
 	case SOAP_TYPE_ims__addFriend:
 		soap_serialize_ims__addFriend(soap, (const struct ims__addFriend *)ptr);
 		break;
@@ -1020,6 +1086,480 @@ SOAP_FMAC3 struct SOAP_ENV__Header * SOAP_FMAC4 soap_get_SOAP_ENV__Header(struct
 }
 
 #endif
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__acceptFriendshipRequest(struct soap *soap, struct ims__acceptFriendshipRequest *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_string(soap, &a->user);
+	soap_default_string(soap, &a->friend_nick);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__acceptFriendshipRequest(struct soap *soap, const struct ims__acceptFriendshipRequest *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_string(soap, &a->user);
+	soap_serialize_string(soap, &a->friend_nick);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__acceptFriendshipRequest(struct soap *soap, const char *tag, int id, const struct ims__acceptFriendshipRequest *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__acceptFriendshipRequest), type))
+		return soap->error;
+	if (soap_out_string(soap, "user", -1, &a->user, ""))
+		return soap->error;
+	if (soap_out_string(soap, "friend-nick", -1, &a->friend_nick, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__acceptFriendshipRequest * SOAP_FMAC4 soap_in_ims__acceptFriendshipRequest(struct soap *soap, const char *tag, struct ims__acceptFriendshipRequest *a, const char *type)
+{
+	size_t soap_flag_user = 1;
+	size_t soap_flag_friend_nick = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__acceptFriendshipRequest *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__acceptFriendshipRequest, sizeof(struct ims__acceptFriendshipRequest), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__acceptFriendshipRequest(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_user && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "user", &a->user, "xsd:string"))
+				{	soap_flag_user--;
+					continue;
+				}
+			if (soap_flag_friend_nick && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "friend-nick", &a->friend_nick, "xsd:string"))
+				{	soap_flag_friend_nick--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__acceptFriendshipRequest *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__acceptFriendshipRequest, 0, sizeof(struct ims__acceptFriendshipRequest), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__acceptFriendshipRequest(struct soap *soap, const struct ims__acceptFriendshipRequest *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__acceptFriendshipRequest);
+	if (soap_out_ims__acceptFriendshipRequest(soap, tag?tag:"ims:acceptFriendshipRequest", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__acceptFriendshipRequest * SOAP_FMAC4 soap_get_ims__acceptFriendshipRequest(struct soap *soap, struct ims__acceptFriendshipRequest *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__acceptFriendshipRequest(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__acceptFriendshipRequestResponse(struct soap *soap, struct ims__acceptFriendshipRequestResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	a->result = NULL;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__acceptFriendshipRequestResponse(struct soap *soap, const struct ims__acceptFriendshipRequestResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_PointerToint(soap, &a->result);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__acceptFriendshipRequestResponse(struct soap *soap, const char *tag, int id, const struct ims__acceptFriendshipRequestResponse *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__acceptFriendshipRequestResponse), type))
+		return soap->error;
+	if (soap_out_PointerToint(soap, "result", -1, &a->result, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__acceptFriendshipRequestResponse * SOAP_FMAC4 soap_in_ims__acceptFriendshipRequestResponse(struct soap *soap, const char *tag, struct ims__acceptFriendshipRequestResponse *a, const char *type)
+{
+	size_t soap_flag_result = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__acceptFriendshipRequestResponse *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__acceptFriendshipRequestResponse, sizeof(struct ims__acceptFriendshipRequestResponse), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__acceptFriendshipRequestResponse(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_result && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToint(soap, "result", &a->result, "xsd:int"))
+				{	soap_flag_result--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__acceptFriendshipRequestResponse *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__acceptFriendshipRequestResponse, 0, sizeof(struct ims__acceptFriendshipRequestResponse), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__acceptFriendshipRequestResponse(struct soap *soap, const struct ims__acceptFriendshipRequestResponse *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__acceptFriendshipRequestResponse);
+	if (soap_out_ims__acceptFriendshipRequestResponse(soap, tag?tag:"ims:acceptFriendshipRequestResponse", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__acceptFriendshipRequestResponse * SOAP_FMAC4 soap_get_ims__acceptFriendshipRequestResponse(struct soap *soap, struct ims__acceptFriendshipRequestResponse *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__acceptFriendshipRequestResponse(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendshipRequests(struct soap *soap, struct ims__getFriendshipRequests *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_string(soap, &a->user);
+	soap_default_string(soap, &a->friends);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendshipRequests(struct soap *soap, const struct ims__getFriendshipRequests *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_string(soap, &a->user);
+	soap_serialize_string(soap, &a->friends);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriendshipRequests(struct soap *soap, const char *tag, int id, const struct ims__getFriendshipRequests *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__getFriendshipRequests), type))
+		return soap->error;
+	if (soap_out_string(soap, "user", -1, &a->user, ""))
+		return soap->error;
+	if (soap_out_string(soap, "friends", -1, &a->friends, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__getFriendshipRequests * SOAP_FMAC4 soap_in_ims__getFriendshipRequests(struct soap *soap, const char *tag, struct ims__getFriendshipRequests *a, const char *type)
+{
+	size_t soap_flag_user = 1;
+	size_t soap_flag_friends = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__getFriendshipRequests *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__getFriendshipRequests, sizeof(struct ims__getFriendshipRequests), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__getFriendshipRequests(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_user && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "user", &a->user, "xsd:string"))
+				{	soap_flag_user--;
+					continue;
+				}
+			if (soap_flag_friends && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "friends", &a->friends, "xsd:string"))
+				{	soap_flag_friends--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__getFriendshipRequests *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__getFriendshipRequests, 0, sizeof(struct ims__getFriendshipRequests), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriendshipRequests(struct soap *soap, const struct ims__getFriendshipRequests *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__getFriendshipRequests);
+	if (soap_out_ims__getFriendshipRequests(soap, tag?tag:"ims:getFriendshipRequests", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__getFriendshipRequests * SOAP_FMAC4 soap_get_ims__getFriendshipRequests(struct soap *soap, struct ims__getFriendshipRequests *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__getFriendshipRequests(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendshipRequestsResponse(struct soap *soap, struct ims__getFriendshipRequestsResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	a->result = NULL;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendshipRequestsResponse(struct soap *soap, const struct ims__getFriendshipRequestsResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_PointerToint(soap, &a->result);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriendshipRequestsResponse(struct soap *soap, const char *tag, int id, const struct ims__getFriendshipRequestsResponse *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__getFriendshipRequestsResponse), type))
+		return soap->error;
+	if (soap_out_PointerToint(soap, "result", -1, &a->result, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__getFriendshipRequestsResponse * SOAP_FMAC4 soap_in_ims__getFriendshipRequestsResponse(struct soap *soap, const char *tag, struct ims__getFriendshipRequestsResponse *a, const char *type)
+{
+	size_t soap_flag_result = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__getFriendshipRequestsResponse *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__getFriendshipRequestsResponse, sizeof(struct ims__getFriendshipRequestsResponse), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__getFriendshipRequestsResponse(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_result && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToint(soap, "result", &a->result, "xsd:int"))
+				{	soap_flag_result--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__getFriendshipRequestsResponse *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__getFriendshipRequestsResponse, 0, sizeof(struct ims__getFriendshipRequestsResponse), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriendshipRequestsResponse(struct soap *soap, const struct ims__getFriendshipRequestsResponse *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__getFriendshipRequestsResponse);
+	if (soap_out_ims__getFriendshipRequestsResponse(soap, tag?tag:"ims:getFriendshipRequestsResponse", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__getFriendshipRequestsResponse * SOAP_FMAC4 soap_get_ims__getFriendshipRequestsResponse(struct soap *soap, struct ims__getFriendshipRequestsResponse *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__getFriendshipRequestsResponse(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__sendFriendshipRequest(struct soap *soap, struct ims__sendFriendshipRequest *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_string(soap, &a->user);
+	soap_default_string(soap, &a->friend_nick);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__sendFriendshipRequest(struct soap *soap, const struct ims__sendFriendshipRequest *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_string(soap, &a->user);
+	soap_serialize_string(soap, &a->friend_nick);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__sendFriendshipRequest(struct soap *soap, const char *tag, int id, const struct ims__sendFriendshipRequest *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__sendFriendshipRequest), type))
+		return soap->error;
+	if (soap_out_string(soap, "user", -1, &a->user, ""))
+		return soap->error;
+	if (soap_out_string(soap, "friend-nick", -1, &a->friend_nick, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__sendFriendshipRequest * SOAP_FMAC4 soap_in_ims__sendFriendshipRequest(struct soap *soap, const char *tag, struct ims__sendFriendshipRequest *a, const char *type)
+{
+	size_t soap_flag_user = 1;
+	size_t soap_flag_friend_nick = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__sendFriendshipRequest *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__sendFriendshipRequest, sizeof(struct ims__sendFriendshipRequest), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__sendFriendshipRequest(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_user && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "user", &a->user, "xsd:string"))
+				{	soap_flag_user--;
+					continue;
+				}
+			if (soap_flag_friend_nick && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "friend-nick", &a->friend_nick, "xsd:string"))
+				{	soap_flag_friend_nick--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__sendFriendshipRequest *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__sendFriendshipRequest, 0, sizeof(struct ims__sendFriendshipRequest), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__sendFriendshipRequest(struct soap *soap, const struct ims__sendFriendshipRequest *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__sendFriendshipRequest);
+	if (soap_out_ims__sendFriendshipRequest(soap, tag?tag:"ims:sendFriendshipRequest", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__sendFriendshipRequest * SOAP_FMAC4 soap_get_ims__sendFriendshipRequest(struct soap *soap, struct ims__sendFriendshipRequest *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__sendFriendshipRequest(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__sendFriendshipRequestResponse(struct soap *soap, struct ims__sendFriendshipRequestResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	a->result = NULL;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__sendFriendshipRequestResponse(struct soap *soap, const struct ims__sendFriendshipRequestResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_PointerToint(soap, &a->result);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__sendFriendshipRequestResponse(struct soap *soap, const char *tag, int id, const struct ims__sendFriendshipRequestResponse *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__sendFriendshipRequestResponse), type))
+		return soap->error;
+	if (soap_out_PointerToint(soap, "result", -1, &a->result, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__sendFriendshipRequestResponse * SOAP_FMAC4 soap_in_ims__sendFriendshipRequestResponse(struct soap *soap, const char *tag, struct ims__sendFriendshipRequestResponse *a, const char *type)
+{
+	size_t soap_flag_result = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__sendFriendshipRequestResponse *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__sendFriendshipRequestResponse, sizeof(struct ims__sendFriendshipRequestResponse), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__sendFriendshipRequestResponse(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_result && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToint(soap, "result", &a->result, "xsd:int"))
+				{	soap_flag_result--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__sendFriendshipRequestResponse *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__sendFriendshipRequestResponse, 0, sizeof(struct ims__sendFriendshipRequestResponse), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__sendFriendshipRequestResponse(struct soap *soap, const struct ims__sendFriendshipRequestResponse *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__sendFriendshipRequestResponse);
+	if (soap_out_ims__sendFriendshipRequestResponse(soap, tag?tag:"ims:sendFriendshipRequestResponse", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__sendFriendshipRequestResponse * SOAP_FMAC4 soap_get_ims__sendFriendshipRequestResponse(struct soap *soap, struct ims__sendFriendshipRequestResponse *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__sendFriendshipRequestResponse(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__addFriend(struct soap *soap, struct ims__addFriend *a)
 {

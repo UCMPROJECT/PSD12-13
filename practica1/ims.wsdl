@@ -114,6 +114,57 @@
     </sequence>
    </complexType>
   </element>
+  <!-- operation request element -->
+  <element name="sendFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendFriendshipRequest::user -->
+     <element name="friend-nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendFriendshipRequest::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="sendFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="getFriendshipRequests">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::user -->
+     <element name="friends" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::friends -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="getFriendshipRequestsResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="acceptFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::user -->
+     <element name="friend-nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="acceptFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
  </schema>
 
 </types>
@@ -158,6 +209,30 @@
  <part name="parameters" element="ims:addFriendResponse"/>
 </message>
 
+<message name="sendFriendshipRequestRequest">
+ <part name="parameters" element="ims:sendFriendshipRequest"/><!-- ims__sendFriendshipRequest::ims__sendFriendshipRequest -->
+</message>
+
+<message name="sendFriendshipRequestResponse">
+ <part name="parameters" element="ims:sendFriendshipRequestResponse"/>
+</message>
+
+<message name="getFriendshipRequestsRequest">
+ <part name="parameters" element="ims:getFriendshipRequests"/><!-- ims__getFriendshipRequests::ims__getFriendshipRequests -->
+</message>
+
+<message name="getFriendshipRequestsResponse">
+ <part name="parameters" element="ims:getFriendshipRequestsResponse"/>
+</message>
+
+<message name="acceptFriendshipRequestRequest">
+ <part name="parameters" element="ims:acceptFriendshipRequest"/><!-- ims__acceptFriendshipRequest::ims__acceptFriendshipRequest -->
+</message>
+
+<message name="acceptFriendshipRequestResponse">
+ <part name="parameters" element="ims:acceptFriendshipRequestResponse"/>
+</message>
+
 <portType name="ServicePortType">
  <operation name="sendMessage">
   <documentation>Service definition of function ims__sendMessage</documentation>
@@ -183,6 +258,21 @@
   <documentation>Service definition of function ims__addFriend</documentation>
   <input message="tns:addFriendRequest"/>
   <output message="tns:addFriendResponse"/>
+ </operation>
+ <operation name="sendFriendshipRequest">
+  <documentation>Service definition of function ims__sendFriendshipRequest</documentation>
+  <input message="tns:sendFriendshipRequestRequest"/>
+  <output message="tns:sendFriendshipRequestResponse"/>
+ </operation>
+ <operation name="getFriendshipRequests">
+  <documentation>Service definition of function ims__getFriendshipRequests</documentation>
+  <input message="tns:getFriendshipRequestsRequest"/>
+  <output message="tns:getFriendshipRequestsResponse"/>
+ </operation>
+ <operation name="acceptFriendshipRequest">
+  <documentation>Service definition of function ims__acceptFriendshipRequest</documentation>
+  <input message="tns:acceptFriendshipRequestRequest"/>
+  <output message="tns:acceptFriendshipRequestResponse"/>
  </operation>
 </portType>
 
@@ -225,6 +315,33 @@
   </output>
  </operation>
  <operation name="addFriend">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="sendFriendshipRequest">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="getFriendshipRequests">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="acceptFriendshipRequest">
   <SOAP:operation soapAction=""/>
   <input>
      <SOAP:body parts="parameters" use="literal"/>
