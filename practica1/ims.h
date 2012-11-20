@@ -15,6 +15,11 @@ typedef struct {
 	char* data[100];
 }Char_vector;
 
+typedef struct
+{
+	char* str;
+}String;
+
 int ims__sendMessage (struct Message myMessage, int *result);
 int ims__receiveMessage (struct Message *myMessage);
 
@@ -24,4 +29,9 @@ int ims__userLogin(char* nick, char* pass, int *result);
 int ims__addFriend(char* user ,char* friend_nick, int *result);
 int ims__sendFriendshipRequest(char* user ,char* friend_nick, int *result);
 int ims__getFriendshipRequests(char* user ,Char_vector *friends);
-int ims__acceptFriendshipRequest(char* user ,char* friend_nick, int *);
+int ims__haveFriendshipRequest(char* user,int *result);
+int ims__getFriendshipRequest(char* user,String* friend_nick);
+int ims__acceptFriendshipRequest(char* user ,char* friend_nick, int *result);
+int ims__rejectFriendshipRequest(char* user ,char* friend_nick, int *result);
+int ims__getFriends(char* user ,Char_vector *friends);
+int ims__haveFriends(char* user,int *result);

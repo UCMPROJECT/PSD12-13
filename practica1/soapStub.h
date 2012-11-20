@@ -65,8 +65,17 @@ struct _Struct_1
 };
 #endif
 
+#ifndef SOAP_TYPE__Struct_2
+#define SOAP_TYPE__Struct_2 (12)
+/* Struct-2 */
+struct _Struct_2
+{
+	char *str;	/* optional element of type xsd:string */
+};
+#endif
+
 #ifndef SOAP_TYPE_ims__sendMessageResponse
-#define SOAP_TYPE_ims__sendMessageResponse (14)
+#define SOAP_TYPE_ims__sendMessageResponse (16)
 /* ims:sendMessageResponse */
 struct ims__sendMessageResponse
 {
@@ -75,7 +84,7 @@ struct ims__sendMessageResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__sendMessage
-#define SOAP_TYPE_ims__sendMessage (15)
+#define SOAP_TYPE_ims__sendMessage (17)
 /* ims:sendMessage */
 struct ims__sendMessage
 {
@@ -84,7 +93,7 @@ struct ims__sendMessage
 #endif
 
 #ifndef SOAP_TYPE_ims__receiveMessageResponse
-#define SOAP_TYPE_ims__receiveMessageResponse (18)
+#define SOAP_TYPE_ims__receiveMessageResponse (20)
 /* ims:receiveMessageResponse */
 struct ims__receiveMessageResponse
 {
@@ -93,7 +102,7 @@ struct ims__receiveMessageResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__receiveMessage
-#define SOAP_TYPE_ims__receiveMessage (19)
+#define SOAP_TYPE_ims__receiveMessage (21)
 /* ims:receiveMessage */
 struct ims__receiveMessage
 {
@@ -104,7 +113,7 @@ struct ims__receiveMessage
 #endif
 
 #ifndef SOAP_TYPE_ims__addUserResponse
-#define SOAP_TYPE_ims__addUserResponse (21)
+#define SOAP_TYPE_ims__addUserResponse (23)
 /* ims:addUserResponse */
 struct ims__addUserResponse
 {
@@ -113,7 +122,7 @@ struct ims__addUserResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__addUser
-#define SOAP_TYPE_ims__addUser (22)
+#define SOAP_TYPE_ims__addUser (24)
 /* ims:addUser */
 struct ims__addUser
 {
@@ -123,7 +132,7 @@ struct ims__addUser
 #endif
 
 #ifndef SOAP_TYPE_ims__userLoginResponse
-#define SOAP_TYPE_ims__userLoginResponse (24)
+#define SOAP_TYPE_ims__userLoginResponse (26)
 /* ims:userLoginResponse */
 struct ims__userLoginResponse
 {
@@ -132,7 +141,7 @@ struct ims__userLoginResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__userLogin
-#define SOAP_TYPE_ims__userLogin (25)
+#define SOAP_TYPE_ims__userLogin (27)
 /* ims:userLogin */
 struct ims__userLogin
 {
@@ -142,7 +151,7 @@ struct ims__userLogin
 #endif
 
 #ifndef SOAP_TYPE_ims__addFriendResponse
-#define SOAP_TYPE_ims__addFriendResponse (27)
+#define SOAP_TYPE_ims__addFriendResponse (29)
 /* ims:addFriendResponse */
 struct ims__addFriendResponse
 {
@@ -151,7 +160,7 @@ struct ims__addFriendResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__addFriend
-#define SOAP_TYPE_ims__addFriend (28)
+#define SOAP_TYPE_ims__addFriend (30)
 /* ims:addFriend */
 struct ims__addFriend
 {
@@ -161,7 +170,7 @@ struct ims__addFriend
 #endif
 
 #ifndef SOAP_TYPE_ims__sendFriendshipRequestResponse
-#define SOAP_TYPE_ims__sendFriendshipRequestResponse (30)
+#define SOAP_TYPE_ims__sendFriendshipRequestResponse (32)
 /* ims:sendFriendshipRequestResponse */
 struct ims__sendFriendshipRequestResponse
 {
@@ -170,7 +179,7 @@ struct ims__sendFriendshipRequestResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__sendFriendshipRequest
-#define SOAP_TYPE_ims__sendFriendshipRequest (31)
+#define SOAP_TYPE_ims__sendFriendshipRequest (33)
 /* ims:sendFriendshipRequest */
 struct ims__sendFriendshipRequest
 {
@@ -180,7 +189,7 @@ struct ims__sendFriendshipRequest
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriendshipRequestsResponse
-#define SOAP_TYPE_ims__getFriendshipRequestsResponse (34)
+#define SOAP_TYPE_ims__getFriendshipRequestsResponse (36)
 /* ims:getFriendshipRequestsResponse */
 struct ims__getFriendshipRequestsResponse
 {
@@ -189,7 +198,7 @@ struct ims__getFriendshipRequestsResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriendshipRequests
-#define SOAP_TYPE_ims__getFriendshipRequests (35)
+#define SOAP_TYPE_ims__getFriendshipRequests (37)
 /* ims:getFriendshipRequests */
 struct ims__getFriendshipRequests
 {
@@ -197,17 +206,53 @@ struct ims__getFriendshipRequests
 };
 #endif
 
+#ifndef SOAP_TYPE_ims__haveFriendshipRequestResponse
+#define SOAP_TYPE_ims__haveFriendshipRequestResponse (39)
+/* ims:haveFriendshipRequestResponse */
+struct ims__haveFriendshipRequestResponse
+{
+	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__haveFriendshipRequest
+#define SOAP_TYPE_ims__haveFriendshipRequest (40)
+/* ims:haveFriendshipRequest */
+struct ims__haveFriendshipRequest
+{
+	char *user;	/* optional element of type xsd:string */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__getFriendshipRequestResponse
+#define SOAP_TYPE_ims__getFriendshipRequestResponse (43)
+/* ims:getFriendshipRequestResponse */
+struct ims__getFriendshipRequestResponse
+{
+	struct _Struct_2 *friend_nick;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type String */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__getFriendshipRequest
+#define SOAP_TYPE_ims__getFriendshipRequest (44)
+/* ims:getFriendshipRequest */
+struct ims__getFriendshipRequest
+{
+	char *user;	/* optional element of type xsd:string */
+};
+#endif
+
 #ifndef SOAP_TYPE_ims__acceptFriendshipRequestResponse
-#define SOAP_TYPE_ims__acceptFriendshipRequestResponse (37)
+#define SOAP_TYPE_ims__acceptFriendshipRequestResponse (46)
 /* ims:acceptFriendshipRequestResponse */
 struct ims__acceptFriendshipRequestResponse
 {
-	int *_param_2;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
 };
 #endif
 
 #ifndef SOAP_TYPE_ims__acceptFriendshipRequest
-#define SOAP_TYPE_ims__acceptFriendshipRequest (38)
+#define SOAP_TYPE_ims__acceptFriendshipRequest (47)
 /* ims:acceptFriendshipRequest */
 struct ims__acceptFriendshipRequest
 {
@@ -216,10 +261,65 @@ struct ims__acceptFriendshipRequest
 };
 #endif
 
+#ifndef SOAP_TYPE_ims__rejectFriendshipRequestResponse
+#define SOAP_TYPE_ims__rejectFriendshipRequestResponse (49)
+/* ims:rejectFriendshipRequestResponse */
+struct ims__rejectFriendshipRequestResponse
+{
+	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__rejectFriendshipRequest
+#define SOAP_TYPE_ims__rejectFriendshipRequest (50)
+/* ims:rejectFriendshipRequest */
+struct ims__rejectFriendshipRequest
+{
+	char *user;	/* optional element of type xsd:string */
+	char *friend_nick;	/* optional element of type xsd:string */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__getFriendsResponse
+#define SOAP_TYPE_ims__getFriendsResponse (52)
+/* ims:getFriendsResponse */
+struct ims__getFriendsResponse
+{
+	struct _Struct_1 *friends;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type Char-vector */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__getFriends
+#define SOAP_TYPE_ims__getFriends (53)
+/* ims:getFriends */
+struct ims__getFriends
+{
+	char *user;	/* optional element of type xsd:string */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__haveFriendsResponse
+#define SOAP_TYPE_ims__haveFriendsResponse (55)
+/* ims:haveFriendsResponse */
+struct ims__haveFriendsResponse
+{
+	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__haveFriends
+#define SOAP_TYPE_ims__haveFriends (56)
+/* ims:haveFriends */
+struct ims__haveFriends
+{
+	char *user;	/* optional element of type xsd:string */
+};
+#endif
+
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (39)
+#define SOAP_TYPE_SOAP_ENV__Header (57)
 /* SOAP Header: */
 struct SOAP_ENV__Header
 {
@@ -234,7 +334,7 @@ struct SOAP_ENV__Header
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (40)
+#define SOAP_TYPE_SOAP_ENV__Code (58)
 /* SOAP Fault Code: */
 struct SOAP_ENV__Code
 {
@@ -248,7 +348,7 @@ struct SOAP_ENV__Code
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (42)
+#define SOAP_TYPE_SOAP_ENV__Detail (60)
 /* SOAP-ENV:Detail */
 struct SOAP_ENV__Detail
 {
@@ -263,7 +363,7 @@ struct SOAP_ENV__Detail
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (45)
+#define SOAP_TYPE_SOAP_ENV__Reason (63)
 /* SOAP-ENV:Reason */
 struct SOAP_ENV__Reason
 {
@@ -276,7 +376,7 @@ struct SOAP_ENV__Reason
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (46)
+#define SOAP_TYPE_SOAP_ENV__Fault (64)
 /* SOAP Fault: */
 struct SOAP_ENV__Fault
 {
@@ -320,6 +420,11 @@ typedef char *xsd__string;
 typedef struct _Struct_1 Char_vector;
 #endif
 
+#ifndef SOAP_TYPE_String
+#define SOAP_TYPE_String (13)
+typedef struct _Struct_2 String;
+#endif
+
 
 /******************************************************************************\
  *                                                                            *
@@ -349,7 +454,17 @@ SOAP_FMAC5 int SOAP_FMAC6 ims__sendFriendshipRequest(struct soap*, char *user, c
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__getFriendshipRequests(struct soap*, char *user, struct _Struct_1 *friends);
 
-SOAP_FMAC5 int SOAP_FMAC6 ims__acceptFriendshipRequest(struct soap*, char *user, char *friend_nick, int *_param_2);
+SOAP_FMAC5 int SOAP_FMAC6 ims__haveFriendshipRequest(struct soap*, char *user, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 ims__getFriendshipRequest(struct soap*, char *user, struct _Struct_2 *friend_nick);
+
+SOAP_FMAC5 int SOAP_FMAC6 ims__acceptFriendshipRequest(struct soap*, char *user, char *friend_nick, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 ims__rejectFriendshipRequest(struct soap*, char *user, char *friend_nick, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 ims__getFriends(struct soap*, char *user, struct _Struct_1 *friends);
+
+SOAP_FMAC5 int SOAP_FMAC6 ims__haveFriends(struct soap*, char *user, int *result);
 
 /******************************************************************************\
  *                                                                            *
@@ -375,7 +490,17 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendFriendshipRequest(struct soap*);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getFriendshipRequests(struct soap*);
 
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__haveFriendshipRequest(struct soap*);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getFriendshipRequest(struct soap*);
+
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__acceptFriendshipRequest(struct soap*);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__rejectFriendshipRequest(struct soap*);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getFriends(struct soap*);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__haveFriends(struct soap*);
 
 /******************************************************************************\
  *                                                                            *
@@ -398,7 +523,17 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendFriendshipRequest(struct soap *soap
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends);
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *_param_2);
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__haveFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_2 *friend_nick);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__rejectFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriends(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__haveFriends(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, int *result);
 
 #ifdef __cplusplus
 }

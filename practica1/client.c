@@ -150,6 +150,7 @@ void menuHome(struct soap soap,char *serverURL){
 			acceptFriendRequest(soap,serverURL);
 			break;
 		case 7:
+			getFriends(soap,serverURL);
 			break;
 		case 0:
 			break;
@@ -298,16 +299,24 @@ void getFriendRequest(struct soap soap,char *serverURL)
 	Char_vector *friends = (Char_vector*)malloc(sizeof(Char_vector));
 
 	int i;
+	int numRequestPending = 0;
+	soap_call_ims__haveFriendshipRequest(&soap, serverURL,"",user,&numRequestPending);
+	if(numRequestPending > 0)
+	{
+		soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends);
 
-	soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends);
+		system("clear");
+		printf("Lista de amistades sin aceptar:\n");
 
-	system("clear");
-	printf("Lista de amistades sin aceptar:\n");
-
-	for(i=1;i <= MAXFRIENDS;i++){
-		if(friends->data[i-1] != NULL){
-			printf("%d: %s\n",i,friends->data[i]);
+		for(i=0;i < MAXFRIENDS;i++){
+			if(friends->data[i] != NULL){
+				printf("%d: %s\n",i,friends->data[i]);
+			}
 		}
+	}else
+	{
+		system("clear");
+		printf("No tienes peticiones de amistad\n");
 	}
 }
 
@@ -317,5 +326,60 @@ void getFriendRequest(struct soap soap,char *serverURL)
 void acceptFriendRequest(struct soap soap,char* serverURL)
 {
 	system("clear");
-	soap_call_ims__acceptFriendshipRequest(&soap,serverURL,"",user);
+
+	int numRequestPending = 0;
+	String friend_nick;// = (xsd__string*)malloc(sizeof(xsd__string*));
+	char* op = (char*)malloc(sizeof(char*));
+
+	soap_call_ims__haveFriendshipRequest(&soap, serverURL,"",user,&numRequestPending);
+
+	while(numRequestPending > 0)
+	{
+		soap_call_ims__getFriendshipRequest(&soap,serverURL,"",user,&friend_nick);
+
+		printf("%s te ha enviado una peticion de amistad\n",friend_nick.str);
+		printf("Aceptar? (y/n) \n");
+		scanf("%s",op);
+
+		if(strcasecmp(op,"y") == 0 || strcasecmp(op,"yes") == 0)
+		{
+			soap_call_ims__acceptFriendshipRequest(&soap, serverURL,"",user,friend_nick.str,&numRequestPending);
+		}else if(strcasecmp(op,"n") == 0 || strcasecmp(op,"no") == 0)
+		{
+			soap_call_ims__rejectFriendshipRequest(&soap, serverURL,"",user ,friend_nick.str,&numRequestPending);
+		}else
+		{
+			printf("Opcion no valida\n");
+		}
+	}
+	//soap_call_ims__acceptFriendshipRequest(&soap,serverURL,"",user);
+}
+
+//
+//
+//
+void getFriends(struct soap soap,char *serverURL)
+{
+	Char_vector *friends = (Char_vector*)malloc(sizeof(Char_vector));
+
+	int i;
+	int numFriends = 0;
+	soap_call_ims__haveFriends(&soap, serverURL,"",user,&numFriends);
+	if(numFriends > 0)
+	{
+		soap_call_ims__getFriends(&soap, serverURL, "",user ,friends);
+
+		system("clear");
+		printf("Lista de amigos:\n");
+
+		for(i=0;i < MAXFRIENDS;i++){
+			if(friends->data[i] != NULL){
+				printf("%d: %s\n",i,friends->data[i]);
+			}
+		}
+	}else
+	{
+		system("clear");
+		printf("No tienes amigos!\n");
+	}
 }

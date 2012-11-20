@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-20 17:19:27 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-20 22:32:44 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct Message myMessage, int *result)
@@ -373,7 +373,107 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *_param_2)
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__haveFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, int *result)
+{	struct ims__haveFriendshipRequest soap_tmp_ims__haveFriendshipRequest;
+	struct ims__haveFriendshipRequestResponse *soap_tmp_ims__haveFriendshipRequestResponse;
+	soap->encodingStyle = NULL;
+	soap_tmp_ims__haveFriendshipRequest.user = user;
+	soap_begin(soap);
+	soap_serializeheader(soap);
+	soap_serialize_ims__haveFriendshipRequest(soap, &soap_tmp_ims__haveFriendshipRequest);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__haveFriendshipRequest(soap, &soap_tmp_ims__haveFriendshipRequest, "ims:haveFriendshipRequest", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__haveFriendshipRequest(soap, &soap_tmp_ims__haveFriendshipRequest, "ims:haveFriendshipRequest", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	if (!result)
+		return soap_closesock(soap);
+	soap_default_int(soap, result);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_tmp_ims__haveFriendshipRequestResponse = soap_get_ims__haveFriendshipRequestResponse(soap, NULL, "ims:haveFriendshipRequestResponse", "");
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	if (result && soap_tmp_ims__haveFriendshipRequestResponse->result)
+		*result = *soap_tmp_ims__haveFriendshipRequestResponse->result;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_2 *friend_nick)
+{	struct ims__getFriendshipRequest soap_tmp_ims__getFriendshipRequest;
+	struct ims__getFriendshipRequestResponse *soap_tmp_ims__getFriendshipRequestResponse;
+	soap->encodingStyle = NULL;
+	soap_tmp_ims__getFriendshipRequest.user = user;
+	soap_begin(soap);
+	soap_serializeheader(soap);
+	soap_serialize_ims__getFriendshipRequest(soap, &soap_tmp_ims__getFriendshipRequest);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__getFriendshipRequest(soap, &soap_tmp_ims__getFriendshipRequest, "ims:getFriendshipRequest", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__getFriendshipRequest(soap, &soap_tmp_ims__getFriendshipRequest, "ims:getFriendshipRequest", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	if (!friend_nick)
+		return soap_closesock(soap);
+	soap_default_String(soap, friend_nick);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_tmp_ims__getFriendshipRequestResponse = soap_get_ims__getFriendshipRequestResponse(soap, NULL, "ims:getFriendshipRequestResponse", "");
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	if (friend_nick && soap_tmp_ims__getFriendshipRequestResponse->friend_nick)
+		*friend_nick = *soap_tmp_ims__getFriendshipRequestResponse->friend_nick;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result)
 {	struct ims__acceptFriendshipRequest soap_tmp_ims__acceptFriendshipRequest;
 	struct ims__acceptFriendshipRequestResponse *soap_tmp_ims__acceptFriendshipRequestResponse;
 	soap->encodingStyle = NULL;
@@ -404,9 +504,9 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *so
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))
 		return soap_closesock(soap);
-	if (!_param_2)
+	if (!result)
 		return soap_closesock(soap);
-	soap_default_int(soap, _param_2);
+	soap_default_int(soap, result);
 	if (soap_begin_recv(soap)
 	 || soap_envelope_begin_in(soap)
 	 || soap_recv_header(soap)
@@ -419,8 +519,159 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *so
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap_closesock(soap);
-	if (_param_2 && soap_tmp_ims__acceptFriendshipRequestResponse->_param_2)
-		*_param_2 = *soap_tmp_ims__acceptFriendshipRequestResponse->_param_2;
+	if (result && soap_tmp_ims__acceptFriendshipRequestResponse->result)
+		*result = *soap_tmp_ims__acceptFriendshipRequestResponse->result;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__rejectFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result)
+{	struct ims__rejectFriendshipRequest soap_tmp_ims__rejectFriendshipRequest;
+	struct ims__rejectFriendshipRequestResponse *soap_tmp_ims__rejectFriendshipRequestResponse;
+	soap->encodingStyle = NULL;
+	soap_tmp_ims__rejectFriendshipRequest.user = user;
+	soap_tmp_ims__rejectFriendshipRequest.friend_nick = friend_nick;
+	soap_begin(soap);
+	soap_serializeheader(soap);
+	soap_serialize_ims__rejectFriendshipRequest(soap, &soap_tmp_ims__rejectFriendshipRequest);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__rejectFriendshipRequest(soap, &soap_tmp_ims__rejectFriendshipRequest, "ims:rejectFriendshipRequest", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__rejectFriendshipRequest(soap, &soap_tmp_ims__rejectFriendshipRequest, "ims:rejectFriendshipRequest", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	if (!result)
+		return soap_closesock(soap);
+	soap_default_int(soap, result);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_tmp_ims__rejectFriendshipRequestResponse = soap_get_ims__rejectFriendshipRequestResponse(soap, NULL, "ims:rejectFriendshipRequestResponse", "");
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	if (result && soap_tmp_ims__rejectFriendshipRequestResponse->result)
+		*result = *soap_tmp_ims__rejectFriendshipRequestResponse->result;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriends(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends)
+{	struct ims__getFriends soap_tmp_ims__getFriends;
+	struct ims__getFriendsResponse *soap_tmp_ims__getFriendsResponse;
+	soap->encodingStyle = NULL;
+	soap_tmp_ims__getFriends.user = user;
+	soap_begin(soap);
+	soap_serializeheader(soap);
+	soap_serialize_ims__getFriends(soap, &soap_tmp_ims__getFriends);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__getFriends(soap, &soap_tmp_ims__getFriends, "ims:getFriends", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__getFriends(soap, &soap_tmp_ims__getFriends, "ims:getFriends", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	if (!friends)
+		return soap_closesock(soap);
+	soap_default_Char_vector(soap, friends);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_tmp_ims__getFriendsResponse = soap_get_ims__getFriendsResponse(soap, NULL, "ims:getFriendsResponse", "");
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	if (friends && soap_tmp_ims__getFriendsResponse->friends)
+		*friends = *soap_tmp_ims__getFriendsResponse->friends;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__haveFriends(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, int *result)
+{	struct ims__haveFriends soap_tmp_ims__haveFriends;
+	struct ims__haveFriendsResponse *soap_tmp_ims__haveFriendsResponse;
+	soap->encodingStyle = NULL;
+	soap_tmp_ims__haveFriends.user = user;
+	soap_begin(soap);
+	soap_serializeheader(soap);
+	soap_serialize_ims__haveFriends(soap, &soap_tmp_ims__haveFriends);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__haveFriends(soap, &soap_tmp_ims__haveFriends, "ims:haveFriends", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__haveFriends(soap, &soap_tmp_ims__haveFriends, "ims:haveFriends", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	if (!result)
+		return soap_closesock(soap);
+	soap_default_int(soap, result);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_tmp_ims__haveFriendsResponse = soap_get_ims__haveFriendsResponse(soap, NULL, "ims:haveFriendsResponse", "");
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	if (result && soap_tmp_ims__haveFriendsResponse->result)
+		*result = *soap_tmp_ims__haveFriendsResponse->result;
 	return soap_closesock(soap);
 }
 

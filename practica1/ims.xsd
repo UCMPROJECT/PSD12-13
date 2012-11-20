@@ -132,6 +132,38 @@
    </complexType>
   </element>
   <!-- operation request element -->
+  <element name="haveFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriendshipRequest::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="haveFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="getFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequest::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="getFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="friend-nick" type="String" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequest::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
   <element name="acceptFriendshipRequest">
    <complexType>
     <sequence>
@@ -144,7 +176,56 @@
   <element name="acceptFriendshipRequestResponse">
    <complexType>
     <sequence>
-     <element name="param-2" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::_param_2 -->
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="rejectFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__rejectFriendshipRequest::user -->
+     <element name="friend-nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__rejectFriendshipRequest::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="rejectFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__rejectFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="getFriends">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriends::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="getFriendsResponse">
+   <complexType>
+    <sequence>
+     <element name="friends" type="Char-vector" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriends::friends -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="haveFriends">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriends::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="haveFriendsResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriends::result -->
     </sequence>
    </complexType>
   </element>

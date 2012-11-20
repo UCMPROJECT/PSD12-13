@@ -44,10 +44,13 @@ int main(int argc, char **argv){
 	luser = (LUser*)malloc(sizeof(LUser));
 	serverInit(luser);
 
-	addUsers(luser,"adios","mundo");
-	addUsers(luser,"hola","mundo");
-	addFriendRequestPending(luser->listU[0],"hola");
-
+	addUsers(luser,"asd","asd");
+	addUsers(luser,"asd1","asd1");
+	addUsers(luser,"asd2","asd2");
+	addFriendRequestSend(luser->listU[1],"asd");
+	addFriendRequestSend(luser->listU[2],"asd");
+	addFriendRequestPending(luser->listU[0],"asd1");
+	addFriendRequestPending(luser->listU[0],"asd2");
 
   	if (argc < 2) {
     	printf("Usage: %s <port>\n",argv[0]); 
@@ -171,11 +174,47 @@ int ims__getFriendshipRequests(struct soap *soap, char* user,Char_vector *friend
 
 	if(usr->online == 1)
 	{
-		getFriendRequestPending(usr,friends->data);
+		getFriendRequestsPending(usr,friends->data);
 
-		printf("%s\n",friends->data[0]);
+		//printf("%s\n",friends->data[0]);
 		if(DEBUG_MODE)
 			printf("%s quiere su lista de peticiones pendientes\n",usr->nick);
+	}
+
+	return SOAP_OK;
+}
+
+//
+//
+//
+int ims__haveFriendshipRequest(struct soap *soap, char* user,int *result)
+{
+	User *usr = getUser(luser,user);
+
+	if(usr->online == 1)
+	{
+		*result = usr->numPending;
+		if(DEBUG_MODE) printf("Numero de peticiones %d\n",*result);
+	}
+
+	return SOAP_OK;
+}
+
+//
+//
+//
+int ims__getFriendshipRequest(struct soap *soap, char* user,String* friend_nick)
+{
+	User *usr = getUser(luser,user);
+	if(usr->online == 1)
+	{
+		//int found =
+		//char* aux = (char*)malloc(sizeof(char*));
+		getFriendRequestPending(usr,&friend_nick->str);
+		//friend_nick->name = aux;
+		if(DEBUG_MODE) printf("Peticion %s\n",friend_nick->str);
+		//*friend_nick = *aux;
+		//printf("Primera peticion %s\n",friend_nick);
 	}
 
 	return SOAP_OK;
@@ -187,11 +226,83 @@ int ims__getFriendshipRequests(struct soap *soap, char* user,Char_vector *friend
 int ims__acceptFriendshipRequest(struct soap *soap, char* user ,char* friend_nick, int *result)
 {
 	User *usr = getUser(luser,user);
+	User *friend = getUser(luser,friend_nick);
 
 	if(usr->online == 1)
 	{
-
+		int found = removeFriendRequestPending(usr,friend_nick);
+		if(found == 1)
+		{
+			found = removeFriendRequestSend(friend,user);
+			if(found == 1)
+			{
+				addFriend(usr,friend_nick);
+				addFriend(friend,user);
+				*result = usr->numPending;
+				if(DEBUG_MODE) printf("%s y %s ahora son amigos\n",usr->nick,friend->nick);
+			}
+		}
 	}
+	return SOAP_OK;
+}
+
+//
+//
+//
+int ims__rejectFriendshipRequest(struct soap *soap, char* user ,char* friend_nick, int *result)
+{
+	User *usr = getUser(luser,user);
+	User *friend = getUser(luser,friend_nick);
+
+	if(usr->online == 1)
+	{
+		int found = removeFriendRequestPending(usr,friend_nick);
+		if(found == 1)
+		{
+			found = removeFriendRequestSend(friend,user);
+			if(found == 1)
+			{
+				*result = usr->numPending;
+				if(DEBUG_MODE) printf("%s y %s ahora NO son amigos\n",usr->nick,friend->nick);
+			}
+		}
+	}
+
+	return SOAP_OK;
+}
+
+//
+//
+//
+int ims__getFriends(struct soap *soap, char* user ,Char_vector *friends)
+{
+	User *usr = getUser(luser,user);
+
+	if(usr->online == 1)
+	{
+		getFriends(usr,friends->data);
+
+		//printf("%s\n",friends->data[0]);
+		if(DEBUG_MODE)
+			printf("%s quiere su lista de amigos\n",usr->nick);
+	}
+
+	return SOAP_OK;
+}
+
+//
+//
+//
+int ims__haveFriends(struct soap *soap, char* user,int *result)
+{
+	User *usr = getUser(luser,user);
+
+	if(usr->online == 1)
+	{
+		*result = usr->numFriends;
+		if(DEBUG_MODE) printf("Numero de amigos %d\n",*result);
+	}
+
 	return SOAP_OK;
 }
 

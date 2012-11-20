@@ -66,7 +66,7 @@ SOAP_FMAC3 int * SOAP_FMAC4 soap_get_int(struct soap*, int *, const char*, const
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (46)
+#define SOAP_TYPE_SOAP_ENV__Fault (64)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_SOAP_ENV__Fault(struct soap*, struct SOAP_ENV__Fault *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_SOAP_ENV__Fault(struct soap*, const struct SOAP_ENV__Fault *);
@@ -91,7 +91,7 @@ SOAP_FMAC3 struct SOAP_ENV__Fault * SOAP_FMAC4 soap_get_SOAP_ENV__Fault(struct s
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (45)
+#define SOAP_TYPE_SOAP_ENV__Reason (63)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_SOAP_ENV__Reason(struct soap*, struct SOAP_ENV__Reason *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_SOAP_ENV__Reason(struct soap*, const struct SOAP_ENV__Reason *);
@@ -116,7 +116,7 @@ SOAP_FMAC3 struct SOAP_ENV__Reason * SOAP_FMAC4 soap_get_SOAP_ENV__Reason(struct
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (42)
+#define SOAP_TYPE_SOAP_ENV__Detail (60)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_SOAP_ENV__Detail(struct soap*, struct SOAP_ENV__Detail *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_SOAP_ENV__Detail(struct soap*, const struct SOAP_ENV__Detail *);
@@ -141,7 +141,7 @@ SOAP_FMAC3 struct SOAP_ENV__Detail * SOAP_FMAC4 soap_get_SOAP_ENV__Detail(struct
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (40)
+#define SOAP_TYPE_SOAP_ENV__Code (58)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_SOAP_ENV__Code(struct soap*, struct SOAP_ENV__Code *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_SOAP_ENV__Code(struct soap*, const struct SOAP_ENV__Code *);
@@ -166,7 +166,7 @@ SOAP_FMAC3 struct SOAP_ENV__Code * SOAP_FMAC4 soap_get_SOAP_ENV__Code(struct soa
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (39)
+#define SOAP_TYPE_SOAP_ENV__Header (57)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_SOAP_ENV__Header(struct soap*, struct SOAP_ENV__Header *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_SOAP_ENV__Header(struct soap*, const struct SOAP_ENV__Header *);
@@ -188,8 +188,134 @@ SOAP_FMAC3 struct SOAP_ENV__Header * SOAP_FMAC4 soap_get_SOAP_ENV__Header(struct
 
 #endif
 
+#ifndef SOAP_TYPE_ims__haveFriends
+#define SOAP_TYPE_ims__haveFriends (56)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__haveFriends(struct soap*, struct ims__haveFriends *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__haveFriends(struct soap*, const struct ims__haveFriends *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__haveFriends(struct soap*, const char*, int, const struct ims__haveFriends *, const char*);
+SOAP_FMAC3 struct ims__haveFriends * SOAP_FMAC4 soap_in_ims__haveFriends(struct soap*, const char*, struct ims__haveFriends *, const char*);
+
+#ifndef soap_write_ims__haveFriends
+#define soap_write_ims__haveFriends(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__haveFriends(soap, data), 0) || soap_put_ims__haveFriends(soap, data, "ims:haveFriends", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__haveFriends(struct soap*, const struct ims__haveFriends *, const char*, const char*);
+
+#ifndef soap_read_ims__haveFriends
+#define soap_read_ims__haveFriends(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__haveFriends(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__haveFriends * SOAP_FMAC4 soap_get_ims__haveFriends(struct soap*, struct ims__haveFriends *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__haveFriendsResponse
+#define SOAP_TYPE_ims__haveFriendsResponse (55)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__haveFriendsResponse(struct soap*, struct ims__haveFriendsResponse *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__haveFriendsResponse(struct soap*, const struct ims__haveFriendsResponse *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__haveFriendsResponse(struct soap*, const char*, int, const struct ims__haveFriendsResponse *, const char*);
+SOAP_FMAC3 struct ims__haveFriendsResponse * SOAP_FMAC4 soap_in_ims__haveFriendsResponse(struct soap*, const char*, struct ims__haveFriendsResponse *, const char*);
+
+#ifndef soap_write_ims__haveFriendsResponse
+#define soap_write_ims__haveFriendsResponse(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__haveFriendsResponse(soap, data), 0) || soap_put_ims__haveFriendsResponse(soap, data, "ims:haveFriendsResponse", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__haveFriendsResponse(struct soap*, const struct ims__haveFriendsResponse *, const char*, const char*);
+
+#ifndef soap_read_ims__haveFriendsResponse
+#define soap_read_ims__haveFriendsResponse(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__haveFriendsResponse(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__haveFriendsResponse * SOAP_FMAC4 soap_get_ims__haveFriendsResponse(struct soap*, struct ims__haveFriendsResponse *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__getFriends
+#define SOAP_TYPE_ims__getFriends (53)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriends(struct soap*, struct ims__getFriends *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriends(struct soap*, const struct ims__getFriends *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriends(struct soap*, const char*, int, const struct ims__getFriends *, const char*);
+SOAP_FMAC3 struct ims__getFriends * SOAP_FMAC4 soap_in_ims__getFriends(struct soap*, const char*, struct ims__getFriends *, const char*);
+
+#ifndef soap_write_ims__getFriends
+#define soap_write_ims__getFriends(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__getFriends(soap, data), 0) || soap_put_ims__getFriends(soap, data, "ims:getFriends", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriends(struct soap*, const struct ims__getFriends *, const char*, const char*);
+
+#ifndef soap_read_ims__getFriends
+#define soap_read_ims__getFriends(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__getFriends(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__getFriends * SOAP_FMAC4 soap_get_ims__getFriends(struct soap*, struct ims__getFriends *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__getFriendsResponse
+#define SOAP_TYPE_ims__getFriendsResponse (52)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendsResponse(struct soap*, struct ims__getFriendsResponse *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendsResponse(struct soap*, const struct ims__getFriendsResponse *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriendsResponse(struct soap*, const char*, int, const struct ims__getFriendsResponse *, const char*);
+SOAP_FMAC3 struct ims__getFriendsResponse * SOAP_FMAC4 soap_in_ims__getFriendsResponse(struct soap*, const char*, struct ims__getFriendsResponse *, const char*);
+
+#ifndef soap_write_ims__getFriendsResponse
+#define soap_write_ims__getFriendsResponse(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__getFriendsResponse(soap, data), 0) || soap_put_ims__getFriendsResponse(soap, data, "ims:getFriendsResponse", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriendsResponse(struct soap*, const struct ims__getFriendsResponse *, const char*, const char*);
+
+#ifndef soap_read_ims__getFriendsResponse
+#define soap_read_ims__getFriendsResponse(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__getFriendsResponse(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__getFriendsResponse * SOAP_FMAC4 soap_get_ims__getFriendsResponse(struct soap*, struct ims__getFriendsResponse *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__rejectFriendshipRequest
+#define SOAP_TYPE_ims__rejectFriendshipRequest (50)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__rejectFriendshipRequest(struct soap*, struct ims__rejectFriendshipRequest *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__rejectFriendshipRequest(struct soap*, const struct ims__rejectFriendshipRequest *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__rejectFriendshipRequest(struct soap*, const char*, int, const struct ims__rejectFriendshipRequest *, const char*);
+SOAP_FMAC3 struct ims__rejectFriendshipRequest * SOAP_FMAC4 soap_in_ims__rejectFriendshipRequest(struct soap*, const char*, struct ims__rejectFriendshipRequest *, const char*);
+
+#ifndef soap_write_ims__rejectFriendshipRequest
+#define soap_write_ims__rejectFriendshipRequest(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__rejectFriendshipRequest(soap, data), 0) || soap_put_ims__rejectFriendshipRequest(soap, data, "ims:rejectFriendshipRequest", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__rejectFriendshipRequest(struct soap*, const struct ims__rejectFriendshipRequest *, const char*, const char*);
+
+#ifndef soap_read_ims__rejectFriendshipRequest
+#define soap_read_ims__rejectFriendshipRequest(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__rejectFriendshipRequest(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__rejectFriendshipRequest * SOAP_FMAC4 soap_get_ims__rejectFriendshipRequest(struct soap*, struct ims__rejectFriendshipRequest *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__rejectFriendshipRequestResponse
+#define SOAP_TYPE_ims__rejectFriendshipRequestResponse (49)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__rejectFriendshipRequestResponse(struct soap*, struct ims__rejectFriendshipRequestResponse *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__rejectFriendshipRequestResponse(struct soap*, const struct ims__rejectFriendshipRequestResponse *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__rejectFriendshipRequestResponse(struct soap*, const char*, int, const struct ims__rejectFriendshipRequestResponse *, const char*);
+SOAP_FMAC3 struct ims__rejectFriendshipRequestResponse * SOAP_FMAC4 soap_in_ims__rejectFriendshipRequestResponse(struct soap*, const char*, struct ims__rejectFriendshipRequestResponse *, const char*);
+
+#ifndef soap_write_ims__rejectFriendshipRequestResponse
+#define soap_write_ims__rejectFriendshipRequestResponse(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__rejectFriendshipRequestResponse(soap, data), 0) || soap_put_ims__rejectFriendshipRequestResponse(soap, data, "ims:rejectFriendshipRequestResponse", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__rejectFriendshipRequestResponse(struct soap*, const struct ims__rejectFriendshipRequestResponse *, const char*, const char*);
+
+#ifndef soap_read_ims__rejectFriendshipRequestResponse
+#define soap_read_ims__rejectFriendshipRequestResponse(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__rejectFriendshipRequestResponse(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__rejectFriendshipRequestResponse * SOAP_FMAC4 soap_get_ims__rejectFriendshipRequestResponse(struct soap*, struct ims__rejectFriendshipRequestResponse *, const char*, const char*);
+
 #ifndef SOAP_TYPE_ims__acceptFriendshipRequest
-#define SOAP_TYPE_ims__acceptFriendshipRequest (38)
+#define SOAP_TYPE_ims__acceptFriendshipRequest (47)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__acceptFriendshipRequest(struct soap*, struct ims__acceptFriendshipRequest *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__acceptFriendshipRequest(struct soap*, const struct ims__acceptFriendshipRequest *);
@@ -210,7 +336,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__acceptFriendshipRequest(struct soap*, co
 SOAP_FMAC3 struct ims__acceptFriendshipRequest * SOAP_FMAC4 soap_get_ims__acceptFriendshipRequest(struct soap*, struct ims__acceptFriendshipRequest *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__acceptFriendshipRequestResponse
-#define SOAP_TYPE_ims__acceptFriendshipRequestResponse (37)
+#define SOAP_TYPE_ims__acceptFriendshipRequestResponse (46)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__acceptFriendshipRequestResponse(struct soap*, struct ims__acceptFriendshipRequestResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__acceptFriendshipRequestResponse(struct soap*, const struct ims__acceptFriendshipRequestResponse *);
@@ -230,8 +356,92 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__acceptFriendshipRequestResponse(struct s
 
 SOAP_FMAC3 struct ims__acceptFriendshipRequestResponse * SOAP_FMAC4 soap_get_ims__acceptFriendshipRequestResponse(struct soap*, struct ims__acceptFriendshipRequestResponse *, const char*, const char*);
 
+#ifndef SOAP_TYPE_ims__getFriendshipRequest
+#define SOAP_TYPE_ims__getFriendshipRequest (44)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendshipRequest(struct soap*, struct ims__getFriendshipRequest *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendshipRequest(struct soap*, const struct ims__getFriendshipRequest *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriendshipRequest(struct soap*, const char*, int, const struct ims__getFriendshipRequest *, const char*);
+SOAP_FMAC3 struct ims__getFriendshipRequest * SOAP_FMAC4 soap_in_ims__getFriendshipRequest(struct soap*, const char*, struct ims__getFriendshipRequest *, const char*);
+
+#ifndef soap_write_ims__getFriendshipRequest
+#define soap_write_ims__getFriendshipRequest(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__getFriendshipRequest(soap, data), 0) || soap_put_ims__getFriendshipRequest(soap, data, "ims:getFriendshipRequest", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriendshipRequest(struct soap*, const struct ims__getFriendshipRequest *, const char*, const char*);
+
+#ifndef soap_read_ims__getFriendshipRequest
+#define soap_read_ims__getFriendshipRequest(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__getFriendshipRequest(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__getFriendshipRequest * SOAP_FMAC4 soap_get_ims__getFriendshipRequest(struct soap*, struct ims__getFriendshipRequest *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__getFriendshipRequestResponse
+#define SOAP_TYPE_ims__getFriendshipRequestResponse (43)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendshipRequestResponse(struct soap*, struct ims__getFriendshipRequestResponse *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendshipRequestResponse(struct soap*, const struct ims__getFriendshipRequestResponse *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__getFriendshipRequestResponse(struct soap*, const char*, int, const struct ims__getFriendshipRequestResponse *, const char*);
+SOAP_FMAC3 struct ims__getFriendshipRequestResponse * SOAP_FMAC4 soap_in_ims__getFriendshipRequestResponse(struct soap*, const char*, struct ims__getFriendshipRequestResponse *, const char*);
+
+#ifndef soap_write_ims__getFriendshipRequestResponse
+#define soap_write_ims__getFriendshipRequestResponse(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__getFriendshipRequestResponse(soap, data), 0) || soap_put_ims__getFriendshipRequestResponse(soap, data, "ims:getFriendshipRequestResponse", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriendshipRequestResponse(struct soap*, const struct ims__getFriendshipRequestResponse *, const char*, const char*);
+
+#ifndef soap_read_ims__getFriendshipRequestResponse
+#define soap_read_ims__getFriendshipRequestResponse(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__getFriendshipRequestResponse(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__getFriendshipRequestResponse * SOAP_FMAC4 soap_get_ims__getFriendshipRequestResponse(struct soap*, struct ims__getFriendshipRequestResponse *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__haveFriendshipRequest
+#define SOAP_TYPE_ims__haveFriendshipRequest (40)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__haveFriendshipRequest(struct soap*, struct ims__haveFriendshipRequest *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__haveFriendshipRequest(struct soap*, const struct ims__haveFriendshipRequest *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__haveFriendshipRequest(struct soap*, const char*, int, const struct ims__haveFriendshipRequest *, const char*);
+SOAP_FMAC3 struct ims__haveFriendshipRequest * SOAP_FMAC4 soap_in_ims__haveFriendshipRequest(struct soap*, const char*, struct ims__haveFriendshipRequest *, const char*);
+
+#ifndef soap_write_ims__haveFriendshipRequest
+#define soap_write_ims__haveFriendshipRequest(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__haveFriendshipRequest(soap, data), 0) || soap_put_ims__haveFriendshipRequest(soap, data, "ims:haveFriendshipRequest", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__haveFriendshipRequest(struct soap*, const struct ims__haveFriendshipRequest *, const char*, const char*);
+
+#ifndef soap_read_ims__haveFriendshipRequest
+#define soap_read_ims__haveFriendshipRequest(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__haveFriendshipRequest(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__haveFriendshipRequest * SOAP_FMAC4 soap_get_ims__haveFriendshipRequest(struct soap*, struct ims__haveFriendshipRequest *, const char*, const char*);
+
+#ifndef SOAP_TYPE_ims__haveFriendshipRequestResponse
+#define SOAP_TYPE_ims__haveFriendshipRequestResponse (39)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__haveFriendshipRequestResponse(struct soap*, struct ims__haveFriendshipRequestResponse *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__haveFriendshipRequestResponse(struct soap*, const struct ims__haveFriendshipRequestResponse *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__haveFriendshipRequestResponse(struct soap*, const char*, int, const struct ims__haveFriendshipRequestResponse *, const char*);
+SOAP_FMAC3 struct ims__haveFriendshipRequestResponse * SOAP_FMAC4 soap_in_ims__haveFriendshipRequestResponse(struct soap*, const char*, struct ims__haveFriendshipRequestResponse *, const char*);
+
+#ifndef soap_write_ims__haveFriendshipRequestResponse
+#define soap_write_ims__haveFriendshipRequestResponse(soap, data) ( soap_begin_send(soap) || (soap_serialize_ims__haveFriendshipRequestResponse(soap, data), 0) || soap_put_ims__haveFriendshipRequestResponse(soap, data, "ims:haveFriendshipRequestResponse", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__haveFriendshipRequestResponse(struct soap*, const struct ims__haveFriendshipRequestResponse *, const char*, const char*);
+
+#ifndef soap_read_ims__haveFriendshipRequestResponse
+#define soap_read_ims__haveFriendshipRequestResponse(soap, data) ( soap_begin_recv(soap) || !soap_get_ims__haveFriendshipRequestResponse(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct ims__haveFriendshipRequestResponse * SOAP_FMAC4 soap_get_ims__haveFriendshipRequestResponse(struct soap*, struct ims__haveFriendshipRequestResponse *, const char*, const char*);
+
 #ifndef SOAP_TYPE_ims__getFriendshipRequests
-#define SOAP_TYPE_ims__getFriendshipRequests (35)
+#define SOAP_TYPE_ims__getFriendshipRequests (37)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendshipRequests(struct soap*, struct ims__getFriendshipRequests *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendshipRequests(struct soap*, const struct ims__getFriendshipRequests *);
@@ -252,7 +462,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriendshipRequests(struct soap*, cons
 SOAP_FMAC3 struct ims__getFriendshipRequests * SOAP_FMAC4 soap_get_ims__getFriendshipRequests(struct soap*, struct ims__getFriendshipRequests *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__getFriendshipRequestsResponse
-#define SOAP_TYPE_ims__getFriendshipRequestsResponse (34)
+#define SOAP_TYPE_ims__getFriendshipRequestsResponse (36)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__getFriendshipRequestsResponse(struct soap*, struct ims__getFriendshipRequestsResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__getFriendshipRequestsResponse(struct soap*, const struct ims__getFriendshipRequestsResponse *);
@@ -273,7 +483,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__getFriendshipRequestsResponse(struct soa
 SOAP_FMAC3 struct ims__getFriendshipRequestsResponse * SOAP_FMAC4 soap_get_ims__getFriendshipRequestsResponse(struct soap*, struct ims__getFriendshipRequestsResponse *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__sendFriendshipRequest
-#define SOAP_TYPE_ims__sendFriendshipRequest (31)
+#define SOAP_TYPE_ims__sendFriendshipRequest (33)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__sendFriendshipRequest(struct soap*, struct ims__sendFriendshipRequest *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__sendFriendshipRequest(struct soap*, const struct ims__sendFriendshipRequest *);
@@ -294,7 +504,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__sendFriendshipRequest(struct soap*, cons
 SOAP_FMAC3 struct ims__sendFriendshipRequest * SOAP_FMAC4 soap_get_ims__sendFriendshipRequest(struct soap*, struct ims__sendFriendshipRequest *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__sendFriendshipRequestResponse
-#define SOAP_TYPE_ims__sendFriendshipRequestResponse (30)
+#define SOAP_TYPE_ims__sendFriendshipRequestResponse (32)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__sendFriendshipRequestResponse(struct soap*, struct ims__sendFriendshipRequestResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__sendFriendshipRequestResponse(struct soap*, const struct ims__sendFriendshipRequestResponse *);
@@ -315,7 +525,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__sendFriendshipRequestResponse(struct soa
 SOAP_FMAC3 struct ims__sendFriendshipRequestResponse * SOAP_FMAC4 soap_get_ims__sendFriendshipRequestResponse(struct soap*, struct ims__sendFriendshipRequestResponse *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__addFriend
-#define SOAP_TYPE_ims__addFriend (28)
+#define SOAP_TYPE_ims__addFriend (30)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__addFriend(struct soap*, struct ims__addFriend *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__addFriend(struct soap*, const struct ims__addFriend *);
@@ -336,7 +546,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__addFriend(struct soap*, const struct ims
 SOAP_FMAC3 struct ims__addFriend * SOAP_FMAC4 soap_get_ims__addFriend(struct soap*, struct ims__addFriend *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__addFriendResponse
-#define SOAP_TYPE_ims__addFriendResponse (27)
+#define SOAP_TYPE_ims__addFriendResponse (29)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__addFriendResponse(struct soap*, struct ims__addFriendResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__addFriendResponse(struct soap*, const struct ims__addFriendResponse *);
@@ -357,7 +567,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__addFriendResponse(struct soap*, const st
 SOAP_FMAC3 struct ims__addFriendResponse * SOAP_FMAC4 soap_get_ims__addFriendResponse(struct soap*, struct ims__addFriendResponse *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__userLogin
-#define SOAP_TYPE_ims__userLogin (25)
+#define SOAP_TYPE_ims__userLogin (27)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__userLogin(struct soap*, struct ims__userLogin *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__userLogin(struct soap*, const struct ims__userLogin *);
@@ -378,7 +588,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__userLogin(struct soap*, const struct ims
 SOAP_FMAC3 struct ims__userLogin * SOAP_FMAC4 soap_get_ims__userLogin(struct soap*, struct ims__userLogin *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__userLoginResponse
-#define SOAP_TYPE_ims__userLoginResponse (24)
+#define SOAP_TYPE_ims__userLoginResponse (26)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__userLoginResponse(struct soap*, struct ims__userLoginResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__userLoginResponse(struct soap*, const struct ims__userLoginResponse *);
@@ -399,7 +609,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__userLoginResponse(struct soap*, const st
 SOAP_FMAC3 struct ims__userLoginResponse * SOAP_FMAC4 soap_get_ims__userLoginResponse(struct soap*, struct ims__userLoginResponse *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__addUser
-#define SOAP_TYPE_ims__addUser (22)
+#define SOAP_TYPE_ims__addUser (24)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__addUser(struct soap*, struct ims__addUser *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__addUser(struct soap*, const struct ims__addUser *);
@@ -420,7 +630,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__addUser(struct soap*, const struct ims__
 SOAP_FMAC3 struct ims__addUser * SOAP_FMAC4 soap_get_ims__addUser(struct soap*, struct ims__addUser *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__addUserResponse
-#define SOAP_TYPE_ims__addUserResponse (21)
+#define SOAP_TYPE_ims__addUserResponse (23)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__addUserResponse(struct soap*, struct ims__addUserResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__addUserResponse(struct soap*, const struct ims__addUserResponse *);
@@ -441,7 +651,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__addUserResponse(struct soap*, const stru
 SOAP_FMAC3 struct ims__addUserResponse * SOAP_FMAC4 soap_get_ims__addUserResponse(struct soap*, struct ims__addUserResponse *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__receiveMessage
-#define SOAP_TYPE_ims__receiveMessage (19)
+#define SOAP_TYPE_ims__receiveMessage (21)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__receiveMessage(struct soap*, struct ims__receiveMessage *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__receiveMessage(struct soap*, const struct ims__receiveMessage *);
@@ -462,7 +672,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__receiveMessage(struct soap*, const struc
 SOAP_FMAC3 struct ims__receiveMessage * SOAP_FMAC4 soap_get_ims__receiveMessage(struct soap*, struct ims__receiveMessage *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__receiveMessageResponse
-#define SOAP_TYPE_ims__receiveMessageResponse (18)
+#define SOAP_TYPE_ims__receiveMessageResponse (20)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__receiveMessageResponse(struct soap*, struct ims__receiveMessageResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__receiveMessageResponse(struct soap*, const struct ims__receiveMessageResponse *);
@@ -483,7 +693,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__receiveMessageResponse(struct soap*, con
 SOAP_FMAC3 struct ims__receiveMessageResponse * SOAP_FMAC4 soap_get_ims__receiveMessageResponse(struct soap*, struct ims__receiveMessageResponse *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__sendMessage
-#define SOAP_TYPE_ims__sendMessage (15)
+#define SOAP_TYPE_ims__sendMessage (17)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__sendMessage(struct soap*, struct ims__sendMessage *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__sendMessage(struct soap*, const struct ims__sendMessage *);
@@ -504,7 +714,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__sendMessage(struct soap*, const struct i
 SOAP_FMAC3 struct ims__sendMessage * SOAP_FMAC4 soap_get_ims__sendMessage(struct soap*, struct ims__sendMessage *, const char*, const char*);
 
 #ifndef SOAP_TYPE_ims__sendMessageResponse
-#define SOAP_TYPE_ims__sendMessageResponse (14)
+#define SOAP_TYPE_ims__sendMessageResponse (16)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__sendMessageResponse(struct soap*, struct ims__sendMessageResponse *);
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__sendMessageResponse(struct soap*, const struct ims__sendMessageResponse *);
@@ -523,6 +733,52 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__sendMessageResponse(struct soap*, const 
 #endif
 
 SOAP_FMAC3 struct ims__sendMessageResponse * SOAP_FMAC4 soap_get_ims__sendMessageResponse(struct soap*, struct ims__sendMessageResponse *, const char*, const char*);
+
+#ifndef SOAP_TYPE_String
+#define SOAP_TYPE_String (13)
+#endif
+
+#define soap_default_String(soap, a) soap_default__Struct_2(soap, a)
+
+
+#define soap_serialize_String(soap, a) soap_serialize__Struct_2(soap, a)
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_String(struct soap*, const char*, int, const struct _Struct_2 *, const char*);
+SOAP_FMAC3 struct _Struct_2 * SOAP_FMAC4 soap_in_String(struct soap*, const char*, struct _Struct_2 *, const char*);
+
+#ifndef soap_write_String
+#define soap_write_String(soap, data) ( soap_begin_send(soap) || (soap_serialize_String(soap, data), 0) || soap_put_String(soap, data, "String", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_String(struct soap*, const struct _Struct_2 *, const char*, const char*);
+
+#ifndef soap_read_String
+#define soap_read_String(soap, data) ( soap_begin_recv(soap) || !soap_get_String(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct _Struct_2 * SOAP_FMAC4 soap_get_String(struct soap*, struct _Struct_2 *, const char*, const char*);
+
+#ifndef SOAP_TYPE__Struct_2
+#define SOAP_TYPE__Struct_2 (12)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_default__Struct_2(struct soap*, struct _Struct_2 *);
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize__Struct_2(struct soap*, const struct _Struct_2 *);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out__Struct_2(struct soap*, const char*, int, const struct _Struct_2 *, const char*);
+SOAP_FMAC3 struct _Struct_2 * SOAP_FMAC4 soap_in__Struct_2(struct soap*, const char*, struct _Struct_2 *, const char*);
+
+#ifndef soap_write__Struct_2
+#define soap_write__Struct_2(soap, data) ( soap_begin_send(soap) || (soap_serialize__Struct_2(soap, data), 0) || soap_put__Struct_2(soap, data, "Struct-2", NULL) || soap_end_send(soap) )
+#endif
+
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put__Struct_2(struct soap*, const struct _Struct_2 *, const char*, const char*);
+
+#ifndef soap_read__Struct_2
+#define soap_read__Struct_2(soap, data) ( soap_begin_recv(soap) || !soap_get__Struct_2(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct _Struct_2 * SOAP_FMAC4 soap_get__Struct_2(struct soap*, struct _Struct_2 *, const char*, const char*);
 
 #ifndef SOAP_TYPE_Char_vector
 #define SOAP_TYPE_Char_vector (11)
@@ -594,7 +850,7 @@ SOAP_FMAC3 struct Message * SOAP_FMAC4 soap_get_Message(struct soap*, struct Mes
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_PointerToSOAP_ENV__Reason
-#define SOAP_TYPE_PointerToSOAP_ENV__Reason (48)
+#define SOAP_TYPE_PointerToSOAP_ENV__Reason (66)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToSOAP_ENV__Reason(struct soap*, struct SOAP_ENV__Reason *const*);
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToSOAP_ENV__Reason(struct soap*, const char *, int, struct SOAP_ENV__Reason *const*, const char *);
@@ -617,7 +873,7 @@ SOAP_FMAC3 struct SOAP_ENV__Reason ** SOAP_FMAC4 soap_get_PointerToSOAP_ENV__Rea
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_PointerToSOAP_ENV__Detail
-#define SOAP_TYPE_PointerToSOAP_ENV__Detail (47)
+#define SOAP_TYPE_PointerToSOAP_ENV__Detail (65)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToSOAP_ENV__Detail(struct soap*, struct SOAP_ENV__Detail *const*);
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToSOAP_ENV__Detail(struct soap*, const char *, int, struct SOAP_ENV__Detail *const*, const char *);
@@ -640,7 +896,7 @@ SOAP_FMAC3 struct SOAP_ENV__Detail ** SOAP_FMAC4 soap_get_PointerToSOAP_ENV__Det
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_PointerToSOAP_ENV__Code
-#define SOAP_TYPE_PointerToSOAP_ENV__Code (41)
+#define SOAP_TYPE_PointerToSOAP_ENV__Code (59)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToSOAP_ENV__Code(struct soap*, struct SOAP_ENV__Code *const*);
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToSOAP_ENV__Code(struct soap*, const char *, int, struct SOAP_ENV__Code *const*, const char *);
@@ -660,8 +916,27 @@ SOAP_FMAC3 struct SOAP_ENV__Code ** SOAP_FMAC4 soap_get_PointerToSOAP_ENV__Code(
 
 #endif
 
+#ifndef SOAP_TYPE_PointerToString
+#define SOAP_TYPE_PointerToString (41)
+#endif
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToString(struct soap*, struct _Struct_2 *const*);
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToString(struct soap*, const char *, int, struct _Struct_2 *const*, const char *);
+SOAP_FMAC3 struct _Struct_2 ** SOAP_FMAC4 soap_in_PointerToString(struct soap*, const char*, struct _Struct_2 **, const char*);
+
+#ifndef soap_write_PointerToString
+#define soap_write_PointerToString(soap, data) ( soap_begin_send(soap) || (soap_serialize_PointerToString(soap, data), 0) || soap_put_PointerToString(soap, data, "String", NULL) || soap_end_send(soap) )
+#endif
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_PointerToString(struct soap*, struct _Struct_2 *const*, const char*, const char*);
+
+#ifndef soap_read_PointerToString
+#define soap_read_PointerToString(soap, data) ( soap_begin_recv(soap) || !soap_get_PointerToString(soap, data, NULL, NULL) || soap_end_recv(soap) )
+#endif
+
+SOAP_FMAC3 struct _Struct_2 ** SOAP_FMAC4 soap_get_PointerToString(struct soap*, struct _Struct_2 **, const char*, const char*);
+
 #ifndef SOAP_TYPE_PointerToChar_vector
-#define SOAP_TYPE_PointerToChar_vector (32)
+#define SOAP_TYPE_PointerToChar_vector (34)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToChar_vector(struct soap*, struct _Struct_1 *const*);
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToChar_vector(struct soap*, const char *, int, struct _Struct_1 *const*, const char *);
@@ -680,7 +955,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_PointerToChar_vector(struct soap*, struct _St
 SOAP_FMAC3 struct _Struct_1 ** SOAP_FMAC4 soap_get_PointerToChar_vector(struct soap*, struct _Struct_1 **, const char*, const char*);
 
 #ifndef SOAP_TYPE_PointerToMessage
-#define SOAP_TYPE_PointerToMessage (16)
+#define SOAP_TYPE_PointerToMessage (18)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToMessage(struct soap*, struct Message *const*);
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToMessage(struct soap*, const char *, int, struct Message *const*, const char *);
@@ -699,7 +974,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_PointerToMessage(struct soap*, struct Message
 SOAP_FMAC3 struct Message ** SOAP_FMAC4 soap_get_PointerToMessage(struct soap*, struct Message **, const char*, const char*);
 
 #ifndef SOAP_TYPE_PointerToint
-#define SOAP_TYPE_PointerToint (12)
+#define SOAP_TYPE_PointerToint (14)
 #endif
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_PointerToint(struct soap*, int *const*);
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_PointerToint(struct soap*, const char *, int, int *const*, const char *);

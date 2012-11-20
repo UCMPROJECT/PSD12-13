@@ -38,6 +38,12 @@
      <element name="data" type="ims:Array100Ofstring" minOccurs="1" maxOccurs="1" nillable="true"/><!-- _Struct_1::data -->
    </sequence>
   </complexType>
+  <complexType name="Struct-2"><!-- _Struct_2 -->
+
+   <sequence>
+     <element name="str" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- _Struct_2::str -->
+   </sequence>
+  </complexType>
   <complexType name="Array100Ofstring">
    <complexContent>
     <restriction base="SOAP-ENC:Array">
@@ -161,6 +167,38 @@
    </complexType>
   </element>
   <!-- operation request element -->
+  <element name="haveFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriendshipRequest::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="haveFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="getFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequest::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="getFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="friend-nick" type="String" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequest::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
   <element name="acceptFriendshipRequest">
    <complexType>
     <sequence>
@@ -173,7 +211,56 @@
   <element name="acceptFriendshipRequestResponse">
    <complexType>
     <sequence>
-     <element name="param-2" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::_param_2 -->
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="rejectFriendshipRequest">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__rejectFriendshipRequest::user -->
+     <element name="friend-nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__rejectFriendshipRequest::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="rejectFriendshipRequestResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__rejectFriendshipRequest::result -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="getFriends">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriends::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="getFriendsResponse">
+   <complexType>
+    <sequence>
+     <element name="friends" type="Char-vector" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriends::friends -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="haveFriends">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriends::user -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="haveFriendsResponse">
+   <complexType>
+    <sequence>
+     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__haveFriends::result -->
     </sequence>
    </complexType>
   </element>
@@ -237,12 +324,52 @@
  <part name="parameters" element="ims:getFriendshipRequestsResponse"/>
 </message>
 
+<message name="haveFriendshipRequestRequest">
+ <part name="parameters" element="ims:haveFriendshipRequest"/><!-- ims__haveFriendshipRequest::ims__haveFriendshipRequest -->
+</message>
+
+<message name="haveFriendshipRequestResponse">
+ <part name="parameters" element="ims:haveFriendshipRequestResponse"/>
+</message>
+
+<message name="getFriendshipRequestRequest">
+ <part name="parameters" element="ims:getFriendshipRequest"/><!-- ims__getFriendshipRequest::ims__getFriendshipRequest -->
+</message>
+
+<message name="getFriendshipRequestResponse">
+ <part name="parameters" element="ims:getFriendshipRequestResponse"/>
+</message>
+
 <message name="acceptFriendshipRequestRequest">
  <part name="parameters" element="ims:acceptFriendshipRequest"/><!-- ims__acceptFriendshipRequest::ims__acceptFriendshipRequest -->
 </message>
 
 <message name="acceptFriendshipRequestResponse">
  <part name="parameters" element="ims:acceptFriendshipRequestResponse"/>
+</message>
+
+<message name="rejectFriendshipRequestRequest">
+ <part name="parameters" element="ims:rejectFriendshipRequest"/><!-- ims__rejectFriendshipRequest::ims__rejectFriendshipRequest -->
+</message>
+
+<message name="rejectFriendshipRequestResponse">
+ <part name="parameters" element="ims:rejectFriendshipRequestResponse"/>
+</message>
+
+<message name="getFriendsRequest">
+ <part name="parameters" element="ims:getFriends"/><!-- ims__getFriends::ims__getFriends -->
+</message>
+
+<message name="getFriendsResponse">
+ <part name="parameters" element="ims:getFriendsResponse"/>
+</message>
+
+<message name="haveFriendsRequest">
+ <part name="parameters" element="ims:haveFriends"/><!-- ims__haveFriends::ims__haveFriends -->
+</message>
+
+<message name="haveFriendsResponse">
+ <part name="parameters" element="ims:haveFriendsResponse"/>
 </message>
 
 <portType name="ServicePortType">
@@ -281,10 +408,35 @@
   <input message="tns:getFriendshipRequestsRequest"/>
   <output message="tns:getFriendshipRequestsResponse"/>
  </operation>
+ <operation name="haveFriendshipRequest">
+  <documentation>Service definition of function ims__haveFriendshipRequest</documentation>
+  <input message="tns:haveFriendshipRequestRequest"/>
+  <output message="tns:haveFriendshipRequestResponse"/>
+ </operation>
+ <operation name="getFriendshipRequest">
+  <documentation>Service definition of function ims__getFriendshipRequest</documentation>
+  <input message="tns:getFriendshipRequestRequest"/>
+  <output message="tns:getFriendshipRequestResponse"/>
+ </operation>
  <operation name="acceptFriendshipRequest">
   <documentation>Service definition of function ims__acceptFriendshipRequest</documentation>
   <input message="tns:acceptFriendshipRequestRequest"/>
   <output message="tns:acceptFriendshipRequestResponse"/>
+ </operation>
+ <operation name="rejectFriendshipRequest">
+  <documentation>Service definition of function ims__rejectFriendshipRequest</documentation>
+  <input message="tns:rejectFriendshipRequestRequest"/>
+  <output message="tns:rejectFriendshipRequestResponse"/>
+ </operation>
+ <operation name="getFriends">
+  <documentation>Service definition of function ims__getFriends</documentation>
+  <input message="tns:getFriendsRequest"/>
+  <output message="tns:getFriendsResponse"/>
+ </operation>
+ <operation name="haveFriends">
+  <documentation>Service definition of function ims__haveFriends</documentation>
+  <input message="tns:haveFriendsRequest"/>
+  <output message="tns:haveFriendsResponse"/>
  </operation>
 </portType>
 
@@ -353,7 +505,52 @@
      <SOAP:body parts="parameters" use="literal"/>
   </output>
  </operation>
+ <operation name="haveFriendshipRequest">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="getFriendshipRequest">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
  <operation name="acceptFriendshipRequest">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="rejectFriendshipRequest">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="getFriends">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="haveFriends">
   <SOAP:operation soapAction=""/>
   <input>
      <SOAP:body parts="parameters" use="literal"/>

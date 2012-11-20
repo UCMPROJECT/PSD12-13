@@ -104,7 +104,8 @@ int removeFriend(User* usr,char* friend_nick){
 				found = 1;
 			}
 		}
-		i++;
+		if(found == 0)
+			i++;
 	}
 	if(found == 1){
 		usr->friends[i] = NULL;
@@ -131,6 +132,30 @@ int isFriend(User* usr,char *friend_nick){
 		i++;
 	}
 	return found;
+}
+
+//
+//
+//
+int getFriends(User* usr,char* friends[MAXFRIENDS])
+{
+	if(usr->numFriends)
+	{
+		char* aux;
+		int i;
+
+		for(i = 0; i < MAXFRIENDS; i++)
+		{
+			aux = usr->friends[i];
+
+			if(aux != NULL)
+			{
+				friends[i] = (char*)malloc(sizeof(char*));
+				strcpy(friends[i],aux);
+			}
+		}
+	}
+	return 0;
 }
 
 //
@@ -173,7 +198,24 @@ int addFriendRequestSend(User* usr,char* friend_nick)
 //
 int removeFriendRequestSend(User* usr,char* friend_nick)
 {
-	return 0;
+	int i = 0;
+	int found = 0;
+	char* aux;
+	while(i < MAXFRIENDS && found == 0){
+		aux = usr->friends_request_send[i];
+		if(aux != NULL){
+			if(strcasecmp(aux,friend_nick) == 0){
+				found = 1;
+			}
+		}
+		if(found == 0)
+			i++;
+	}
+	if(found == 1){
+		usr->friends_request_send[i] = NULL;
+		usr->numSend--;
+	}
+	return found;
 }
 
 //
@@ -237,7 +279,24 @@ int addFriendRequestPending(User* usr,char* friend_nick)
 //
 int removeFriendRequestPending(User* usr,char* friend_nick)
 {
-	return 0;
+	int i = 0;
+	int found = 0;
+	char* aux;
+	while(i < MAXFRIENDS && found == 0){
+		aux = usr->friends_request_pending[i];
+		if(aux != NULL){
+			if(strcasecmp(aux,friend_nick) == 0){
+				found = 1;
+			}
+		}
+		if(found == 0)
+			i++;
+	}
+	if(found == 1){
+		usr->friends_request_pending[i] = NULL;
+		usr->numPending--;
+	}
+	return found;
 }
 
 //
@@ -264,22 +323,50 @@ int isFriendRequestPending(User* usr,char* friend_nick)
 //
 //
 //
-int getFriendRequestPending(User* usr,char* friends[MAXFRIENDS])
+int getFriendRequestsPending(User* usr,char* friends[MAXFRIENDS])
+{
+	if(usr->numPending)
+	{
+		char* aux;
+		int i;
+
+		for(i = 0; i < MAXFRIENDS; i++)
+		{
+			aux = usr->friends_request_pending[i];
+
+			if(aux != NULL)
+			{
+				friends[i] = (char*)malloc(sizeof(char*));
+				strcpy(friends[i],aux);
+			}
+		}
+	}
+	return 0;
+}
+
+//
+//
+//
+int getFriendRequestPending(User* usr,char** friend_nick)
 {
 	char* aux;
-	int i;
-
-	for(i = 0; i < MAXFRIENDS; i++)
+	int i = 0;
+	int found = 0;
+	while(found == 0 && i < MAXFRIENDS)
 	{
 		aux = usr->friends_request_pending[i];
 
 		if(aux != NULL)
 		{
-			friends[i] = (char*)malloc(sizeof(char*));
-			strcpy(friends[i],aux);
+			found = 1;
+			//friend_nick = (char*)malloc(sizeof(char*));
+			*friend_nick = (char*)malloc(sizeof(char*));
+			//printf("%s\n",aux);
+			strcpy(*friend_nick,aux);
 		}
+		i++;
 	}
-	return 0;
+	return found;
 }
 
 #endif

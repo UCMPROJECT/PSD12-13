@@ -36,6 +36,7 @@ void setPass(User* usr,char* pass);
 int addFriend(User* usr,char* friend_nick);
 int removeFriend(User* usr,char* friend_nick);
 int isFriend(User* usr,char *friend_nick);
+int getFriends(User* usr,char* friends[MAXFRIENDS]);
 
 int addFriendRequestSend(User* usr,char* friend_nick);
 int removeFriendRequestSend(User* usr,char* friend_nick);
@@ -44,6 +45,7 @@ int isFriendRequestSend(User* usr,char* friend_nick);
 int addFriendRequestPending(User* usr,char* friend_nick);
 int removeFriendRequestPending(User* usr,char* friend_nick);
 int isFriendRequestPending(User* usr,char* friend_nick);
-int getFriendRequestPending(User* usr,char* friends[MAXFRIENDS]);
+int getFriendRequestsPending(User* usr,char* friends[MAXFRIENDS]);
+int getFriendRequestPending(User* usr,char** friend_nick);
 
 #endif /* SERVER_USER_H_ */
