@@ -120,7 +120,6 @@
    <complexType>
     <sequence>
      <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::user -->
-     <element name="friends" type="Char-vector" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::friends -->
     </sequence>
    </complexType>
   </element>
@@ -128,7 +127,7 @@
   <element name="getFriendshipRequestsResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::result -->
+     <element name="friends" type="Char-vector" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getFriendshipRequests::friends -->
     </sequence>
    </complexType>
   </element>
@@ -145,7 +144,7 @@
   <element name="acceptFriendshipRequestResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::result -->
+     <element name="param-2" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__acceptFriendshipRequest::_param_2 -->
     </sequence>
    </complexType>
   </element>

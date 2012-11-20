@@ -165,19 +165,16 @@ int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick,
 //
 //
 //
-int ims__getFriendshipRequests(struct soap *soap, char* user,Char_vector *friends, int *result)
+int ims__getFriendshipRequests(struct soap *soap, char* user,Char_vector *friends)
 {
 	User *usr = getUser(luser,user);
 
 	if(usr->online == 1)
 	{
-		printf("%s\n",friends->data[0]);
-		//Char_vector * aux_friends = (Char_vector*)malloc(sizeof(Char_vector));
+		getFriendRequestPending(usr,friends->data);
 
-		*result = getFriendRequestPending(usr,&friends->data);
-		//*friends = *aux_friends;
 		printf("%s\n",friends->data[0]);
-		if(DEBUG_MODE && *result == 0)
+		if(DEBUG_MODE)
 			printf("%s quiere su lista de peticiones pendientes\n",usr->nick);
 	}
 
@@ -189,6 +186,12 @@ int ims__getFriendshipRequests(struct soap *soap, char* user,Char_vector *friend
 //
 int ims__acceptFriendshipRequest(struct soap *soap, char* user ,char* friend_nick, int *result)
 {
+	User *usr = getUser(luser,user);
+
+	if(usr->online == 1)
+	{
+
+	}
 	return SOAP_OK;
 }
 

@@ -184,7 +184,7 @@ struct ims__sendFriendshipRequest
 /* ims:getFriendshipRequestsResponse */
 struct ims__getFriendshipRequestsResponse
 {
-	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+	struct _Struct_1 *friends;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type Char-vector */
 };
 #endif
 
@@ -194,7 +194,6 @@ struct ims__getFriendshipRequestsResponse
 struct ims__getFriendshipRequests
 {
 	char *user;	/* optional element of type xsd:string */
-	struct _Struct_1 *friends;	/* optional element of type Char-vector */
 };
 #endif
 
@@ -203,7 +202,7 @@ struct ims__getFriendshipRequests
 /* ims:acceptFriendshipRequestResponse */
 struct ims__acceptFriendshipRequestResponse
 {
-	int *result;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+	int *_param_2;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
 };
 #endif
 
@@ -348,9 +347,9 @@ SOAP_FMAC5 int SOAP_FMAC6 ims__addFriend(struct soap*, char *user, char *friend_
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__sendFriendshipRequest(struct soap*, char *user, char *friend_nick, int *result);
 
-SOAP_FMAC5 int SOAP_FMAC6 ims__getFriendshipRequests(struct soap*, char *user, struct _Struct_1 *friends, int *result);
+SOAP_FMAC5 int SOAP_FMAC6 ims__getFriendshipRequests(struct soap*, char *user, struct _Struct_1 *friends);
 
-SOAP_FMAC5 int SOAP_FMAC6 ims__acceptFriendshipRequest(struct soap*, char *user, char *friend_nick, int *result);
+SOAP_FMAC5 int SOAP_FMAC6 ims__acceptFriendshipRequest(struct soap*, char *user, char *friend_nick, int *_param_2);
 
 /******************************************************************************\
  *                                                                            *
@@ -397,9 +396,9 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__addFriend(struct soap *soap, const char
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result);
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends, int *result);
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends);
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result);
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *_param_2);
 
 #ifdef __cplusplus
 }

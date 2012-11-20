@@ -24,6 +24,9 @@ User* userInit(char* nick,char* pass){
 		user->friends_request_send[i] = NULL;
 	}
 	user->online = 0;
+	user->numFriends = 0;
+	user->numSend = 0;
+	user->numPending = 0;
 
 	return user;
 }
@@ -81,6 +84,7 @@ int addFriend(User* usr,char* friend_nick){
 	if(found == 0){
 		usr->friends[j] = (char*)malloc(sizeof(char*));
 		strcpy(usr->friends[j] , friend_nick);
+		usr->numFriends++;
 		//printf("%s\n",usr->friends[j]);
 	}
 	return found;
@@ -104,6 +108,7 @@ int removeFriend(User* usr,char* friend_nick){
 	}
 	if(found == 1){
 		usr->friends[i] = NULL;
+		usr->numFriends--;
 	}
 	return found;
 }
@@ -157,6 +162,7 @@ int addFriendRequestSend(User* usr,char* friend_nick)
 	if(found == 0){
 		usr->friends_request_send[j] = (char*)malloc(sizeof(char*));
 		strcpy(usr->friends_request_send[j] , friend_nick);
+		usr->numSend++;
 		//printf("%s\n",usr->friends[j]);
 	}
 	return found;
@@ -220,6 +226,7 @@ int addFriendRequestPending(User* usr,char* friend_nick)
 	if(found == 0){
 		usr->friends_request_pending[j] = (char*)malloc(sizeof(char*));
 		strcpy(usr->friends_request_pending[j] , friend_nick);
+		usr->numPending++;
 		//printf("%s\n",usr->friends[j]);
 	}
 	return found;
@@ -270,8 +277,6 @@ int getFriendRequestPending(User* usr,char* friends[MAXFRIENDS])
 		{
 			friends[i] = (char*)malloc(sizeof(char*));
 			strcpy(friends[i],aux);
-			//friends->data[i] = aux;
-			printf("%s\n",friends[i]);
 		}
 	}
 	return 0;

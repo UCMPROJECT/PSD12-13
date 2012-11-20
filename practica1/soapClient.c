@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-20 12:36:18 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-20 17:19:27 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct Message myMessage, int *result)
@@ -323,12 +323,11 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendFriendshipRequest(struct soap *soap
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends, int *result)
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 *friends)
 {	struct ims__getFriendshipRequests soap_tmp_ims__getFriendshipRequests;
 	struct ims__getFriendshipRequestsResponse *soap_tmp_ims__getFriendshipRequestsResponse;
 	soap->encodingStyle = NULL;
 	soap_tmp_ims__getFriendshipRequests.user = user;
-	soap_tmp_ims__getFriendshipRequests.friends = friends;
 	soap_begin(soap);
 	soap_serializeheader(soap);
 	soap_serialize_ims__getFriendshipRequests(soap, &soap_tmp_ims__getFriendshipRequests);
@@ -354,9 +353,9 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))
 		return soap_closesock(soap);
-	if (!result)
+	if (!friends)
 		return soap_closesock(soap);
-	soap_default_int(soap, result);
+	soap_default_Char_vector(soap, friends);
 	if (soap_begin_recv(soap)
 	 || soap_envelope_begin_in(soap)
 	 || soap_recv_header(soap)
@@ -369,12 +368,12 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getFriendshipRequests(struct soap *soap
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap_closesock(soap);
-	if (result && soap_tmp_ims__getFriendshipRequestsResponse->result)
-		*result = *soap_tmp_ims__getFriendshipRequestsResponse->result;
+	if (friends && soap_tmp_ims__getFriendshipRequestsResponse->friends)
+		*friends = *soap_tmp_ims__getFriendshipRequestsResponse->friends;
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *result)
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, char *friend_nick, int *_param_2)
 {	struct ims__acceptFriendshipRequest soap_tmp_ims__acceptFriendshipRequest;
 	struct ims__acceptFriendshipRequestResponse *soap_tmp_ims__acceptFriendshipRequestResponse;
 	soap->encodingStyle = NULL;
@@ -405,9 +404,9 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *so
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))
 		return soap_closesock(soap);
-	if (!result)
+	if (!_param_2)
 		return soap_closesock(soap);
-	soap_default_int(soap, result);
+	soap_default_int(soap, _param_2);
 	if (soap_begin_recv(soap)
 	 || soap_envelope_begin_in(soap)
 	 || soap_recv_header(soap)
@@ -420,8 +419,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__acceptFriendshipRequest(struct soap *so
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap_closesock(soap);
-	if (result && soap_tmp_ims__acceptFriendshipRequestResponse->result)
-		*result = *soap_tmp_ims__acceptFriendshipRequestResponse->result;
+	if (_param_2 && soap_tmp_ims__acceptFriendshipRequestResponse->_param_2)
+		*_param_2 = *soap_tmp_ims__acceptFriendshipRequestResponse->_param_2;
 	return soap_closesock(soap);
 }
 

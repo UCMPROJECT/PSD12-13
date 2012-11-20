@@ -147,6 +147,7 @@ void menuHome(struct soap soap,char *serverURL){
 			getFriendRequest(soap,serverURL);
 			break;
 		case 6:
+			acceptFriendRequest(soap,serverURL);
 			break;
 		case 7:
 			break;
@@ -295,24 +296,26 @@ void sendFriendRequest(struct soap soap,char *serverURL)
 void getFriendRequest(struct soap soap,char *serverURL)
 {
 	Char_vector *friends = (Char_vector*)malloc(sizeof(Char_vector));
-	int result;
 
 	int i;
 
-	for(i = 0;i < MAXFRIENDS;i++){
-		friends->data[i] = (char*)malloc(sizeof(char*));
-	}
-	strcpy(friends->data[0],"ME CAGO EN DIOS");
-
-
-	soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends, &result);
+	soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends);
 
 	system("clear");
 	printf("Lista de amistades sin aceptar:\n");
 
-	for(i=0;i < MAXFRIENDS;i++){
-		if(friends->data[i] != NULL){
+	for(i=1;i <= MAXFRIENDS;i++){
+		if(friends->data[i-1] != NULL){
 			printf("%d: %s\n",i,friends->data[i]);
 		}
 	}
+}
+
+//
+//
+//
+void acceptFriendRequest(struct soap soap,char* serverURL)
+{
+	system("clear");
+	soap_call_ims__acceptFriendshipRequest(&soap,serverURL,"",user);
 }

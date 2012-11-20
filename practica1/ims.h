@@ -23,5 +23,5 @@ int ims__userLogin(char* nick, char* pass, int *result);
 
 int ims__addFriend(char* user ,char* friend_nick, int *result);
 int ims__sendFriendshipRequest(char* user ,char* friend_nick, int *result);
-int ims__getFriendshipRequests(char* user ,Char_vector *friends, int *result);
-int ims__acceptFriendshipRequest(char* user ,char* friend_nick, int *result);
+int ims__getFriendshipRequests(char* user ,Char_vector *friends);
+int ims__acceptFriendshipRequest(char* user ,char* friend_nick, int *);

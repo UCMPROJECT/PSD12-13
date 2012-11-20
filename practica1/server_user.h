@@ -17,6 +17,10 @@ typedef struct{
 	char* pass;
 	int online;//0 - offline 1 - online
 
+	int numFriends;
+	int numSend;
+	int numPending;
+
 	char* friends[MAXFRIENDS];//friends who accepted your friendship request
 	char* friends_request_send[MAXFRIENDS];//friends that you've sent friendship request
 	char* friends_request_pending[MAXFRIENDS];//friends who have sent friendship request to you
