@@ -12,7 +12,7 @@ char *user;
 int main(int argc, char **argv){
 
 	struct soap soap;
-	struct Message myMsgA, myMsgB;
+	//Message myMsgA, myMsgB;
 	char *serverURL;
 	int res;
 
@@ -119,8 +119,9 @@ int menuLogin(struct soap soap,char *serverURL){
 	return res;
 }
 void menuHome(struct soap soap,char *serverURL){
-	int op=-1;
-	while(op != 0){
+	char* op=-1;
+	int choose ;
+	while(choose != 0){
 		//system("clear");
 		printf("2.-Enviar mensaje.\n");
 		printf("3.-Leer mensaje.\n");
@@ -130,9 +131,10 @@ void menuHome(struct soap soap,char *serverURL){
 		printf("7.-Ver lista de amigos\n");
 		printf("0.-Salir.\n");
 
-		scanf("%d",&op);
+		scanf("%d",&choose);
+		//choose = (int)op;
 
-		switch (op){
+		switch (choose){
 		case 1:
 			addNewFriend(soap,serverURL);
 			break;
@@ -352,6 +354,7 @@ void acceptFriendRequest(struct soap soap,char* serverURL)
 			printf("Opcion no valida\n");
 		}
 	}
+	free(op);
 	//soap_call_ims__acceptFriendshipRequest(&soap,serverURL,"",user);
 }
 
@@ -380,6 +383,23 @@ void getFriends(struct soap soap,char *serverURL)
 	}else
 	{
 		system("clear");
-		printf("No tienes amigos!\n");
+		printf("¡No tienes amigos!\n");
 	}
+
+	free(friends);
+}
+
+void sendMessage(struct soap soap,char *serverURL){
+	char* friend = (char*)malloc(sizeof(char*));
+	printf("Escriba el nombre de su amigo (si tiene):\n");
+	scanf("%s",friend);
+
+	Message myMessage;
+
+	//ims__getLastMessage(&soap, serverURL, "",&myMessage);
+
+
+
+
+	free(friend);
 }

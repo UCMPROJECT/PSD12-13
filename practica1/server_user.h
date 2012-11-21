@@ -11,7 +11,10 @@
 #include "soapH.h"
 
 #define MAXFRIENDS 100
-
+struct Files{
+	FILE *file;
+	char *friend_nick;
+};
 typedef struct{
 	char* nick;
 	char* pass;
@@ -21,11 +24,14 @@ typedef struct{
 	int numSend;
 	int numPending;
 
+	struct Files *files[MAXFRIENDS];
+
 	char* friends[MAXFRIENDS];//friends who accepted your friendship request
 	char* friends_request_send[MAXFRIENDS];//friends that you've sent friendship request
 	char* friends_request_pending[MAXFRIENDS];//friends who have sent friendship request to you
 
 }User;
+
 
 User* userInit(char* nick,char* pass);
 void userFree(User* usr);

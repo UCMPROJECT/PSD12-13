@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-20 22:32:44 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-21 18:16:42 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
@@ -63,6 +63,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 		return soap_serve_ims__sendMessage(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:receiveMessage"))
 		return soap_serve_ims__receiveMessage(soap);
+	if (!soap_match_tag(soap, soap->tag, "ims:getLastMessage"))
+		return soap_serve_ims__getLastMessage(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:addUser"))
 		return soap_serve_ims__addUser(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:userLogin"))
@@ -95,7 +97,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendMessage(struct soap *soap)
 	int soap_tmp_int;
 	soap_default_ims__sendMessageResponse(soap, &soap_tmp_ims__sendMessageResponse);
 	soap_default_int(soap, &soap_tmp_int);
-	soap_tmp_ims__sendMessageResponse.result = &soap_tmp_int;
+	soap_tmp_ims__sendMessageResponse.error = &soap_tmp_int;
 	soap_default_ims__sendMessage(soap, &soap_tmp_ims__sendMessage);
 	soap->encodingStyle = NULL;
 	if (!soap_get_ims__sendMessage(soap, &soap_tmp_ims__sendMessage, "ims:sendMessage", NULL))
@@ -104,7 +106,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendMessage(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = ims__sendMessage(soap, soap_tmp_ims__sendMessage.myMessage, soap_tmp_ims__sendMessageResponse.result);
+	soap->error = ims__sendMessage(soap, soap_tmp_ims__sendMessage.nick, soap_tmp_ims__sendMessage.myMessage, soap_tmp_ims__sendMessageResponse.error);
 	if (soap->error)
 		return soap->error;
 	soap_serializeheader(soap);
@@ -136,7 +138,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendMessage(struct soap *soap)
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__receiveMessage(struct soap *soap)
 {	struct ims__receiveMessage soap_tmp_ims__receiveMessage;
 	struct ims__receiveMessageResponse soap_tmp_ims__receiveMessageResponse;
-	struct Message soap_tmp_Message;
+	struct _Struct_1 soap_tmp_Message;
 	soap_default_ims__receiveMessageResponse(soap, &soap_tmp_ims__receiveMessageResponse);
 	soap_default_Message(soap, &soap_tmp_Message);
 	soap_tmp_ims__receiveMessageResponse.myMessage = &soap_tmp_Message;
@@ -177,13 +179,57 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__receiveMessage(struct soap *soap)
 	return soap_closesock(soap);
 }
 
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getLastMessage(struct soap *soap)
+{	struct ims__getLastMessage soap_tmp_ims__getLastMessage;
+	struct ims__getLastMessageResponse soap_tmp_ims__getLastMessageResponse;
+	struct _Struct_1 soap_tmp_Message;
+	soap_default_ims__getLastMessageResponse(soap, &soap_tmp_ims__getLastMessageResponse);
+	soap_default_Message(soap, &soap_tmp_Message);
+	soap_tmp_ims__getLastMessageResponse.myMessage = &soap_tmp_Message;
+	soap_default_ims__getLastMessage(soap, &soap_tmp_ims__getLastMessage);
+	soap->encodingStyle = NULL;
+	if (!soap_get_ims__getLastMessage(soap, &soap_tmp_ims__getLastMessage, "ims:getLastMessage", NULL))
+		return soap->error;
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap->error;
+	soap->error = ims__getLastMessage(soap, soap_tmp_ims__getLastMessageResponse.myMessage);
+	if (soap->error)
+		return soap->error;
+	soap_serializeheader(soap);
+	soap_serialize_ims__getLastMessageResponse(soap, &soap_tmp_ims__getLastMessageResponse);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__getLastMessageResponse(soap, &soap_tmp_ims__getLastMessageResponse, "ims:getLastMessageResponse", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	};
+	if (soap_end_count(soap)
+	 || soap_response(soap, SOAP_OK)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__getLastMessageResponse(soap, &soap_tmp_ims__getLastMessageResponse, "ims:getLastMessageResponse", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap->error;
+	return soap_closesock(soap);
+}
+
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addUser(struct soap *soap)
 {	struct ims__addUser soap_tmp_ims__addUser;
 	struct ims__addUserResponse soap_tmp_ims__addUserResponse;
 	int soap_tmp_int;
 	soap_default_ims__addUserResponse(soap, &soap_tmp_ims__addUserResponse);
 	soap_default_int(soap, &soap_tmp_int);
-	soap_tmp_ims__addUserResponse.result = &soap_tmp_int;
+	soap_tmp_ims__addUserResponse.error = &soap_tmp_int;
 	soap_default_ims__addUser(soap, &soap_tmp_ims__addUser);
 	soap->encodingStyle = NULL;
 	if (!soap_get_ims__addUser(soap, &soap_tmp_ims__addUser, "ims:addUser", NULL))
@@ -192,7 +238,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addUser(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = ims__addUser(soap, soap_tmp_ims__addUser.nick, soap_tmp_ims__addUser.pass, soap_tmp_ims__addUserResponse.result);
+	soap->error = ims__addUser(soap, soap_tmp_ims__addUser.nick, soap_tmp_ims__addUser.pass, soap_tmp_ims__addUserResponse.error);
 	if (soap->error)
 		return soap->error;
 	soap_serializeheader(soap);
@@ -227,7 +273,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__userLogin(struct soap *soap)
 	int soap_tmp_int;
 	soap_default_ims__userLoginResponse(soap, &soap_tmp_ims__userLoginResponse);
 	soap_default_int(soap, &soap_tmp_int);
-	soap_tmp_ims__userLoginResponse.result = &soap_tmp_int;
+	soap_tmp_ims__userLoginResponse.error = &soap_tmp_int;
 	soap_default_ims__userLogin(soap, &soap_tmp_ims__userLogin);
 	soap->encodingStyle = NULL;
 	if (!soap_get_ims__userLogin(soap, &soap_tmp_ims__userLogin, "ims:userLogin", NULL))
@@ -236,7 +282,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__userLogin(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = ims__userLogin(soap, soap_tmp_ims__userLogin.nick, soap_tmp_ims__userLogin.pass, soap_tmp_ims__userLoginResponse.result);
+	soap->error = ims__userLogin(soap, soap_tmp_ims__userLogin.nick, soap_tmp_ims__userLogin.pass, soap_tmp_ims__userLoginResponse.error);
 	if (soap->error)
 		return soap->error;
 	soap_serializeheader(soap);
@@ -271,7 +317,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addFriend(struct soap *soap)
 	int soap_tmp_int;
 	soap_default_ims__addFriendResponse(soap, &soap_tmp_ims__addFriendResponse);
 	soap_default_int(soap, &soap_tmp_int);
-	soap_tmp_ims__addFriendResponse.result = &soap_tmp_int;
+	soap_tmp_ims__addFriendResponse.error = &soap_tmp_int;
 	soap_default_ims__addFriend(soap, &soap_tmp_ims__addFriend);
 	soap->encodingStyle = NULL;
 	if (!soap_get_ims__addFriend(soap, &soap_tmp_ims__addFriend, "ims:addFriend", NULL))
@@ -280,7 +326,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addFriend(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = ims__addFriend(soap, soap_tmp_ims__addFriend.user, soap_tmp_ims__addFriend.friend_nick, soap_tmp_ims__addFriendResponse.result);
+	soap->error = ims__addFriend(soap, soap_tmp_ims__addFriend.user, soap_tmp_ims__addFriend.friend_nick, soap_tmp_ims__addFriendResponse.error);
 	if (soap->error)
 		return soap->error;
 	soap_serializeheader(soap);
@@ -315,7 +361,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendFriendshipRequest(struct soap *soa
 	int soap_tmp_int;
 	soap_default_ims__sendFriendshipRequestResponse(soap, &soap_tmp_ims__sendFriendshipRequestResponse);
 	soap_default_int(soap, &soap_tmp_int);
-	soap_tmp_ims__sendFriendshipRequestResponse.result = &soap_tmp_int;
+	soap_tmp_ims__sendFriendshipRequestResponse.error = &soap_tmp_int;
 	soap_default_ims__sendFriendshipRequest(soap, &soap_tmp_ims__sendFriendshipRequest);
 	soap->encodingStyle = NULL;
 	if (!soap_get_ims__sendFriendshipRequest(soap, &soap_tmp_ims__sendFriendshipRequest, "ims:sendFriendshipRequest", NULL))
@@ -324,7 +370,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendFriendshipRequest(struct soap *soa
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = ims__sendFriendshipRequest(soap, soap_tmp_ims__sendFriendshipRequest.user, soap_tmp_ims__sendFriendshipRequest.friend_nick, soap_tmp_ims__sendFriendshipRequestResponse.result);
+	soap->error = ims__sendFriendshipRequest(soap, soap_tmp_ims__sendFriendshipRequest.user, soap_tmp_ims__sendFriendshipRequest.friend_nick, soap_tmp_ims__sendFriendshipRequestResponse.error);
 	if (soap->error)
 		return soap->error;
 	soap_serializeheader(soap);
@@ -356,7 +402,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__sendFriendshipRequest(struct soap *soa
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getFriendshipRequests(struct soap *soap)
 {	struct ims__getFriendshipRequests soap_tmp_ims__getFriendshipRequests;
 	struct ims__getFriendshipRequestsResponse soap_tmp_ims__getFriendshipRequestsResponse;
-	struct _Struct_1 soap_tmp_Char_vector;
+	struct _Struct_2 soap_tmp_Char_vector;
 	soap_default_ims__getFriendshipRequestsResponse(soap, &soap_tmp_ims__getFriendshipRequestsResponse);
 	soap_default_Char_vector(soap, &soap_tmp_Char_vector);
 	soap_tmp_ims__getFriendshipRequestsResponse.friends = &soap_tmp_Char_vector;
@@ -444,7 +490,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__haveFriendshipRequest(struct soap *soa
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getFriendshipRequest(struct soap *soap)
 {	struct ims__getFriendshipRequest soap_tmp_ims__getFriendshipRequest;
 	struct ims__getFriendshipRequestResponse soap_tmp_ims__getFriendshipRequestResponse;
-	struct _Struct_2 soap_tmp_String;
+	struct _Struct_3 soap_tmp_String;
 	soap_default_ims__getFriendshipRequestResponse(soap, &soap_tmp_ims__getFriendshipRequestResponse);
 	soap_default_String(soap, &soap_tmp_String);
 	soap_tmp_ims__getFriendshipRequestResponse.friend_nick = &soap_tmp_String;
@@ -576,7 +622,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__rejectFriendshipRequest(struct soap *s
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getFriends(struct soap *soap)
 {	struct ims__getFriends soap_tmp_ims__getFriends;
 	struct ims__getFriendsResponse soap_tmp_ims__getFriendsResponse;
-	struct _Struct_1 soap_tmp_Char_vector;
+	struct _Struct_2 soap_tmp_Char_vector;
 	soap_default_ims__getFriendsResponse(soap, &soap_tmp_ims__getFriendsResponse);
 	soap_default_Char_vector(soap, &soap_tmp_Char_vector);
 	soap_tmp_ims__getFriendsResponse.friends = &soap_tmp_Char_vector;

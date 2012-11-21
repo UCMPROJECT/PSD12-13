@@ -5,6 +5,7 @@
 #include "server_file_admin.h"
 
 #define DEBUG_MODE 1
+#define DATA_PATH "server_data/"
 
 LUser *luser;
 
@@ -90,10 +91,18 @@ int main(int argc, char **argv){
 //
 //
 //
-int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
+int ims__addUser(struct soap *soap, char* nick, char* pass, int *error)
 {
-	*res = addUsers(luser,nick,pass);
-	if(DEBUG_MODE && *res == 0){
+	*error = addUsers(luser,nick,pass);
+
+	char *path = (char*)malloc(sizeof(char*));
+
+	if(*error == 0){
+		sprintf(path,"%s%s%s","mkdir ",DATA_PATH,nick);
+		system(path);
+	}
+
+	if(DEBUG_MODE && *error == 0){
 		printf("Añadido: %s %s\n",luser->listU[luser->numUser-1]->nick,luser->listU[luser->numUser-1]->pass);
 	}
 
@@ -103,10 +112,10 @@ int ims__addUser(struct soap *soap, char* nick, char* pass, int *res)
 //
 //
 //
-int ims__userLogin(struct soap *soap, char* nick, char* pass, int *result){
-	*result = userLogin(luser,nick,pass);
+int ims__userLogin(struct soap *soap, char* nick, char* pass, int *error){
+	*error = userLogin(luser,nick,pass);
 
-	if(DEBUG_MODE && *result == 0){
+	if(DEBUG_MODE && *error == 0){
 		printf("Se ha logueado: %s\n",nick);
 	}
 	return SOAP_OK;
@@ -115,19 +124,19 @@ int ims__userLogin(struct soap *soap, char* nick, char* pass, int *result){
 //
 //
 //
-int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *result){
+int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *error){
 	User *usr = getUser(luser,user);
 	User *friend = getUser(luser,friend_nick);
 
 	if(friend == NULL){
-		*result = -3;
+		*error = -3;
 	}
 	else if(usr->online == 1){
-		*result = addFriend(usr,friend_nick);
-		if(DEBUG_MODE && friend != NULL && *result == 0) printf("Añadido amigo %s al usuario %s\n",friend->nick,usr->nick);
+		*error = addFriend(usr,friend_nick);
+		if(DEBUG_MODE && friend != NULL && *error == 0) printf("Añadido amigo %s al usuario %s\n",friend->nick,usr->nick);
 	}
 	else{
-		*result = -2;
+		*error = -2;
 	}
 
 	return SOAP_OK;
@@ -136,30 +145,30 @@ int ims__addFriend(struct soap *soap, char* user ,char* friend_nick, int *result
 //
 //
 //
-int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick, int *result)
+int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick, int *error)
 {
 	User *usr = getUser(luser,user);
 	User *friend = getUser(luser,friend_nick);
 
 	if(friend == NULL)
 	{
-		*result = -3;
+		*error = -3;
 	}else if(usr->online == 1)
 	{
-		*result = isFriend(usr,friend_nick);
-		if(*result == 1){
-			*result = -4;
+		*error = isFriend(usr,friend_nick);
+		if(*error == 1){
+			*error = -4;
 			return SOAP_OK;
 		}
-		*result = addFriendRequestSend(usr,friend_nick);
-		if(*result == 0)
+		*error = addFriendRequestSend(usr,friend_nick);
+		if(*error == 0)
 		{
-			*result = addFriendRequestPending(friend,user);
-			if(DEBUG_MODE && friend != NULL && *result == 0) printf("%s envia peticion de amistad a %s\n",usr->nick,friend->nick);
+			*error = addFriendRequestPending(friend,user);
+			if(DEBUG_MODE && friend != NULL && *error == 0) printf("%s envia peticion de amistad a %s\n",usr->nick,friend->nick);
 		}
 	}else
 	{
-		*result = -2;
+		*error = -2;
 	}
 
 	return SOAP_OK;
@@ -238,6 +247,15 @@ int ims__acceptFriendshipRequest(struct soap *soap, char* user ,char* friend_nic
 			{
 				addFriend(usr,friend_nick);
 				addFriend(friend,user);
+				char *path = (char*)malloc(sizeof(char*));
+
+				sprintf(path,"%s%s%s/%s","touch ",DATA_PATH,user,friend_nick);
+				system(path);
+
+				sprintf(path,"%s%s%s/%s","touch ",DATA_PATH,friend_nick,user);
+				printf("%s\n",path);
+				system(path);
+
 				*result = usr->numPending;
 				if(DEBUG_MODE) printf("%s y %s ahora son amigos\n",usr->nick,friend->nick);
 			}
@@ -309,13 +327,12 @@ int ims__haveFriends(struct soap *soap, char* user,int *result)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int ims__getLastMessage(struct soap *soap,Message *myMessage){
 
-int ims__sendMessage (struct soap *soap, struct Message myMessage, int *result){
-	/*char* data[2];
-	char *a;
-	data = myMessage.msg;*/
-	//char* a = data[0];
-	printf ("Servidor -> user:%s - msg:%s\n", myMessage.name, myMessage.msg);
+}
+
+int ims__sendMessage (struct soap *soap,char* nick,  Message myMessage, int *error){
+
 	return SOAP_OK;
 }
 
@@ -326,16 +343,7 @@ int ims__sendMessage (struct soap *soap, struct Message myMessage, int *result){
 }*/
 
 
-int ims__receiveMessage (struct soap *soap, struct Message *myMessage){
-
-	// Alloc memory, init to zero and copy the message
-	myMessage->msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
-	bzero (myMessage->msg, IMS_MAX_MSG_SIZE);
-	strcpy (myMessage->msg, "This is a message from the server!");
-
-	myMessage->name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
-	bzero (myMessage->name, IMS_MAX_MSG_SIZE);
-	strcpy (myMessage->name, "Server");	
+int ims__receiveMessage (struct soap *soap,  Message *myMessage){
 
 	return SOAP_OK;
 }

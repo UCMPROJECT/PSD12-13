@@ -20,7 +20,8 @@
   <element name="sendMessage">
    <complexType>
     <sequence>
-     <element name="myMessage" type="ims:Message" minOccurs="1" maxOccurs="1"/><!-- ims__sendMessage::myMessage -->
+     <element name="nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::nick -->
+     <element name="myMessage" type="Message" minOccurs="1" maxOccurs="1"/><!-- ims__sendMessage::myMessage -->
     </sequence>
    </complexType>
   </element>
@@ -28,7 +29,7 @@
   <element name="sendMessageResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::error -->
     </sequence>
    </complexType>
   </element>
@@ -43,7 +44,22 @@
   <element name="receiveMessageResponse">
    <complexType>
     <sequence>
-     <element name="myMessage" type="ims:Message" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__receiveMessage::myMessage -->
+     <element name="myMessage" type="Message" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__receiveMessage::myMessage -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="getLastMessage">
+   <complexType>
+    <sequence>
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="getLastMessageResponse">
+   <complexType>
+    <sequence>
+     <element name="myMessage" type="Message" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getLastMessage::myMessage -->
     </sequence>
    </complexType>
   </element>
@@ -60,7 +76,7 @@
   <element name="addUserResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addUser::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addUser::error -->
     </sequence>
    </complexType>
   </element>
@@ -77,7 +93,7 @@
   <element name="userLoginResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogin::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogin::error -->
     </sequence>
    </complexType>
   </element>
@@ -94,7 +110,7 @@
   <element name="addFriendResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addFriend::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addFriend::error -->
     </sequence>
    </complexType>
   </element>
@@ -111,7 +127,7 @@
   <element name="sendFriendshipRequestResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendFriendshipRequest::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendFriendshipRequest::error -->
     </sequence>
    </complexType>
   </element>

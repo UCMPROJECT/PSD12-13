@@ -25,23 +25,23 @@
   elementFormDefault="unqualified"
   attributeFormDefault="unqualified">
   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
-  <complexType name="Message"><!-- Message -->
-
-   <sequence>
-     <element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Message::name -->
-     <element name="msg" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Message::msg -->
-   </sequence>
-  </complexType>
   <complexType name="Struct-1"><!-- _Struct_1 -->
 
    <sequence>
-     <element name="data" type="ims:Array100Ofstring" minOccurs="1" maxOccurs="1" nillable="true"/><!-- _Struct_1::data -->
+     <element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- _Struct_1::name -->
+     <element name="msg" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- _Struct_1::msg -->
    </sequence>
   </complexType>
   <complexType name="Struct-2"><!-- _Struct_2 -->
 
    <sequence>
-     <element name="str" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- _Struct_2::str -->
+     <element name="data" type="ims:Array100Ofstring" minOccurs="1" maxOccurs="1" nillable="true"/><!-- _Struct_2::data -->
+   </sequence>
+  </complexType>
+  <complexType name="Struct-3"><!-- _Struct_3 -->
+
+   <sequence>
+     <element name="str" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- _Struct_3::str -->
    </sequence>
   </complexType>
   <complexType name="Array100Ofstring">
@@ -55,7 +55,8 @@
   <element name="sendMessage">
    <complexType>
     <sequence>
-     <element name="myMessage" type="ims:Message" minOccurs="1" maxOccurs="1"/><!-- ims__sendMessage::myMessage -->
+     <element name="nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::nick -->
+     <element name="myMessage" type="Message" minOccurs="1" maxOccurs="1"/><!-- ims__sendMessage::myMessage -->
     </sequence>
    </complexType>
   </element>
@@ -63,7 +64,7 @@
   <element name="sendMessageResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::error -->
     </sequence>
    </complexType>
   </element>
@@ -78,7 +79,22 @@
   <element name="receiveMessageResponse">
    <complexType>
     <sequence>
-     <element name="myMessage" type="ims:Message" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__receiveMessage::myMessage -->
+     <element name="myMessage" type="Message" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__receiveMessage::myMessage -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
+  <element name="getLastMessage">
+   <complexType>
+    <sequence>
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="getLastMessageResponse">
+   <complexType>
+    <sequence>
+     <element name="myMessage" type="Message" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__getLastMessage::myMessage -->
     </sequence>
    </complexType>
   </element>
@@ -95,7 +111,7 @@
   <element name="addUserResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addUser::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addUser::error -->
     </sequence>
    </complexType>
   </element>
@@ -112,7 +128,7 @@
   <element name="userLoginResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogin::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogin::error -->
     </sequence>
    </complexType>
   </element>
@@ -129,7 +145,7 @@
   <element name="addFriendResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addFriend::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__addFriend::error -->
     </sequence>
    </complexType>
   </element>
@@ -146,7 +162,7 @@
   <element name="sendFriendshipRequestResponse">
    <complexType>
     <sequence>
-     <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendFriendshipRequest::result -->
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendFriendshipRequest::error -->
     </sequence>
    </complexType>
   </element>
@@ -284,6 +300,14 @@
  <part name="parameters" element="ims:receiveMessageResponse"/>
 </message>
 
+<message name="getLastMessageRequest">
+ <part name="parameters" element="ims:getLastMessage"/><!-- ims__getLastMessage::ims__getLastMessage -->
+</message>
+
+<message name="getLastMessageResponse">
+ <part name="parameters" element="ims:getLastMessageResponse"/>
+</message>
+
 <message name="addUserRequest">
  <part name="parameters" element="ims:addUser"/><!-- ims__addUser::ims__addUser -->
 </message>
@@ -383,6 +407,11 @@
   <input message="tns:receiveMessageRequest"/>
   <output message="tns:receiveMessageResponse"/>
  </operation>
+ <operation name="getLastMessage">
+  <documentation>Service definition of function ims__getLastMessage</documentation>
+  <input message="tns:getLastMessageRequest"/>
+  <output message="tns:getLastMessageResponse"/>
+ </operation>
  <operation name="addUser">
   <documentation>Service definition of function ims__addUser</documentation>
   <input message="tns:addUserRequest"/>
@@ -452,6 +481,15 @@
   </output>
  </operation>
  <operation name="receiveMessage">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="getLastMessage">
   <SOAP:operation soapAction=""/>
   <input>
      <SOAP:body parts="parameters" use="literal"/>

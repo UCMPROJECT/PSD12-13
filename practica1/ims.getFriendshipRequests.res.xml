@@ -6,12 +6,13 @@
  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
  xmlns:ims="http://tempuri.org/ims.xsd">
  <SOAP-ENV:Body>
-  <ims:sendMessage>
-   <nick></nick>
-   <myMessage>
-    <name></name>
-    <msg></msg>
-   </myMessage>
-  </ims:sendMessage>
+  <ims:getFriendshipRequestsResponse>
+   <friends>
+    <data SOAP-ENC:arrayType="xsd:string[2]">
+     <item></item>
+     <item></item>
+    </data>
+   </friends>
+  </ims:getFriendshipRequestsResponse>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

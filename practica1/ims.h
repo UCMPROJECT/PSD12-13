@@ -7,10 +7,10 @@
 
 typedef char *xsd__string;
 
-struct Message{
+typedef struct {
 	xsd__string name;
 	xsd__string msg;
-};
+}Message;
 typedef struct {
 	char* data[100];
 }Char_vector;
@@ -20,14 +20,15 @@ typedef struct
 	char* str;
 }String;
 
-int ims__sendMessage (struct Message myMessage, int *result);
-int ims__receiveMessage (struct Message *myMessage);
+int ims__sendMessage ( char* nick,Message myMessage, int *error);
+int ims__receiveMessage (Message *myMessage);
+int ims__getLastMessage(Message *myMessage);
 
-int ims__addUser(char* nick, char* pass, int *result);
-int ims__userLogin(char* nick, char* pass, int *result);
+int ims__addUser(char* nick, char* pass, int *error);
+int ims__userLogin(char* nick, char* pass, int *error);
 
-int ims__addFriend(char* user ,char* friend_nick, int *result);
-int ims__sendFriendshipRequest(char* user ,char* friend_nick, int *result);
+int ims__addFriend(char* user ,char* friend_nick, int *error);
+int ims__sendFriendshipRequest(char* user ,char* friend_nick, int *error);
 int ims__getFriendshipRequests(char* user ,Char_vector *friends);
 int ims__haveFriendshipRequest(char* user,int *result);
 int ims__getFriendshipRequest(char* user,String* friend_nick);
