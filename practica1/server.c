@@ -45,13 +45,13 @@ int main(int argc, char **argv){
 	luser = (LUser*)malloc(sizeof(LUser));
 	serverInit(luser);
 
-	addUsers(luser,"asd","asd");
+	/*addUsers(luser,"asd","asd");
 	addUsers(luser,"asd1","asd1");
 	addUsers(luser,"asd2","asd2");
 	addFriendRequestSend(luser->listU[1],"asd");
 	addFriendRequestSend(luser->listU[2],"asd");
 	addFriendRequestPending(luser->listU[0],"asd1");
-	addFriendRequestPending(luser->listU[0],"asd2");
+	addFriendRequestPending(luser->listU[0],"asd2");*/
 
   	if (argc < 2) {
     	printf("Usage: %s <port>\n",argv[0]); 
@@ -100,6 +100,18 @@ int ims__addUser(struct soap *soap, char* nick, char* pass, int *error)
 	if(*error == 0){
 		sprintf(path,"%s%s%s","mkdir ",DATA_PATH,nick);
 		system(path);
+		sprintf(path,"%s/%s/%s",DATA_PATH,nick,".pass");
+		FILE *file ;
+		if((file= fopen(path,"w+")) == NULL){
+			perror("Error creando fichero de usuario");
+		}
+		printf("%s\n",path);
+		fprintf(file,"%s",pass);
+		if(fclose(file) == -1){
+			perror("Error cerrando fichero de usuario");
+		}
+
+
 	}
 
 	if(DEBUG_MODE && *error == 0){

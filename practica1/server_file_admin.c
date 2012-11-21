@@ -1,11 +1,88 @@
 
-#include <string.h>
-
 #include "server_file_admin.h"
 
 
+
 int serverInit(LUser* luser){
-	luser->numUser = 0;
+	DIR *dir,*user_dir,*dir_user;
+	FILE *user_pass_file;
+	struct dirent   *dit,*dit_user;
+	char *aux_path,*pass;
+	int num_user = 0,num_friends = 0;
+	User *user;
+
+	if ((dir = opendir(DATA_PATH)) == NULL){
+		perror("opendir");
+		return 0;
+	}
+
+	while ((dit = readdir(dir)) != NULL){
+
+		if(strcmp(dit->d_name,".") != 0 && strcmp(dit->d_name,"..") != 0){
+			//LEER CLAVE
+			num_user++;
+			sprintf(aux_path,"%s%s/.pass",DATA_PATH,dit->d_name);
+
+			if((user_pass_file = fopen(aux_path, "r")) == NULL){
+				perror("Error abriendo fichero");
+				return 0;
+			}
+
+			pass = (char*)malloc(sizeof(char*));
+			fscanf( user_pass_file, "%s\\n", pass);
+
+			addUsers(luser,dit->d_name,pass);
+			if(DEBUG_MODE){
+				printf("Se ha añadido: %s \n",dit->d_name);
+			}
+
+			if(fclose(user_pass_file) == -1){
+				perror("Error cerrando fichero");
+			}
+
+			//LEER AMIGOS
+			sprintf(aux_path,"%s%s/",DATA_PATH,dit->d_name);
+
+
+			if ((dir_user = opendir(aux_path)) == NULL){
+				perror("opendir");
+				return 0;
+			}
+			num_friends = 0;
+			user = luser->listU[num_user-1];
+
+			while ((dit_user = readdir(dir_user)) != NULL){
+				if(strcmp(dit_user->d_name,".") != 0 && strcmp(dit_user->d_name,"..") != 0 &&
+						strcmp(dit_user->d_name,".pass") != 0){
+					addFriend(user,dit_user->d_name);
+					if(DEBUG_MODE){
+						printf("%s añade a %s\n",user->nick,dit_user->d_name);
+					}
+
+					num_friends++;
+				}
+
+			}
+			if (closedir(dir_user) == -1){
+				perror("closedir");
+				return 0;
+			}
+			user->numFriends = num_friends;
+				 /*printf("\n%s", dit->d_name);
+				 printf(" %d", dit->d_reclen);*/
+		}
+	 }
+
+	/* int closedir(DIR *dir);
+	 *
+	 * Close the stream to argv[1]. And check for errors. */
+	if (closedir(dir) == -1){
+		perror("closedir");
+		return 0;
+	}
+
+
+	luser->numUser = num_user;
 	return 0;
 }
 

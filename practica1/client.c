@@ -120,7 +120,7 @@ int menuLogin(struct soap soap,char *serverURL){
 }
 void menuHome(struct soap soap,char *serverURL){
 	char* op=-1;
-	int choose ;
+	int choose=-1 ;
 	while(choose != 0){
 		//system("clear");
 		printf("2.-Enviar mensaje.\n");

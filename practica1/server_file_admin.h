@@ -9,7 +9,15 @@
 #define SERVER_FILE_ADMIN_H_
 
 #include "server_user.h"
+#include <string.h>
+#include <dirent.h>
+#include <errno.h>
+#include <stdio.h>
+
 #define  MAXUSER 100
+#define DEBUG_MODE 1
+
+#define DATA_PATH "server_data/"
 
 typedef struct{
 	int numUser;
