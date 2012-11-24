@@ -6,7 +6,7 @@
 #define DEBUG_MODE 1
 #define MAXFRIENDS 100
 
-char *user;
+char *user,*password;
 
 
 int main(int argc, char **argv){
@@ -103,6 +103,8 @@ int menuLogin(struct soap soap,char *serverURL){
 			if(res == 0){
 				menuHome(soap,serverURL);
 			}
+			res = 1;
+			op = -1;
 			break;
 		case 2:
 			addNewUser(soap,serverURL);
@@ -155,6 +157,7 @@ void menuHome(struct soap soap,char *serverURL){
 			getFriends(soap,serverURL);
 			break;
 		case 0:
+			logout(soap,serverURL);
 			break;
 		default:
 			printf("Opcion no valida\n");
@@ -219,13 +222,24 @@ int login(struct soap soap,char *serverURL){
 	if(res == -1){
 		printf("Nombre de usuario o contraseña incorrectos\n");
 		free(nick);
+		free(pass);
 	}
 	else{
 		user = nick;
+		password = pass;
 	}
-	free(pass);
+	//free(pass);
 
 	return res;
+}
+
+//
+//
+//
+void logout(struct soap soap,char* serverURL)
+{
+	int res;
+	soap_call_ims__userLogout(&soap, serverURL, "",user,password,&res);
 }
 
 //

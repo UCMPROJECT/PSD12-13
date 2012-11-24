@@ -19,7 +19,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-21 23:48:45 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-24 16:33:04 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -228,6 +228,10 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		return soap_in_ims__addFriend(soap, NULL, NULL, "ims:addFriend");
 	case SOAP_TYPE_ims__addFriendResponse:
 		return soap_in_ims__addFriendResponse(soap, NULL, NULL, "ims:addFriendResponse");
+	case SOAP_TYPE_ims__userLogout:
+		return soap_in_ims__userLogout(soap, NULL, NULL, "ims:userLogout");
+	case SOAP_TYPE_ims__userLogoutResponse:
+		return soap_in_ims__userLogoutResponse(soap, NULL, NULL, "ims:userLogoutResponse");
 	case SOAP_TYPE_ims__userLogin:
 		return soap_in_ims__userLogin(soap, NULL, NULL, "ims:userLogin");
 	case SOAP_TYPE_ims__userLoginResponse:
@@ -362,6 +366,14 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		if (!soap_match_tag(soap, t, "ims:addFriendResponse"))
 		{	*type = SOAP_TYPE_ims__addFriendResponse;
 			return soap_in_ims__addFriendResponse(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:userLogout"))
+		{	*type = SOAP_TYPE_ims__userLogout;
+			return soap_in_ims__userLogout(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:userLogoutResponse"))
+		{	*type = SOAP_TYPE_ims__userLogoutResponse;
+			return soap_in_ims__userLogoutResponse(soap, NULL, NULL, NULL);
 		}
 		if (!soap_match_tag(soap, t, "ims:userLogin"))
 		{	*type = SOAP_TYPE_ims__userLogin;
@@ -547,6 +559,10 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 		return soap_out_ims__addFriend(soap, tag, id, (const struct ims__addFriend *)ptr, "ims:addFriend");
 	case SOAP_TYPE_ims__addFriendResponse:
 		return soap_out_ims__addFriendResponse(soap, tag, id, (const struct ims__addFriendResponse *)ptr, "ims:addFriendResponse");
+	case SOAP_TYPE_ims__userLogout:
+		return soap_out_ims__userLogout(soap, tag, id, (const struct ims__userLogout *)ptr, "ims:userLogout");
+	case SOAP_TYPE_ims__userLogoutResponse:
+		return soap_out_ims__userLogoutResponse(soap, tag, id, (const struct ims__userLogoutResponse *)ptr, "ims:userLogoutResponse");
 	case SOAP_TYPE_ims__userLogin:
 		return soap_out_ims__userLogin(soap, tag, id, (const struct ims__userLogin *)ptr, "ims:userLogin");
 	case SOAP_TYPE_ims__userLoginResponse:
@@ -659,6 +675,12 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_markelement(struct soap *soap, const void *ptr, 
 		break;
 	case SOAP_TYPE_ims__addFriendResponse:
 		soap_serialize_ims__addFriendResponse(soap, (const struct ims__addFriendResponse *)ptr);
+		break;
+	case SOAP_TYPE_ims__userLogout:
+		soap_serialize_ims__userLogout(soap, (const struct ims__userLogout *)ptr);
+		break;
+	case SOAP_TYPE_ims__userLogoutResponse:
+		soap_serialize_ims__userLogoutResponse(soap, (const struct ims__userLogoutResponse *)ptr);
 		break;
 	case SOAP_TYPE_ims__userLogin:
 		soap_serialize_ims__userLogin(soap, (const struct ims__userLogin *)ptr);
@@ -2660,6 +2682,164 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__addFriendResponse(struct soap *soap, con
 SOAP_FMAC3 struct ims__addFriendResponse * SOAP_FMAC4 soap_get_ims__addFriendResponse(struct soap *soap, struct ims__addFriendResponse *p, const char *tag, const char *type)
 {
 	if ((p = soap_in_ims__addFriendResponse(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__userLogout(struct soap *soap, struct ims__userLogout *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_string(soap, &a->nick);
+	soap_default_string(soap, &a->pass);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__userLogout(struct soap *soap, const struct ims__userLogout *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_string(soap, &a->nick);
+	soap_serialize_string(soap, &a->pass);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__userLogout(struct soap *soap, const char *tag, int id, const struct ims__userLogout *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__userLogout), type))
+		return soap->error;
+	if (soap_out_string(soap, "nick", -1, &a->nick, ""))
+		return soap->error;
+	if (soap_out_string(soap, "pass", -1, &a->pass, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__userLogout * SOAP_FMAC4 soap_in_ims__userLogout(struct soap *soap, const char *tag, struct ims__userLogout *a, const char *type)
+{
+	size_t soap_flag_nick = 1;
+	size_t soap_flag_pass = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__userLogout *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__userLogout, sizeof(struct ims__userLogout), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__userLogout(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_nick && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "nick", &a->nick, "xsd:string"))
+				{	soap_flag_nick--;
+					continue;
+				}
+			if (soap_flag_pass && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "pass", &a->pass, "xsd:string"))
+				{	soap_flag_pass--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__userLogout *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__userLogout, 0, sizeof(struct ims__userLogout), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__userLogout(struct soap *soap, const struct ims__userLogout *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__userLogout);
+	if (soap_out_ims__userLogout(soap, tag?tag:"ims:userLogout", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__userLogout * SOAP_FMAC4 soap_get_ims__userLogout(struct soap *soap, struct ims__userLogout *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__userLogout(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__userLogoutResponse(struct soap *soap, struct ims__userLogoutResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	a->error = NULL;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__userLogoutResponse(struct soap *soap, const struct ims__userLogoutResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_PointerToint(soap, &a->error);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__userLogoutResponse(struct soap *soap, const char *tag, int id, const struct ims__userLogoutResponse *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__userLogoutResponse), type))
+		return soap->error;
+	if (soap_out_PointerToint(soap, "error", -1, &a->error, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__userLogoutResponse * SOAP_FMAC4 soap_in_ims__userLogoutResponse(struct soap *soap, const char *tag, struct ims__userLogoutResponse *a, const char *type)
+{
+	size_t soap_flag_error = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__userLogoutResponse *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__userLogoutResponse, sizeof(struct ims__userLogoutResponse), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__userLogoutResponse(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_error && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToint(soap, "error", &a->error, "xsd:int"))
+				{	soap_flag_error--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__userLogoutResponse *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__userLogoutResponse, 0, sizeof(struct ims__userLogoutResponse), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__userLogoutResponse(struct soap *soap, const struct ims__userLogoutResponse *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__userLogoutResponse);
+	if (soap_out_ims__userLogoutResponse(soap, tag?tag:"ims:userLogoutResponse", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__userLogoutResponse * SOAP_FMAC4 soap_get_ims__userLogoutResponse(struct soap *soap, struct ims__userLogoutResponse *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__userLogoutResponse(soap, tag, p, type)))
 		if (soap_getindependent(soap))
 			return NULL;
 	return p;

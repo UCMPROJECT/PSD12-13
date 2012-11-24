@@ -133,6 +133,23 @@
    </complexType>
   </element>
   <!-- operation request element -->
+  <element name="userLogout">
+   <complexType>
+    <sequence>
+     <element name="nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogout::nick -->
+     <element name="pass" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogout::pass -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="userLogoutResponse">
+   <complexType>
+    <sequence>
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogout::error -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
   <element name="addFriend">
    <complexType>
     <sequence>
@@ -324,6 +341,14 @@
  <part name="parameters" element="ims:userLoginResponse"/>
 </message>
 
+<message name="userLogoutRequest">
+ <part name="parameters" element="ims:userLogout"/><!-- ims__userLogout::ims__userLogout -->
+</message>
+
+<message name="userLogoutResponse">
+ <part name="parameters" element="ims:userLogoutResponse"/>
+</message>
+
 <message name="addFriendRequest">
  <part name="parameters" element="ims:addFriend"/><!-- ims__addFriend::ims__addFriend -->
 </message>
@@ -422,6 +447,11 @@
   <input message="tns:userLoginRequest"/>
   <output message="tns:userLoginResponse"/>
  </operation>
+ <operation name="userLogout">
+  <documentation>Service definition of function ims__userLogout</documentation>
+  <input message="tns:userLogoutRequest"/>
+  <output message="tns:userLogoutResponse"/>
+ </operation>
  <operation name="addFriend">
   <documentation>Service definition of function ims__addFriend</documentation>
   <input message="tns:addFriendRequest"/>
@@ -508,6 +538,15 @@
   </output>
  </operation>
  <operation name="userLogin">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="userLogout">
   <SOAP:operation soapAction=""/>
   <input>
      <SOAP:body parts="parameters" use="literal"/>

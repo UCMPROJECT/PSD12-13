@@ -98,6 +98,23 @@
    </complexType>
   </element>
   <!-- operation request element -->
+  <element name="userLogout">
+   <complexType>
+    <sequence>
+     <element name="nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogout::nick -->
+     <element name="pass" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogout::pass -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="userLogoutResponse">
+   <complexType>
+    <sequence>
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__userLogout::error -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
   <element name="addFriend">
    <complexType>
     <sequence>

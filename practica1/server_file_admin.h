@@ -29,5 +29,6 @@ int addUsers(LUser* luser,char* nick,char* pass);
 int removeUser(LUser* luser,char* nick);
 User* getUser(LUser* luser,char* nick);
 int userLogin(LUser* luser,char* nick,char* pass);
+int userLogout(LUser* luser,char* nick,char* pass);
 
 #endif /* SERVER_FILE_ADMIN_H_ */

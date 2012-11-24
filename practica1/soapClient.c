@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-21 23:48:45 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-24 16:33:04 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, struct _Struct_1 myMessage, int *error)
@@ -268,6 +268,57 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__userLogin(struct soap *soap, const char
 		return soap_closesock(soap);
 	if (error && soap_tmp_ims__userLoginResponse->error)
 		*error = *soap_tmp_ims__userLoginResponse->error;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__userLogout(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, char *pass, int *error)
+{	struct ims__userLogout soap_tmp_ims__userLogout;
+	struct ims__userLogoutResponse *soap_tmp_ims__userLogoutResponse;
+	soap->encodingStyle = NULL;
+	soap_tmp_ims__userLogout.nick = nick;
+	soap_tmp_ims__userLogout.pass = pass;
+	soap_begin(soap);
+	soap_serializeheader(soap);
+	soap_serialize_ims__userLogout(soap, &soap_tmp_ims__userLogout);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__userLogout(soap, &soap_tmp_ims__userLogout, "ims:userLogout", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__userLogout(soap, &soap_tmp_ims__userLogout, "ims:userLogout", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	if (!error)
+		return soap_closesock(soap);
+	soap_default_int(soap, error);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_tmp_ims__userLogoutResponse = soap_get_ims__userLogoutResponse(soap, NULL, "ims:userLogoutResponse", "");
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	if (error && soap_tmp_ims__userLogoutResponse->error)
+		*error = *soap_tmp_ims__userLogoutResponse->error;
 	return soap_closesock(soap);
 }
 

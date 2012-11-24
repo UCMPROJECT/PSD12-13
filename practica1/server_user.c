@@ -139,7 +139,7 @@ int isFriend(User* usr,char *friend_nick){
 //
 int getFriends(User* usr,char* friends[MAXFRIENDS])
 {
-	if(usr->numFriends)
+	if(usr->numFriends > 0)
 	{
 		char* aux;
 		int i;
@@ -325,7 +325,7 @@ int isFriendRequestPending(User* usr,char* friend_nick)
 //
 int getFriendRequestsPending(User* usr,char* friends[MAXFRIENDS])
 {
-	if(usr->numPending)
+	if(usr->numPending > 0)
 	{
 		char* aux;
 		int i;
@@ -367,6 +367,26 @@ int getFriendRequestPending(User* usr,char** friend_nick)
 		i++;
 	}
 	return found;
+}
+
+int copyToFile(FILE* file, char* friends[MAXFRIENDS],int num)
+{
+	if(num > 0)
+	{
+		char* aux;
+		int i;
+
+		for(i = 0; i < MAXFRIENDS; i++)
+		{
+			aux = friends[i];
+
+			if(aux != NULL)
+			{
+				fprintf(file,"%s\n",aux);
+			}
+		}
+	}
+	return 0;
 }
 
 #endif

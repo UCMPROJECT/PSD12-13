@@ -54,4 +54,6 @@ int isFriendRequestPending(User* usr,char* friend_nick);
 int getFriendRequestsPending(User* usr,char* friends[MAXFRIENDS]);
 int getFriendRequestPending(User* usr,char** friend_nick);
 
+int copyToFile(FILE* file,char* friends[MAXFRIENDS],int num);
+
 #endif /* SERVER_USER_H_ */
