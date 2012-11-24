@@ -88,7 +88,7 @@ struct ims__sendMessageResponse
 /* ims:sendMessage */
 struct ims__sendMessage
 {
-	char *nick;	/* optional element of type xsd:string */
+	char *user;	/* optional element of type xsd:string */
 	struct _Struct_1 myMessage;	/* required element of type Message */
 };
 #endif
@@ -485,7 +485,7 @@ typedef struct _Struct_3 String;
 \******************************************************************************/
 
 
-SOAP_FMAC5 int SOAP_FMAC6 ims__sendMessage(struct soap*, char *nick, struct _Struct_1 myMessage, int *error);
+SOAP_FMAC5 int SOAP_FMAC6 ims__sendMessage(struct soap*, char *user, struct _Struct_1 myMessage, int *error);
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__receiveMessage(struct soap*, struct _Struct_1 *myMessage);
 
@@ -562,7 +562,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__haveFriends(struct soap*);
 \******************************************************************************/
 
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, struct _Struct_1 myMessage, int *error);
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 myMessage, int *error);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _Struct_1 *myMessage);
 

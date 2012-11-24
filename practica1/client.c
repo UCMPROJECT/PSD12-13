@@ -2,9 +2,12 @@
 #include "ims.nsmap"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define DEBUG_MODE 1
 #define MAXFRIENDS 100
+
+#define NUM_MESSAGE 5
 
 char *user,*password;
 
@@ -138,9 +141,10 @@ void menuHome(struct soap soap,char *serverURL){
 
 		switch (choose){
 		case 1:
-			addNewFriend(soap,serverURL);
+			//addNewFriend(soap,serverURL);
 			break;
 		case 2:
+			sendMessage(soap,serverURL);
 			break;
 		case 3:
 			break;
@@ -403,17 +407,32 @@ void getFriends(struct soap soap,char *serverURL)
 	free(friends);
 }
 
-void sendMessage(struct soap soap,char *serverURL){
-	char* friend = (char*)malloc(sizeof(char*));
-	printf("Escriba el nombre de su amigo (si tiene):\n");
-	scanf("%s",friend);
-
+void sendMessage(struct soap soap,char *serverURL)
+{
+	//char* friend = (char*)malloc(sizeof(char*));
+	//char* message = (char*)malloc(sizeof(char*));
 	Message myMessage;
+	myMessage.name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
+	myMessage.msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
+	int error;
+
+	system("clear");
+
+	printf("Escriba el nombre de su amigo:\n");
+	scanf("%s",myMessage.name);
+
+	printf("Mensaje:\n");
+	//scanf("%256[^\n]",myMessage.msg);
+	//fgets(myMessage.msg,IMS_MAX_MSG_SIZE,stdin);
+	scanf("%[^\n]s",myMessage.msg);
+
+	soap_call_ims__sendMessage(&soap,serverURL,"",user,myMessage,&error);
 
 	//ims__getLastMessage(&soap, serverURL, "",&myMessage);
 
 
 
 
-	free(friend);
+	free(myMessage.name);
+	free(myMessage.msg);
 }

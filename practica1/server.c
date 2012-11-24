@@ -386,6 +386,36 @@ int ims__rejectFriendshipRequest(struct soap *soap, char* user ,char* friend_nic
 			found = removeFriendRequestSend(friend,user);
 			if(found == 1)
 			{
+				char path[100];
+
+				sprintf(path,"%s%s%s/%s","rm ",DATA_PATH,user,".pending");
+				if(DEBUG_MODE) printf("ims__rejectFriendshipRequest -> Borrando fichero pendientes path: %s\n",path);
+				system(path);
+
+				sprintf(path,"%s%s%s/%s","rm ",DATA_PATH,friend_nick,".send");
+				if(DEBUG_MODE) printf("ims__rejectFriendshipRequest -> Borrando fichero enviados path: %s\n",path);
+				system(path);
+
+				FILE* file;
+
+				sprintf(path,"%s%s/%s",DATA_PATH,user,".pending");
+				if(DEBUG_MODE) printf("ims__rejectFriendshipRequest -> Rescribiendo fichero pendientes path: %s\n",path);
+
+				if((file = fopen(path, "w")) == NULL) perror("Error abriendo fichero");
+
+				copyToFile(file,usr->friends_request_pending,usr->numPending);
+
+				if(fclose(file) == -1) perror("Error cerrando fichero");
+
+				sprintf(path,"%s%s/%s",DATA_PATH,friend_nick,".send");
+				if(DEBUG_MODE) printf("ims__rejectFriendshipRequest -> Rescribiendo fichero enviados path: %s\n",path);
+
+				if((file = fopen(path, "w")) == NULL) perror("Error abriendo fichero");
+
+				copyToFile(file,friend->friends_request_send,friend->numSend);
+
+				if(fclose(file) == -1) perror("Error cerrando fichero");
+
 				*result = usr->numPending;
 				if(DEBUG_MODE) printf("ims__rejectFriendshipRequest -> %s y %s ahora NO son amigos\n",usr->nick,friend->nick);
 			}
@@ -437,7 +467,24 @@ int ims__getLastMessage(struct soap *soap,Message *myMessage){
 
 }
 
-int ims__sendMessage (struct soap *soap,char* nick,  Message myMessage, int *error){
+int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *error){
+
+	User* usr = getUser(luser,user);
+
+	if(usr->online == 1)
+	{
+		char path[100];
+		sprintf(path,"%s%s/%s",DATA_PATH,user,myMessage.name);
+		if(DEBUG_MODE) printf("ims__sendMessage -> Path: %s\n",path);
+
+		FILE* file;
+
+		if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
+
+		fprintf(file,"%s\n",myMessage.msg);
+
+		if(fclose(file) == -1) perror("Error cerrando fichero");
+	}
 
 	return SOAP_OK;
 }

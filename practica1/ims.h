@@ -20,7 +20,7 @@ typedef struct
 	char* str;
 }String;
 
-int ims__sendMessage ( char* nick,Message myMessage, int *error);
+int ims__sendMessage ( char* user,Message myMessage, int *error);
 int ims__receiveMessage (Message *myMessage);
 int ims__getLastMessage(Message *myMessage);
 

@@ -55,7 +55,7 @@
   <element name="sendMessage">
    <complexType>
     <sequence>
-     <element name="nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::nick -->
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__sendMessage::user -->
      <element name="myMessage" type="Message" minOccurs="1" maxOccurs="1"/><!-- ims__sendMessage::myMessage -->
     </sequence>
    </complexType>
