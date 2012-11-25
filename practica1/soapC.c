@@ -19,7 +19,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-24 16:33:04 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-25 19:24:42 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -3440,14 +3440,14 @@ SOAP_FMAC3 struct ims__receiveMessageResponse * SOAP_FMAC4 soap_get_ims__receive
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__sendMessage(struct soap *soap, struct ims__sendMessage *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
-	soap_default_string(soap, &a->nick);
+	soap_default_string(soap, &a->user);
 	soap_default_Message(soap, &a->myMessage);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__sendMessage(struct soap *soap, const struct ims__sendMessage *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
-	soap_serialize_string(soap, &a->nick);
+	soap_serialize_string(soap, &a->user);
 	soap_embedded(soap, &a->myMessage, SOAP_TYPE_Message);
 	soap_serialize_Message(soap, &a->myMessage);
 }
@@ -3457,7 +3457,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__sendMessage(struct soap *soap, const cha
 	(void)soap; (void)tag; (void)id; (void)type;
 	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__sendMessage), type))
 		return soap->error;
-	if (soap_out_string(soap, "nick", -1, &a->nick, ""))
+	if (soap_out_string(soap, "user", -1, &a->user, ""))
 		return soap->error;
 	if (soap_out_Message(soap, "myMessage", -1, &a->myMessage, ""))
 		return soap->error;
@@ -3466,7 +3466,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__sendMessage(struct soap *soap, const cha
 
 SOAP_FMAC3 struct ims__sendMessage * SOAP_FMAC4 soap_in_ims__sendMessage(struct soap *soap, const char *tag, struct ims__sendMessage *a, const char *type)
 {
-	size_t soap_flag_nick = 1;
+	size_t soap_flag_user = 1;
 	size_t soap_flag_myMessage = 1;
 	if (soap_element_begin_in(soap, tag, 0, type))
 		return NULL;
@@ -3478,9 +3478,9 @@ SOAP_FMAC3 struct ims__sendMessage * SOAP_FMAC4 soap_in_ims__sendMessage(struct 
 	{
 		for (;;)
 		{	soap->error = SOAP_TAG_MISMATCH;
-			if (soap_flag_nick && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
-				if (soap_in_string(soap, "nick", &a->nick, "xsd:string"))
-				{	soap_flag_nick--;
+			if (soap_flag_user && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "user", &a->user, "xsd:string"))
+				{	soap_flag_user--;
 					continue;
 				}
 			if (soap_flag_myMessage && soap->error == SOAP_TAG_MISMATCH)

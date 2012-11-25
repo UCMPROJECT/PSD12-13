@@ -17,14 +17,14 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-24 16:33:04 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-25 19:24:42 GMT")
 
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, struct _Struct_1 myMessage, int *error)
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 myMessage, int *error)
 {	struct ims__sendMessage soap_tmp_ims__sendMessage;
 	struct ims__sendMessageResponse *soap_tmp_ims__sendMessageResponse;
 	soap->encodingStyle = NULL;
-	soap_tmp_ims__sendMessage.nick = nick;
+	soap_tmp_ims__sendMessage.user = user;
 	soap_tmp_ims__sendMessage.myMessage = myMessage;
 	soap_begin(soap);
 	soap_serializeheader(soap);

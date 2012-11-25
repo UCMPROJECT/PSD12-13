@@ -2,12 +2,22 @@
 #include "soapH.h"
 #include "ims.nsmap"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
+
 #include "server_file_admin.h"
+
 
 #define DEBUG_MODE 1
 #define DATA_PATH "server_data/"
 
 LUser *luser;
+pthread_mutex_t mutexBuffer;
+
+
+void *serve_clients(struct soap *soap);
 
 int main(int argc, char **argv){ 
 
@@ -41,7 +51,12 @@ int main(int argc, char **argv){
 
 	int m, s;
 	struct soap soap;
+	struct soap aux_soap;
 
+	pthread_t idHilo;
+
+
+	pthread_mutex_init (&mutexBuffer, NULL);
 
 
 	/*addUsers(luser,"asd","asd");
@@ -81,15 +96,27 @@ int main(int argc, char **argv){
 	  	if (s < 0) {
 			soap_print_fault(&soap, stderr); exit(-1);
 	  	}
+	  	aux_soap = soap;
+	  	pthread_create (&idHilo, NULL, serve_clients, &aux_soap);
 
 		// Execute invoked operation
-	  	soap_serve(&soap);
+	  	//soap_serve(&soap);
 
 		// Clean up!
-	  	soap_end(&soap);
+	  	//soap_end(&soap);
 	}
+	pthread_mutex_destroy(&mutexBuffer);
 	serverFree(luser);
   return 0;
+}
+void *serve_clients(struct soap *soap){
+	pthread_mutex_lock (&mutexBuffer);
+
+  	soap_serve(soap);
+	soap_end(soap);
+
+	pthread_mutex_unlock (&mutexBuffer);
+	return NULL;
 }
 
 //
