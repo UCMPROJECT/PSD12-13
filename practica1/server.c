@@ -496,6 +496,7 @@ int ims__getLastMessage(struct soap *soap,Message *myMessage){
 int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *error){
 
 	User* usr = getUser(luser,user);
+	User* friend = getUser(luser,myMessage.name);
 	int is_friend = 0;
 	if(usr->online == 1)
 	{
@@ -506,13 +507,35 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			sprintf(path,"%s%s/%s",DATA_PATH,user,myMessage.name);
 			if(DEBUG_MODE) printf("ims__sendMessage -> Path: %s\n",path);
 
+			int pos = -1;
 			FILE* file;
-
-			if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
-
+			if(isFileOpen(usr,myMessage.name,&pos) == 0)
+			{
+				if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
+			}else
+			{
+				file = usr->files[pos]->file;
+			}
 			fprintf(file,"%s\n",myMessage.msg);
 
-			if(fclose(file) == -1) perror("Error cerrando fichero");
+			fflush(file);
+			//if(fclose(file) == -1) perror("Error cerrando fichero");
+
+			sprintf(path,"%s%s/%s",DATA_PATH,myMessage.name,user);
+			if(DEBUG_MODE) printf("ims__sendMessage -> Path: %s\n",path);
+
+			pos = -1;
+			if(isFileOpen(friend,user,&pos) == 0)
+			{
+				if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
+			}else
+			{
+				file = friend->files[pos]->file;
+			}
+			fprintf(file,"%s\n",myMessage.msg);
+
+			fflush(file);
+			//if(fclose(file) == -1) perror("Error cerrando fichero");
 
 			*error = 0;
 		}

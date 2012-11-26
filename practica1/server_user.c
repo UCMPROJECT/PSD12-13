@@ -22,6 +22,10 @@ User* userInit(char* nick,char* pass){
 		user->friends[i] = NULL;
 		user->friends_request_pending[i] = NULL;
 		user->friends_request_send[i] = NULL;
+
+		user->files[i] = (struct Files*)malloc(sizeof(struct Files*));
+		user->files[i]->file = NULL;
+		user->files[i]->friend_nick = NULL;
 	}
 	user->online = 0;
 	user->numFriends = 0;
@@ -369,6 +373,9 @@ int getFriendRequestPending(User* usr,char** friend_nick)
 	return found;
 }
 
+//
+//
+//
 int copyToFile(FILE* file, char* friends[MAXFRIENDS],int num)
 {
 	if(num > 0)
@@ -384,6 +391,55 @@ int copyToFile(FILE* file, char* friends[MAXFRIENDS],int num)
 			{
 				fprintf(file,"%s\n",aux);
 			}
+		}
+	}
+	return 0;
+}
+
+//
+//
+//
+int isFileOpen(User* usr,char* friend_nick,int *pos)
+{
+	char* aux;
+	int i = 0;
+	int found = 0;
+	while( i < MAXFRIENDS && found == 0)
+	{
+		aux = usr->files[i]->friend_nick;
+		if(aux != NULL)
+		{
+			if(strcasecmp(aux,friend_nick) == 0)
+			{
+				found = 1;
+				*pos = i;
+			}
+		}else
+		{
+			*pos = i;
+		}
+		i++;
+	}
+	return found;
+}
+
+//
+//
+//
+int closeFiles(User* usr)
+{
+	char* aux;
+	FILE *file;
+	int i;
+	for(i = 0; i < MAXFRIENDS; i++)
+	{
+		aux = usr->files[i]->friend_nick;
+		if(aux != NULL)
+		{
+			file = usr->files[i]->file;
+			if(fclose(file) == -1) perror("Error cerrando fichero");
+
+			free(usr->files[i]->friend_nick);
 		}
 	}
 	return 0;

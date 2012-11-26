@@ -148,7 +148,7 @@ void menuHome(struct soap soap,char *serverURL){
 
 		scanf("%s",op);
 		//choose = (int)op;
-
+		printf("%s\n",op);
 		if(strcmp(op,"1") == 0){
 			//addNewFriend(soap,serverURL);
 		}
@@ -261,7 +261,7 @@ void logout(struct soap soap,char* serverURL)
 }
 
 //
-//
+// NO SE USA
 //
 void addNewFriend(struct soap soap,char *serverURL){
 	char* friend_nick = (char*)malloc(sizeof(char*));
@@ -301,7 +301,7 @@ void sendFriendRequest(struct soap soap,char *serverURL)
 {
 	char* friend_nick = (char*)malloc(sizeof(char*));
 	int result;
-	system("clear");
+	//system("clear");
 	printf("\nNombre del amigo:\n");
 	scanf("%s",friend_nick);
 
@@ -343,7 +343,7 @@ void getFriendRequest(struct soap soap,char *serverURL)
 	{
 		soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends);
 
-		system("clear");
+		//system("clear");
 		printf("Lista de amistades sin aceptar:\n");
 
 		for(i=0;i < MAXFRIENDS;i++){
@@ -367,7 +367,7 @@ void getFriendRequest(struct soap soap,char *serverURL)
 //
 void acceptFriendRequest(struct soap soap,char* serverURL)
 {
-	system("clear");
+	//system("clear");
 
 	int numRequestPending = 0;
 	String friend_nick;// = (xsd__string*)malloc(sizeof(xsd__string*));
@@ -412,7 +412,7 @@ void getFriends(struct soap soap,char *serverURL)
 	{
 		soap_call_ims__getFriends(&soap, serverURL, "",user ,friends);
 
-		system("clear");
+		//system("clear");
 		printf("Lista de amigos:\n");
 
 		for(i=0;i < MAXFRIENDS;i++){
@@ -422,7 +422,7 @@ void getFriends(struct soap soap,char *serverURL)
 		}
 	}else
 	{
-		system("clear");
+		//system("clear");
 		printf("¡No tienes amigos!\n");
 	}
 
@@ -440,7 +440,7 @@ void sendMessage(struct soap soap,char *serverURL)
 	myMessage.msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 	int error;
 
-	system("clear");
+	//system("clear");
 
 	printf("Escriba el nombre de su amigo: ");
 	scanf("%s",myMessage.name);
