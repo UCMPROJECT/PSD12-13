@@ -89,35 +89,37 @@ int main(int argc, char **argv){
 }
 
 int menuLogin(struct soap soap,char *serverURL){
-	int op = -1;
+	char *op;
 	int res = -1;
 
-	while(op != 0 && res != 0){
+	op = (char*)malloc(sizeof(char*));
+	strcpy(op,"-1");
+
+	while(strcmp(op,"0") != 0 && res != 0){
 		//system("clear");
 		printf("1.-Log in.\n");
 		printf("2.-Darse de alta.\n");
 		printf("0.-Salir.\n");
 
-		scanf("%d",&op);
+		scanf("%s",op);
 
-		switch (op){
-		case 1:
+		if(strcmp(op,"1") == 0){
 			res = login(soap,serverURL);
 			if(res == 0){
 				menuHome(soap,serverURL);
 			}
 			res = 1;
-			op = -1;
-			break;
-		case 2:
+			strcpy(op,"-1");
+		}
+		else if(strcmp(op,"2") == 0){
 			addNewUser(soap,serverURL);
-			op = -1;
-			break;
-		case 0:
-			break;
-		default:
+			strcpy(op,"-1");
+		}
+		else if(strcmp(op,"0") == 0){
+		}
+		else{
 			printf("Opcion no valida.\n");
-			break;
+
 		}
 	}
 
@@ -338,6 +340,7 @@ void getFriendRequest(struct soap soap,char *serverURL)
 		system("clear");
 		printf("No tienes peticiones de amistad\n");
 	}
+	printf("\n\n");
 }
 
 //
