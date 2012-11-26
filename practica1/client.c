@@ -19,14 +19,15 @@ int main(int argc, char **argv){
 	char *serverURL;
 	int res;
 
-	printf("Usage: %s http://server:port message\n",argv[0]);
+	//printf("Usage: %s http://server:port message\n",argv[0]);
 
 	// Usage
   	if (argc != 2) {
-    	   printf("Usage: %s http://server:port message\n",argv[0]);
-    	   exit(0);
+  		printf("Usage: %s http://server:port message\n",argv[0]);
+  		exit(0);
   	}
-
+  	user = NULL;
+  	password = NULL;
 	// Init gSOAP environment
   	soap_init(&soap);
 
@@ -81,6 +82,10 @@ int main(int argc, char **argv){
 
   	*/
 	// Clean the environment
+	if(user != NULL){
+		free(user);
+		free(password);
+	}
 	soap_destroy(&soap);
   	soap_end(&soap);
   	soap_done(&soap);
@@ -248,6 +253,11 @@ void logout(struct soap soap,char* serverURL)
 {
 	int res;
 	soap_call_ims__userLogout(&soap, serverURL, "",user,password,&res);
+
+	free(user);
+	user = NULL;
+	free(password);
+	password = NULL;
 }
 
 //
@@ -280,6 +290,8 @@ void addNewFriend(struct soap soap,char *serverURL){
 	else{
 		printf("Invitacion enviada correctamente:\n");
 	}
+
+	free(friend_nick);
 }
 
 //
@@ -313,6 +325,8 @@ void sendFriendRequest(struct soap soap,char *serverURL)
 	else{
 		printf("Invitacion enviada correctamente:\n");
 	}
+
+	free(friend_nick);
 }
 
 //
@@ -342,6 +356,9 @@ void getFriendRequest(struct soap soap,char *serverURL)
 		system("clear");
 		printf("No tienes peticiones de amistad\n");
 	}
+
+	free(friends);
+
 	printf("\n\n");
 }
 
@@ -410,6 +427,8 @@ void getFriends(struct soap soap,char *serverURL)
 	}
 
 	free(friends);
+
+	printf("\n\n");
 }
 
 void sendMessage(struct soap soap,char *serverURL)
