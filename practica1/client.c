@@ -418,13 +418,18 @@ void sendMessage(struct soap soap,char *serverURL)
 
 	system("clear");
 
-	printf("Escriba el nombre de su amigo:\n");
+	printf("Escriba el nombre de su amigo: ");
 	scanf("%s",myMessage.name);
 
+	//espera a leer una linea entera
 	printf("Mensaje:\n");
-	//scanf("%256[^\n]",myMessage.msg);
-	//fgets(myMessage.msg,IMS_MAX_MSG_SIZE,stdin);
-	scanf("%[^\n]s",myMessage.msg);
+	while(getchar()!='\n');
+	fgets(myMessage.msg,IMS_MAX_MSG_SIZE,stdin);
+
+
+
+
+	//scanf("%[^\n]s",myMessage.msg);
 
 	soap_call_ims__sendMessage(&soap,serverURL,"",user,myMessage,&error);
 
