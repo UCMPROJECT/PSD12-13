@@ -426,6 +426,12 @@ void sendMessage(struct soap soap,char *serverURL)
 	while(getchar()!='\n');
 	fgets(myMessage.msg,IMS_MAX_MSG_SIZE,stdin);
 
+	//limpiado de salto de linea
+	 char *clean;
+	 clean = strchr (myMessage.msg, '\n');
+	 if (clean){
+	   *clean = '\0';
+	 }
 
 
 
@@ -434,7 +440,12 @@ void sendMessage(struct soap soap,char *serverURL)
 	soap_call_ims__sendMessage(&soap,serverURL,"",user,myMessage,&error);
 
 	//ims__getLastMessage(&soap, serverURL, "",&myMessage);
-
+	if(error == 0){
+		printf("Mensaje enviado con exito.\n");
+	}
+	else if (error == -1){
+		printf("Ese usuario no es tu amigo, primero debes añadirle.\n");
+	}
 
 
 

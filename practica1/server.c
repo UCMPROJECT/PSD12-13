@@ -87,7 +87,6 @@ int main(int argc, char **argv){
 	// Inicializando las listas de usuarios etc
 	luser = (LUser*)malloc(sizeof(LUser));
 	serverInit(luser);
-
 	// Listen to next connection
 	while (1) { 
 		// accept
@@ -497,20 +496,29 @@ int ims__getLastMessage(struct soap *soap,Message *myMessage){
 int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *error){
 
 	User* usr = getUser(luser,user);
-
+	int is_friend = 0;
 	if(usr->online == 1)
 	{
-		char path[100];
-		sprintf(path,"%s%s/%s",DATA_PATH,user,myMessage.name);
-		if(DEBUG_MODE) printf("ims__sendMessage -> Path: %s\n",path);
+		is_friend = isFriend(usr,myMessage.name);
+		if(is_friend == 1){
 
-		FILE* file;
+			char path[100];
+			sprintf(path,"%s%s/%s",DATA_PATH,user,myMessage.name);
+			if(DEBUG_MODE) printf("ims__sendMessage -> Path: %s\n",path);
 
-		if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
+			FILE* file;
 
-		fprintf(file,"%s\n",myMessage.msg);
+			if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
 
-		if(fclose(file) == -1) perror("Error cerrando fichero");
+			fprintf(file,"%s\n",myMessage.msg);
+
+			if(fclose(file) == -1) perror("Error cerrando fichero");
+
+			*error = 0;
+		}
+		else{
+			*error = -1;
+		}
 	}
 
 	return SOAP_OK;
