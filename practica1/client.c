@@ -122,14 +122,17 @@ int menuLogin(struct soap soap,char *serverURL){
 
 		}
 	}
-
+	free(op);
 	return res;
 }
 void menuHome(struct soap soap,char *serverURL){
-	char* op=-1;
-	int choose=-1 ;
-	while(choose != 0){
+	char* op;
+	op = (char*)malloc(sizeof(char*));
+	strcpy(op,"-1");
+	//int choose=-1 ;
+	while(strcmp(op,"0") != 0){
 		//system("clear");
+		printf("MENU PRINCIPAL\n");
 		printf("2.-Enviar mensaje.\n");
 		printf("3.-Leer mensaje.\n");
 		printf("4.-Enviar peticion de amistad\n");
@@ -138,38 +141,37 @@ void menuHome(struct soap soap,char *serverURL){
 		printf("7.-Ver lista de amigos\n");
 		printf("0.-Salir.\n");
 
-		scanf("%d",&choose);
+		scanf("%s",op);
 		//choose = (int)op;
 
-		switch (choose){
-		case 1:
+		if(strcmp(op,"1") == 0){
 			//addNewFriend(soap,serverURL);
-			break;
-		case 2:
+		}
+		else if(strcmp(op,"2") == 0){
 			sendMessage(soap,serverURL);
-			break;
-		case 3:
-			break;
-		case 4:
+		}
+		else if(strcmp(op,"3") == 0){
+		}
+		else if(strcmp(op,"4") == 0){
 			sendFriendRequest(soap,serverURL);
-			break;
-		case 5:
+		}
+		else if(strcmp(op,"5") == 0){
 			getFriendRequest(soap,serverURL);
-			break;
-		case 6:
+		}
+		else if(strcmp(op,"6") == 0){
 			acceptFriendRequest(soap,serverURL);
-			break;
-		case 7:
+		}
+		else if(strcmp(op,"7") == 0){
 			getFriends(soap,serverURL);
-			break;
-		case 0:
+		}
+		else if(strcmp(op,"0") == 0){
 			logout(soap,serverURL);
-			break;
-		default:
+		}
+		else{
 			printf("Opcion no valida\n");
-			break;
 		}
 	}
+	free(op);
 
 }
 
