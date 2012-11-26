@@ -481,21 +481,30 @@ int readDownTo(User* usr,char* friend_nick,int num,char* result)
 		if(fgets(aux,255,file) != NULL)
 		{
 			//name[strlen(name)-1] = '\0';
-			if(DEBUG_MODE) printf("readDownTo -> Fichero linea %s\n",aux);
+			//if(DEBUG_MODE) printf("readDownTo -> Fichero linea %s\n",aux);
 			//sprintf(result,"%s%s\n",result,aux);
 			strcat(result,aux);
-			if(DEBUG_MODE) printf("readDownTo -> Result %s\n",result);
+			//if(DEBUG_MODE) printf("readDownTo -> Result %s\n",result);
 		}
 	}
 	free(aux);
 
 	if(fclose(file) == -1) perror("Error cerrando fichero");
 
-	sprintf(path,"rm %s%s/.temp",DATA_PATH,usr->nick);
+	char *script2;
+	size = snprintf(NULL,0,"rm %s%s/.temp",DATA_PATH,usr->nick);
+	script2 = (char*)malloc(size);
+	sprintf(script2,"rm %s%s/.temp",DATA_PATH,usr->nick);
 
-	system(path);
+	system(script2);
 
-	if(DEBUG_MODE) printf("readDownTo -> Result: %s\n",result);
+	if(DEBUG_MODE) printf("readDownTo -> Free\n");
+
+	free(script);
+	free(path);
+	free(script2);
+
+	//if(DEBUG_MODE) printf("readDownTo -> Result: %s\n",result);
 
 	return 0;
 }
