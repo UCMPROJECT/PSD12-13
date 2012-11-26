@@ -19,7 +19,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-26 17:33:27 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-26 20:18:59 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -3302,11 +3302,17 @@ SOAP_FMAC3 struct ims__getLastMessageResponse * SOAP_FMAC4 soap_get_ims__getLast
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__receiveMessage(struct soap *soap, struct ims__receiveMessage *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_string(soap, &a->user);
+	soap_default_int(soap, &a->num);
+	soap_default_string(soap, &a->friend_nick);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__receiveMessage(struct soap *soap, const struct ims__receiveMessage *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_string(soap, &a->user);
+	soap_embedded(soap, &a->num, SOAP_TYPE_int);
+	soap_serialize_string(soap, &a->friend_nick);
 }
 
 SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__receiveMessage(struct soap *soap, const char *tag, int id, const struct ims__receiveMessage *a, const char *type)
@@ -3314,11 +3320,20 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__receiveMessage(struct soap *soap, const 
 	(void)soap; (void)tag; (void)id; (void)type;
 	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__receiveMessage), type))
 		return soap->error;
+	if (soap_out_string(soap, "user", -1, &a->user, ""))
+		return soap->error;
+	if (soap_out_int(soap, "num", -1, &a->num, ""))
+		return soap->error;
+	if (soap_out_string(soap, "friend-nick", -1, &a->friend_nick, ""))
+		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
 
 SOAP_FMAC3 struct ims__receiveMessage * SOAP_FMAC4 soap_in_ims__receiveMessage(struct soap *soap, const char *tag, struct ims__receiveMessage *a, const char *type)
 {
+	size_t soap_flag_user = 1;
+	size_t soap_flag_num = 1;
+	size_t soap_flag_friend_nick = 1;
 	if (soap_element_begin_in(soap, tag, 0, type))
 		return NULL;
 	a = (struct ims__receiveMessage *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__receiveMessage, sizeof(struct ims__receiveMessage), 0, NULL, NULL, NULL);
@@ -3329,6 +3344,21 @@ SOAP_FMAC3 struct ims__receiveMessage * SOAP_FMAC4 soap_in_ims__receiveMessage(s
 	{
 		for (;;)
 		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_user && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "user", &a->user, "xsd:string"))
+				{	soap_flag_user--;
+					continue;
+				}
+			if (soap_flag_num && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_int(soap, "num", &a->num, "xsd:int"))
+				{	soap_flag_num--;
+					continue;
+				}
+			if (soap_flag_friend_nick && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "friend-nick", &a->friend_nick, "xsd:string"))
+				{	soap_flag_friend_nick--;
+					continue;
+				}
 			if (soap->error == SOAP_TAG_MISMATCH)
 				soap->error = soap_ignore_element(soap);
 			if (soap->error == SOAP_NO_TAG)
@@ -3343,6 +3373,10 @@ SOAP_FMAC3 struct ims__receiveMessage * SOAP_FMAC4 soap_in_ims__receiveMessage(s
 	{	a = (struct ims__receiveMessage *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__receiveMessage, 0, sizeof(struct ims__receiveMessage), 0, NULL);
 		if (soap->body && soap_element_end_in(soap, tag))
 			return NULL;
+	}
+	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_num > 0))
+	{	soap->error = SOAP_OCCURS;
+		return NULL;
 	}
 	return a;
 }

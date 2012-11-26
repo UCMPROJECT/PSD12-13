@@ -107,9 +107,9 @@ struct ims__receiveMessageResponse
 /* ims:receiveMessage */
 struct ims__receiveMessage
 {
-#ifdef WITH_NOEMPTYSTRUCT
-	char dummy;	/* dummy member to enable compilation */
-#endif
+	char *user;	/* optional element of type xsd:string */
+	int num;	/* required element of type xsd:int */
+	char *friend_nick;	/* optional element of type xsd:string */
 };
 #endif
 
@@ -487,7 +487,7 @@ typedef struct _Struct_3 String;
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__sendMessage(struct soap*, char *user, struct _Struct_1 myMessage, int *error);
 
-SOAP_FMAC5 int SOAP_FMAC6 ims__receiveMessage(struct soap*, struct _Struct_1 *myMessage);
+SOAP_FMAC5 int SOAP_FMAC6 ims__receiveMessage(struct soap*, char *user, int num, char *friend_nick, struct _Struct_1 *myMessage);
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__getLastMessage(struct soap*, struct _Struct_1 *myMessage);
 
@@ -564,7 +564,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__haveFriends(struct soap*);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 myMessage, int *error);
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _Struct_1 *myMessage);
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, int num, char *friend_nick, struct _Struct_1 *myMessage);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getLastMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _Struct_1 *myMessage);
 

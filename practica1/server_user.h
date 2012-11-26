@@ -9,8 +9,14 @@
 #define SERVER_USER_H_
 
 #include "soapH.h"
+#include <stdio.h>
 
 #define MAXFRIENDS 100
+
+#define DEBUG_MODE 1
+
+#define DATA_PATH "server_data/"
+
 struct Files{
 	FILE *file;
 	char *friend_nick;
@@ -57,5 +63,6 @@ int getFriendRequestPending(User* usr,char** friend_nick);
 int copyToFile(FILE* file,char* friends[MAXFRIENDS],int num);
 int isFileOpen(User* usr,char* friend_nick, int *pos);
 int closeFiles(User* usr);
+int readDownTo(User* usr,char* friend_nick,int num,char* result);
 
 #endif /* SERVER_USER_H_ */

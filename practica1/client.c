@@ -5,9 +5,8 @@
 #include <stdio.h>
 
 #define DEBUG_MODE 1
+#define NUM_MESSAGES 5
 #define MAXFRIENDS 100
-
-#define NUM_MESSAGE 5
 
 char *user,*password;
 
@@ -156,6 +155,7 @@ void menuHome(struct soap soap,char *serverURL){
 			sendMessage(soap,serverURL);
 		}
 		else if(strcmp(op,"3") == 0){
+			receiveMessage(soap,serverURL);
 		}
 		else if(strcmp(op,"4") == 0){
 			sendFriendRequest(soap,serverURL);
@@ -301,7 +301,7 @@ void sendFriendRequest(struct soap soap,char *serverURL)
 {
 	char* friend_nick = (char*)malloc(sizeof(char*));
 	int result;
-	//system("clear");
+	system("clear");
 	printf("\nNombre del amigo:\n");
 	scanf("%s",friend_nick);
 
@@ -343,7 +343,7 @@ void getFriendRequest(struct soap soap,char *serverURL)
 	{
 		soap_call_ims__getFriendshipRequests(&soap, serverURL, "",user ,friends);
 
-		//system("clear");
+		system("clear");
 		printf("Lista de amistades sin aceptar:\n");
 
 		for(i=0;i < MAXFRIENDS;i++){
@@ -367,7 +367,7 @@ void getFriendRequest(struct soap soap,char *serverURL)
 //
 void acceptFriendRequest(struct soap soap,char* serverURL)
 {
-	//system("clear");
+	system("clear");
 
 	int numRequestPending = 0;
 	String friend_nick;// = (xsd__string*)malloc(sizeof(xsd__string*));
@@ -412,7 +412,7 @@ void getFriends(struct soap soap,char *serverURL)
 	{
 		soap_call_ims__getFriends(&soap, serverURL, "",user ,friends);
 
-		//system("clear");
+		system("clear");
 		printf("Lista de amigos:\n");
 
 		for(i=0;i < MAXFRIENDS;i++){
@@ -431,6 +431,9 @@ void getFriends(struct soap soap,char *serverURL)
 	printf("\n\n");
 }
 
+//
+//
+//
 void sendMessage(struct soap soap,char *serverURL)
 {
 	//char* friend = (char*)malloc(sizeof(char*));
@@ -440,7 +443,7 @@ void sendMessage(struct soap soap,char *serverURL)
 	myMessage.msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 	int error;
 
-	//system("clear");
+	system("clear");
 
 	printf("Escriba el nombre de su amigo: ");
 	scanf("%s",myMessage.name);
@@ -476,3 +479,25 @@ void sendMessage(struct soap soap,char *serverURL)
 	free(myMessage.name);
 	free(myMessage.msg);
 }
+//
+//
+//
+void receiveMessage(struct soap soap,char *serverURL)
+{
+	system("clear");
+
+	Message myMessage;
+	myMessage.name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
+	myMessage.msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
+
+	printf("Escriba el nombre de su amigo: ");
+	scanf("%s",myMessage.name);
+
+	soap_call_ims__receiveMessage(&soap,serverURL,"",user,NUM_MESSAGES,myMessage.name,&myMessage);
+
+	printf("%s\n",myMessage.msg);
+
+	free(myMessage.name);
+	free(myMessage.msg);
+}
+

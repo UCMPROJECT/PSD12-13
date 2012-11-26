@@ -445,4 +445,59 @@ int closeFiles(User* usr)
 	return 0;
 }
 
+//
+//
+//
+int readDownTo(User* usr,char* friend_nick,int num,char* result)
+{
+	/*
+	size_t needed = snprintf(NULL, 0, "%s: %s (%d)", msg, strerror(errno), errno);
+	    char  *buffer = malloc(needed);
+	    snprintf(buffer, needed, "%s: %s (%d)", msg, strerror(errno), errno);
+	*/
+	char *script;
+	int size = snprintf(NULL,0,"cat %s%s/%s | tail -n %d > %s%s/.temp",DATA_PATH,usr->nick,friend_nick,num,DATA_PATH,usr->nick);
+	script = (char*)malloc(size);
+	sprintf(script,"cat %s%s/%s | tail -n %d > %s%s/.temp",DATA_PATH,usr->nick,friend_nick,num,DATA_PATH,usr->nick);
+	if(DEBUG_MODE) printf("readDownTo -> Comando: %s\n",script);
+	system(script);
+
+	char *path;
+	size = snprintf(NULL,0,"%s%s/.temp",DATA_PATH,usr->nick);
+	path = (char*)malloc(size);
+	sprintf(path,"%s%s/.temp",DATA_PATH,usr->nick);
+
+	if(DEBUG_MODE) printf("readDownTo -> Path: %s\n",path);
+
+	FILE *file;
+	if((file = fopen(path, "r")) == NULL) perror("Error abriendo fichero");
+	if(DEBUG_MODE) printf("readDownTo -> Fichero abierto\n");
+	char* aux = (char*)malloc(sizeof(char*));
+
+	strcpy(result,"");
+
+	while(!feof(file))
+	{
+		if(fgets(aux,255,file) != NULL)
+		{
+			//name[strlen(name)-1] = '\0';
+			if(DEBUG_MODE) printf("readDownTo -> Fichero linea %s\n",aux);
+			//sprintf(result,"%s%s\n",result,aux);
+			strcat(result,aux);
+			if(DEBUG_MODE) printf("readDownTo -> Result %s\n",result);
+		}
+	}
+	free(aux);
+
+	if(fclose(file) == -1) perror("Error cerrando fichero");
+
+	sprintf(path,"rm %s%s/.temp",DATA_PATH,usr->nick);
+
+	system(path);
+
+	if(DEBUG_MODE) printf("readDownTo -> Result: %s\n",result);
+
+	return 0;
+}
+
 #endif

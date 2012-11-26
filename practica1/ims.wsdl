@@ -72,6 +72,9 @@
   <element name="receiveMessage">
    <complexType>
     <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__receiveMessage::user -->
+     <element name="num" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ims__receiveMessage::num -->
+     <element name="friend-nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__receiveMessage::friend_nick -->
     </sequence>
    </complexType>
   </element>

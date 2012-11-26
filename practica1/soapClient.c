@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-26 17:33:27 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.10 2012-11-26 20:18:59 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, struct _Struct_1 myMessage, int *error)
@@ -71,10 +71,13 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__sendMessage(struct soap *soap, const ch
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _Struct_1 *myMessage)
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *user, int num, char *friend_nick, struct _Struct_1 *myMessage)
 {	struct ims__receiveMessage soap_tmp_ims__receiveMessage;
 	struct ims__receiveMessageResponse *soap_tmp_ims__receiveMessageResponse;
 	soap->encodingStyle = NULL;
+	soap_tmp_ims__receiveMessage.user = user;
+	soap_tmp_ims__receiveMessage.num = num;
+	soap_tmp_ims__receiveMessage.friend_nick = friend_nick;
 	soap_begin(soap);
 	soap_serializeheader(soap);
 	soap_serialize_ims__receiveMessage(soap, &soap_tmp_ims__receiveMessage);

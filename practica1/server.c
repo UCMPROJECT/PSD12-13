@@ -511,7 +511,7 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			FILE* file;
 			if(isFileOpen(usr,myMessage.name,&pos) == 0)
 			{
-				if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
+				if((file = fopen(path, "a+")) == NULL) perror("Error abriendo fichero");
 			}else
 			{
 				file = usr->files[pos]->file;
@@ -527,7 +527,7 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			pos = -1;
 			if(isFileOpen(friend,user,&pos) == 0)
 			{
-				if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
+				if((file = fopen(path, "a+")) == NULL) perror("Error abriendo fichero");
 			}else
 			{
 				file = friend->files[pos]->file;
@@ -554,7 +554,50 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 }*/
 
 
-int ims__receiveMessage (struct soap *soap,  Message *myMessage){
+int ims__receiveMessage (struct soap *soap,char* user,int num,char* friend_nick,Message *myMessage)
+{
+	User *usr = getUser(luser,user);
+	if(DEBUG_MODE) printf("ims__receiveMessage -> getUser user Friend: %s\n",friend_nick);
+	User *friend = getUser(luser,friend_nick);
+	if(DEBUG_MODE) printf("ims__receiveMessage -> getUser friend: \n");
 
+
+	if(usr->online == 1)
+	{
+		int is_friend = isFriend(usr,friend_nick);
+		if(is_friend == 1)
+		{
+			//char path[100];
+			//sprintf(path,"%s%s/%s",DATA_PATH,user,myMessage->name);
+			//if(DEBUG_MODE) printf("ims__receiveMessage -> Path: %s\n",path);
+			/*
+			FILE *file;
+			int pos;
+			if(isFileOpen(usr,myMessage.name,&pos) == 0)
+			{
+				if((file = fopen(path, "a")) == NULL) perror("Error abriendo fichero");
+			}else
+			{
+				file = usr->files[pos]->file;
+			}
+			//sprintf(myMessage->msg,"%s\n%s",myMessage->msg,);
+			*/
+
+			if(DEBUG_MODE) printf("ims__receiveMessage -> Entrando en downTo: \n");
+
+			char* result;
+			result = (char*)malloc(255);
+			readDownTo(usr,friend_nick,num,result);
+			//strcpy(myMessage->msg,result);
+			myMessage->msg = result;
+			//free(result);
+		}else
+		{
+			//*error = -2;// No es amigo
+		}
+	}else
+	{
+		//*error = -1;// No esta online
+	}
 	return SOAP_OK;
 }

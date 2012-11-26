@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-26 17:33:27 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-26 20:18:59 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
@@ -152,7 +152,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__receiveMessage(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = ims__receiveMessage(soap, soap_tmp_ims__receiveMessageResponse.myMessage);
+	soap->error = ims__receiveMessage(soap, soap_tmp_ims__receiveMessage.user, soap_tmp_ims__receiveMessage.num, soap_tmp_ims__receiveMessage.friend_nick, soap_tmp_ims__receiveMessageResponse.myMessage);
 	if (soap->error)
 		return soap->error;
 	soap_serializeheader(soap);

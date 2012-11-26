@@ -7,6 +7,9 @@
  xmlns:ims="http://tempuri.org/ims.xsd">
  <SOAP-ENV:Body>
   <ims:receiveMessage>
+   <user></user>
+   <num>0</num>
+   <friend-nick></friend-nick>
   </ims:receiveMessage>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

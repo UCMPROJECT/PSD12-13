@@ -21,7 +21,7 @@ typedef struct
 }String;
 
 int ims__sendMessage ( char* user,Message myMessage, int *error);
-int ims__receiveMessage (Message *myMessage);
+int ims__receiveMessage (char* user,int num,char* friend_nick,Message *myMessage);
 int ims__getLastMessage(Message *myMessage);
 
 int ims__addUser(char* nick, char* pass, int *error);
