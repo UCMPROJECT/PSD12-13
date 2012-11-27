@@ -137,36 +137,33 @@ void menuHome(struct soap soap,char *serverURL){
 	while(strcmp(op,"0") != 0){
 		//system("clear");
 		printf("MENU PRINCIPAL\n");
-		printf("2.-Enviar mensaje.\n");
-		printf("3.-Leer mensaje.\n");
-		printf("4.-Enviar peticion de amistad\n");
-		printf("5.-Ver peticiones de amistad\n");
-		printf("6.-Aceptar peticion de amistad\n");
-		printf("7.-Ver lista de amigos\n");
+		printf("1.-Enviar mensaje.\n");
+		printf("2.-Leer mensaje.\n");
+		printf("3.-Enviar peticion de amistad\n");
+		printf("4.-Ver peticiones de amistad\n");
+		printf("5.-Aceptar peticion de amistad\n");
+		printf("6.-Ver lista de amigos\n");
 		printf("0.-Salir.\n");
 
 		scanf("%s",op);
 		//choose = (int)op;
 		printf("%s\n",op);
 		if(strcmp(op,"1") == 0){
-			//addNewFriend(soap,serverURL);
-		}
-		else if(strcmp(op,"2") == 0){
 			sendMessage(soap,serverURL);
 		}
-		else if(strcmp(op,"3") == 0){
+		else if(strcmp(op,"2") == 0){
 			receiveMessage(soap,serverURL);
 		}
-		else if(strcmp(op,"4") == 0){
+		else if(strcmp(op,"3") == 0){
 			sendFriendRequest(soap,serverURL);
 		}
-		else if(strcmp(op,"5") == 0){
+		else if(strcmp(op,"4") == 0){
 			getFriendRequest(soap,serverURL);
 		}
-		else if(strcmp(op,"6") == 0){
+		else if(strcmp(op,"5") == 0){
 			acceptFriendRequest(soap,serverURL);
 		}
-		else if(strcmp(op,"7") == 0){
+		else if(strcmp(op,"6") == 0){
 			getFriends(soap,serverURL);
 		}
 		else if(strcmp(op,"0") == 0){
@@ -410,6 +407,7 @@ void getFriends(struct soap soap,char *serverURL)
 	soap_call_ims__haveFriends(&soap, serverURL,"",user,&numFriends);
 	if(numFriends > 0)
 	{
+
 		soap_call_ims__getFriends(&soap, serverURL, "",user ,friends);
 
 		system("clear");

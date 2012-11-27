@@ -10,6 +10,7 @@ typedef char *xsd__string;
 typedef struct {
 	xsd__string name;
 	xsd__string msg;
+	int error;
 }Message;
 typedef struct {
 	char* data[100];

@@ -151,7 +151,6 @@ int getFriends(User* usr,char* friends[MAXFRIENDS])
 		for(i = 0; i < MAXFRIENDS; i++)
 		{
 			aux = usr->friends[i];
-
 			if(aux != NULL)
 			{
 				friends[i] = (char*)malloc(256*sizeof(char));

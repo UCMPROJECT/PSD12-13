@@ -95,6 +95,7 @@ int main(int argc, char **argv){
 	  	if (s < 0) {
 			soap_print_fault(&soap, stderr); exit(-1);
 	  	}
+
 	  	aux_soap = soap;
 	  	pthread_create (&idHilo, NULL, serve_clients, &aux_soap);
 
@@ -109,12 +110,20 @@ int main(int argc, char **argv){
   return 0;
 }
 void *serve_clients(struct soap *soap){
+	struct soap *aux_soap = soap_copy(soap);
+
 	pthread_mutex_lock (&mutexBuffer);
 
-  	soap_serve(soap);
-	soap_end(soap);
+  	soap_serve(aux_soap);
 
 	pthread_mutex_unlock (&mutexBuffer);
+
+	soap_end(aux_soap);
+
+
+	//free(aux_soap);
+	//aux_soap = NULL;
+
 	return NULL;
 }
 
@@ -457,10 +466,10 @@ int ims__rejectFriendshipRequest(struct soap *soap, char* user ,char* friend_nic
 int ims__getFriends(struct soap *soap, char* user ,Char_vector *friends)
 {
 	User *usr = getUser(luser,user);
-
 	if(usr->online == 1)
 	{
 		getFriends(usr,friends->data);
+
 
 		//printf("%s\n",friends->data[0]);
 		if(DEBUG_MODE)
