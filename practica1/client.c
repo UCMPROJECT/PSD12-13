@@ -96,7 +96,7 @@ int menuLogin(struct soap soap,char *serverURL){
 	char *op;
 	int res = -1;
 
-	op = (char*)malloc(sizeof(char*));
+	op = (char*)malloc(256*sizeof(char));
 	strcpy(op,"-1");
 
 	while(strcmp(op,"0") != 0 && res != 0){
@@ -131,7 +131,7 @@ int menuLogin(struct soap soap,char *serverURL){
 }
 void menuHome(struct soap soap,char *serverURL){
 	char* op;
-	op = (char*)malloc(sizeof(char*));
+	op = (char*)malloc(256*sizeof(char));
 	strcpy(op,"-1");
 	//int choose=-1 ;
 	while(strcmp(op,"0") != 0){
@@ -188,8 +188,8 @@ void addNewUser(struct soap soap,char *serverURL){
 	char* nick,*pass;
 	int res;
 
-	nick = (char*)malloc(sizeof(char*));
-	pass = (char*)malloc(sizeof(char*));
+	nick = (char*)malloc(256*sizeof(char));
+	pass = (char*)malloc(256*sizeof(char));
 
 	//user* usr;
 	//system("clear");
@@ -220,8 +220,8 @@ int login(struct soap soap,char *serverURL){
 	char* nick,*pass;
 	int res;
 
-	nick = (char*)malloc(sizeof(char*));
-	pass = (char*)malloc(sizeof(char*));
+	nick = (char*)malloc(256*sizeof(char));
+	pass = (char*)malloc(256*sizeof(char));
 
 	//user* usr;
 
@@ -264,7 +264,7 @@ void logout(struct soap soap,char* serverURL)
 // NO SE USA
 //
 void addNewFriend(struct soap soap,char *serverURL){
-	char* friend_nick = (char*)malloc(sizeof(char*));
+	char* friend_nick = (char*)malloc(256*sizeof(char));
 	int result;
 	system("clear");
 	printf("\nNombre del amigo:\n");
@@ -299,7 +299,7 @@ void addNewFriend(struct soap soap,char *serverURL){
 //
 void sendFriendRequest(struct soap soap,char *serverURL)
 {
-	char* friend_nick = (char*)malloc(sizeof(char*));
+	char* friend_nick = (char*)malloc(256*sizeof(char));
 	int result;
 	system("clear");
 	printf("\nNombre del amigo:\n");
@@ -371,7 +371,7 @@ void acceptFriendRequest(struct soap soap,char* serverURL)
 
 	int numRequestPending = 0;
 	String friend_nick;// = (xsd__string*)malloc(sizeof(xsd__string*));
-	char* op = (char*)malloc(sizeof(char*));
+	char* op = (char*)malloc(256*sizeof(char));
 
 	soap_call_ims__haveFriendshipRequest(&soap, serverURL,"",user,&numRequestPending);
 

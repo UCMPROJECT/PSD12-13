@@ -32,7 +32,7 @@ int serverInit(LUser* luser){
 				return 0;
 			}
 
-			pass = (char*)malloc(sizeof(char*));
+			pass = (char*)malloc(256*sizeof(char));
 			fscanf( user_pass_file, "%s\\n", pass);
 
 			addUsers(luser,dit->d_name,pass);
@@ -51,7 +51,7 @@ int serverInit(LUser* luser){
 
 			if((user_pass_file = fopen(aux_path, "r")) == NULL) perror("Error abriendo fichero");
 
-			name = (char*)malloc(sizeof(char*));
+			name = (char*)malloc(256*sizeof(char));
 
 			while(!feof(user_pass_file))
 			{

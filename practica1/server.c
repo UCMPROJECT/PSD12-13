@@ -516,7 +516,7 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			{
 				file = usr->files[pos]->file;
 			}
-			fprintf(file,"%s\n",myMessage.msg);
+			fprintf(file,"%s : %s\n",user,myMessage.msg);
 
 			fflush(file);
 			//if(fclose(file) == -1) perror("Error cerrando fichero");
@@ -532,7 +532,7 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			{
 				file = friend->files[pos]->file;
 			}
-			fprintf(file,"%s\n",myMessage.msg);
+			fprintf(file,"%s : %s\n",user,myMessage.msg);
 
 			fflush(file);
 			//if(fclose(file) == -1) perror("Error cerrando fichero");
@@ -585,11 +585,11 @@ int ims__receiveMessage (struct soap *soap,char* user,int num,char* friend_nick,
 
 			if(DEBUG_MODE) printf("ims__receiveMessage -> Entrando en downTo: \n");
 
-			char* result;
-			result = (char*)malloc(255);
-			readDownTo(usr,friend_nick,num,result);
+			//char* result;
+			myMessage->msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
+			readDownTo(usr,friend_nick,num,myMessage->msg);
 			//strcpy(myMessage->msg,result);
-			myMessage->msg = result;
+			//myMessage->msg = result;
 			//free(result);
 		}else
 		{

@@ -9,9 +9,9 @@
 //
 User* userInit(char* nick,char* pass){
 	User *user = (User*)malloc(sizeof(User));
-	user->nick = (char*)malloc(sizeof(char*));
+	user->nick = (char*)malloc(256*sizeof(char));
 	strcpy (user->nick, nick);
-	user->pass = (char*)malloc(sizeof(char*));
+	user->pass = (char*)malloc(256*sizeof(char));
 	strcpy (user->pass, pass);
 
 	/*user->nick = nick;
@@ -86,7 +86,7 @@ int addFriend(User* usr,char* friend_nick){
 		i++;
 	}
 	if(found == 0){
-		usr->friends[j] = (char*)malloc(sizeof(char*));
+		usr->friends[j] = (char*)malloc(256*sizeof(char));
 		strcpy(usr->friends[j] , friend_nick);
 		usr->numFriends++;
 		//printf("%s\n",usr->friends[j]);
@@ -154,7 +154,7 @@ int getFriends(User* usr,char* friends[MAXFRIENDS])
 
 			if(aux != NULL)
 			{
-				friends[i] = (char*)malloc(sizeof(char*));
+				friends[i] = (char*)malloc(256*sizeof(char));
 				strcpy(friends[i],aux);
 			}
 		}
@@ -189,7 +189,7 @@ int addFriendRequestSend(User* usr,char* friend_nick)
 		i++;
 	}
 	if(found == 0){
-		usr->friends_request_send[j] = (char*)malloc(sizeof(char*));
+		usr->friends_request_send[j] = (char*)malloc(256*sizeof(char));
 		strcpy(usr->friends_request_send[j] , friend_nick);
 		usr->numSend++;
 		//printf("%s\n",usr->friends[j]);
@@ -270,7 +270,7 @@ int addFriendRequestPending(User* usr,char* friend_nick)
 		i++;
 	}
 	if(found == 0){
-		usr->friends_request_pending[j] = (char*)malloc(sizeof(char*));
+		usr->friends_request_pending[j] = (char*)malloc(256*sizeof(char));
 		strcpy(usr->friends_request_pending[j] , friend_nick);
 		usr->numPending++;
 		//printf("%s\n",usr->friends[j]);
@@ -340,7 +340,7 @@ int getFriendRequestsPending(User* usr,char* friends[MAXFRIENDS])
 
 			if(aux != NULL)
 			{
-				friends[i] = (char*)malloc(sizeof(char*));
+				friends[i] = (char*)malloc(256*sizeof(char));
 				strcpy(friends[i],aux);
 			}
 		}
@@ -364,7 +364,7 @@ int getFriendRequestPending(User* usr,char** friend_nick)
 		{
 			found = 1;
 			//friend_nick = (char*)malloc(sizeof(char*));
-			*friend_nick = (char*)malloc(sizeof(char*));
+			*friend_nick = (char*)malloc(256*sizeof(char));
 			//printf("%s\n",aux);
 			strcpy(*friend_nick,aux);
 		}
@@ -456,15 +456,16 @@ int readDownTo(User* usr,char* friend_nick,int num,char* result)
 	    snprintf(buffer, needed, "%s: %s (%d)", msg, strerror(errno), errno);
 	*/
 	char *script;
-	int size = snprintf(NULL,0,"cat %s%s/%s | tail -n %d > %s%s/.temp",DATA_PATH,usr->nick,friend_nick,num,DATA_PATH,usr->nick);
-	script = (char*)malloc(size);
+	//int size = snprintf(NULL,0,"cat %s%s/%s | tail -n %d > %s%s/.temp",DATA_PATH,usr->nick,friend_nick,num,DATA_PATH,usr->nick);
+	script = (char*)malloc(256*sizeof(char));
 	sprintf(script,"cat %s%s/%s | tail -n %d > %s%s/.temp",DATA_PATH,usr->nick,friend_nick,num,DATA_PATH,usr->nick);
 	if(DEBUG_MODE) printf("readDownTo -> Comando: %s\n",script);
 	system(script);
 
+
 	char *path;
-	size = snprintf(NULL,0,"%s%s/.temp",DATA_PATH,usr->nick);
-	path = (char*)malloc(size);
+	//size = snprintf(NULL,0,"%s%s/.temp",DATA_PATH,usr->nick);
+	path = (char*)malloc(256*sizeof(char));
 	sprintf(path,"%s%s/.temp",DATA_PATH,usr->nick);
 
 	if(DEBUG_MODE) printf("readDownTo -> Path: %s\n",path);
@@ -472,9 +473,9 @@ int readDownTo(User* usr,char* friend_nick,int num,char* result)
 	FILE *file;
 	if((file = fopen(path, "r")) == NULL) perror("Error abriendo fichero");
 	if(DEBUG_MODE) printf("readDownTo -> Fichero abierto\n");
-	char* aux = (char*)malloc(sizeof(char*));
+	char* aux = (char*)malloc(256*sizeof(char));
 
-	strcpy(result,"");
+	//strcpy(result,"");
 
 	while(!feof(file))
 	{
@@ -492,8 +493,8 @@ int readDownTo(User* usr,char* friend_nick,int num,char* result)
 	if(fclose(file) == -1) perror("Error cerrando fichero");
 
 	char *script2;
-	size = snprintf(NULL,0,"rm %s%s/.temp",DATA_PATH,usr->nick);
-	script2 = (char*)malloc(size);
+	//size = snprintf(NULL,0,"rm %s%s/.temp",DATA_PATH,usr->nick);
+	script2 = (char*)malloc(256*sizeof(char));
 	sprintf(script2,"rm %s%s/.temp",DATA_PATH,usr->nick);
 
 	system(script2);
