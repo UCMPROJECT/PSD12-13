@@ -132,6 +132,7 @@ int menuLogin(struct soap soap,char *serverURL){
 void menuHome(struct soap soap,char *serverURL){
 	char* op;
 	op = (char*)malloc(256*sizeof(char));
+	int error;
 	strcpy(op,"-1");
 	//int choose=-1 ;
 	while(strcmp(op,"0") != 0){
@@ -149,28 +150,32 @@ void menuHome(struct soap soap,char *serverURL){
 		//choose = (int)op;
 		printf("%s\n",op);
 		if(strcmp(op,"1") == 0){
-			sendMessage(soap,serverURL);
+			error = sendMessage(soap,serverURL);
 		}
 		else if(strcmp(op,"2") == 0){
-			receiveMessage(soap,serverURL);
+			error = receiveMessage(soap,serverURL);
 		}
 		else if(strcmp(op,"3") == 0){
-			sendFriendRequest(soap,serverURL);
+			error = sendFriendRequest(soap,serverURL);
 		}
 		else if(strcmp(op,"4") == 0){
-			getFriendRequest(soap,serverURL);
+			error = getFriendRequest(soap,serverURL);
 		}
 		else if(strcmp(op,"5") == 0){
-			acceptFriendRequest(soap,serverURL);
+			error = acceptFriendRequest(soap,serverURL);
 		}
 		else if(strcmp(op,"6") == 0){
-			getFriends(soap,serverURL);
+			error = getFriends(soap,serverURL);
 		}
 		else if(strcmp(op,"0") == 0){
 			logout(soap,serverURL);
 		}
 		else{
 			printf("Opcion no valida\n");
+		}
+
+		if(error == -1){
+			strcpy(op,"0");
 		}
 	}
 	free(op);
@@ -183,7 +188,7 @@ void menuHome(struct soap soap,char *serverURL){
 void addNewUser(struct soap soap,char *serverURL){
 
 	char* nick,*pass;
-	int res;
+	int res = 1;
 
 	nick = (char*)malloc(256*sizeof(char));
 	pass = (char*)malloc(256*sizeof(char));
@@ -202,7 +207,10 @@ void addNewUser(struct soap soap,char *serverURL){
 	else if(res == -2){
 		printf("Ese nick esta en uso\n");
 	}
-	else{
+	else if( res == 1){
+		printf("Hay un problema con la conexion\n");
+	}
+	else if( res == 1){
 		printf("Usuario añadido con exito\n");
 	}
 
@@ -215,7 +223,7 @@ void addNewUser(struct soap soap,char *serverURL){
 //
 int login(struct soap soap,char *serverURL){
 	char* nick,*pass;
-	int res;
+	int res = 1;
 
 	nick = (char*)malloc(256*sizeof(char));
 	pass = (char*)malloc(256*sizeof(char));
@@ -233,6 +241,9 @@ int login(struct soap soap,char *serverURL){
 		printf("Nombre de usuario o contraseña incorrectos\n");
 		free(nick);
 		free(pass);
+	}
+	else if (res == 1){
+		printf("Hay un problema con la conexion\n");
 	}
 	else{
 		user = nick;
@@ -273,7 +284,7 @@ void addNewFriend(struct soap soap,char *serverURL){
 		printf("Solicitud enviada\n");
 	}
 	else if(result == 1){
-		printf("Ese usuario ya es tu amido\n");
+		printf("Ese usuario ya es tu amigo\n");
 	}
 	else if(result == -1){
 		printf("No te puedes añadir a ti mismo\n");
@@ -294,10 +305,10 @@ void addNewFriend(struct soap soap,char *serverURL){
 //
 //
 //
-void sendFriendRequest(struct soap soap,char *serverURL)
+int sendFriendRequest(struct soap soap,char *serverURL)
 {
 	char* friend_nick = (char*)malloc(256*sizeof(char));
-	int result;
+	int result=1;
 	system("clear");
 	printf("\nNombre del amigo:\n");
 	scanf("%s",friend_nick);
@@ -307,8 +318,8 @@ void sendFriendRequest(struct soap soap,char *serverURL)
 	if(result == 0){
 		printf("Solicitud enviada\n");
 	}
-	else if(result == 1){
-		printf("Ese usuario ya es tu amido\n");
+	else if(result == -4){
+		printf("Ese usuario ya es tu amigo\n");
 	}
 	else if(result == -1){
 		printf("No te puedes añadir a ti mismo\n");
@@ -319,22 +330,25 @@ void sendFriendRequest(struct soap soap,char *serverURL)
 	else if(result == -3){
 		printf("Ese usuario no existe\n");
 	}
-	else{
-		printf("Invitacion enviada correctamente:\n");
+	else if(result == 1){
+		printf("Hay un problema con la conexion\n");
+		return -1;
 	}
 
 	free(friend_nick);
+	return 0;
+
 }
 
 //
 //
 //
-void getFriendRequest(struct soap soap,char *serverURL)
+int getFriendRequest(struct soap soap,char *serverURL)
 {
 	Char_vector *friends = (Char_vector*)malloc(sizeof(Char_vector));
 
 	int i;
-	int numRequestPending = 0;
+	int numRequestPending = -2;
 	soap_call_ims__haveFriendshipRequest(&soap, serverURL,"",user,&numRequestPending);
 	if(numRequestPending > 0)
 	{
@@ -348,8 +362,16 @@ void getFriendRequest(struct soap soap,char *serverURL)
 				printf("%d: %s\n",i,friends->data[i]);
 			}
 		}
-	}else
-	{
+	}
+	else if(numRequestPending == -2){
+		printf("Hay un problema con la conexion\n");
+		return -1;
+
+	}
+	else if(numRequestPending == -1){
+			printf("No estas online\n");
+	}
+	else{
 		system("clear");
 		printf("No tienes peticiones de amistad\n");
 	}
@@ -357,53 +379,72 @@ void getFriendRequest(struct soap soap,char *serverURL)
 	free(friends);
 
 	printf("\n\n");
+	return 0;
+
 }
 
 //
 //
 //
-void acceptFriendRequest(struct soap soap,char* serverURL)
+int acceptFriendRequest(struct soap soap,char* serverURL)
 {
 	system("clear");
 
-	int numRequestPending = 0;
+	int numRequestPending = -2;
 	String friend_nick;// = (xsd__string*)malloc(sizeof(xsd__string*));
 	char* op = (char*)malloc(256*sizeof(char));
 
 	soap_call_ims__haveFriendshipRequest(&soap, serverURL,"",user,&numRequestPending);
+	if(numRequestPending == -2 ){
+		printf("Hay un problema con la conexion\n");
+		return -1;
 
-	while(numRequestPending > 0)
-	{
-		soap_call_ims__getFriendshipRequest(&soap,serverURL,"",user,&friend_nick);
+	}
+	else if(numRequestPending == -1 ){
+		printf("No estas online\n");
+	}
+	else if(numRequestPending == 0 ){
+		printf("No tienes peticiones que aceptar.\n");
+	}
+	else{
+		while(numRequestPending > 0)
+		{
+			soap_call_ims__getFriendshipRequest(&soap,serverURL,"",user,&friend_nick);
 
-		printf("%s te ha enviado una peticion de amistad\n",friend_nick.str);
-		printf("Aceptar? (y/n) \n");
-		scanf("%s",op);
+			printf("%s te ha enviado una peticion de amistad\n",friend_nick.str);
+			printf("Aceptar? (y/n) \n");
+			scanf("%s",op);
 
-		if(strcasecmp(op,"y") == 0 || strcasecmp(op,"yes") == 0)
-		{
-			soap_call_ims__acceptFriendshipRequest(&soap, serverURL,"",user,friend_nick.str,&numRequestPending);
-		}else if(strcasecmp(op,"n") == 0 || strcasecmp(op,"no") == 0)
-		{
-			soap_call_ims__rejectFriendshipRequest(&soap, serverURL,"",user ,friend_nick.str,&numRequestPending);
-		}else
-		{
-			printf("Opcion no valida\n");
+			if(strcasecmp(op,"y") == 0 || strcasecmp(op,"yes") == 0)
+			{
+				soap_call_ims__acceptFriendshipRequest(&soap, serverURL,"",user,friend_nick.str,&numRequestPending);
+			}else if(strcasecmp(op,"n") == 0 || strcasecmp(op,"no") == 0)
+			{
+				soap_call_ims__rejectFriendshipRequest(&soap, serverURL,"",user ,friend_nick.str,&numRequestPending);
+			}else
+			{
+				printf("Opcion no valida\n");
+			}
 		}
 	}
+
+	printf("\n\n");
+
 	free(op);
+	return 0;
+
 	//soap_call_ims__acceptFriendshipRequest(&soap,serverURL,"",user);
 }
 
 //
 //
 //
-void getFriends(struct soap soap,char *serverURL)
+int getFriends(struct soap soap,char *serverURL)
 {
 	Char_vector *friends = (Char_vector*)malloc(sizeof(Char_vector));
 
 	int i;
-	int numFriends = 0;
+	int numFriends = -2;
 	soap_call_ims__haveFriends(&soap, serverURL,"",user,&numFriends);
 	if(numFriends > 0)
 	{
@@ -418,28 +459,41 @@ void getFriends(struct soap soap,char *serverURL)
 				printf("%d: %s\n",i,friends->data[i]);
 			}
 		}
-	}else
+	}else if (numFriends == 0)
 	{
 		//system("clear");
 		printf("¡No tienes amigos!\n");
+	}
+	else if (numFriends == -2){
+		//system("clear");
+		printf("Hay un problema con la conexion\n");
+		return -1;
+
+	}
+	else if (numFriends == -1){
+		//system("clear");
+		printf("No estas online\n");
 	}
 
 	free(friends);
 
 	printf("\n\n");
+
+	return 0;
+
 }
 
 //
 //
 //
-void sendMessage(struct soap soap,char *serverURL)
+int sendMessage(struct soap soap,char *serverURL)
 {
 	//char* friend = (char*)malloc(sizeof(char*));
 	//char* message = (char*)malloc(sizeof(char*));
 	Message myMessage;
 	myMessage.name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 	myMessage.msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
-	int error;
+	int error = 1;
 
 	system("clear");
 
@@ -468,34 +522,58 @@ void sendMessage(struct soap soap,char *serverURL)
 	if(error == 0){
 		printf("Mensaje enviado con exito.\n");
 	}
+	else if (error == 1){
+		printf("Hay un problema con la conexion.\n");
+		return -1;
+	}
 	else if (error == -1){
 		printf("Ese usuario no es tu amigo, primero debes añadirle.\n");
 	}
-
-
+	else if (error == -2){
+			printf("No estas online.\n");
+	}
 
 	free(myMessage.name);
 	free(myMessage.msg);
+
+	return 0;
 }
 //
 //
 //
-void receiveMessage(struct soap soap,char *serverURL)
+int receiveMessage(struct soap soap,char *serverURL)
 {
 	system("clear");
 
 	Message myMessage;
 	myMessage.name = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 	myMessage.msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
+	myMessage.error = 1;
 
 	printf("Escriba el nombre de su amigo: ");
 	scanf("%s",myMessage.name);
 
 	soap_call_ims__receiveMessage(&soap,serverURL,"",user,NUM_MESSAGES,myMessage.name,&myMessage);
 
-	printf("%s\n",myMessage.msg);
+	if(myMessage.error == 0){
+		printf("%s\n",myMessage.msg);
+	}
+	else if(myMessage.error == 1){
+		printf("Hay un problema con la conexion\n");
+		return -1;
+	}
+	else if(myMessage.error == -1){
+		printf("No estas conectado\n");
+	}
+	else if(myMessage.error == -2){
+		printf("Ese no es tu amigo\n");
+	}
+
+
 
 	free(myMessage.name);
 	free(myMessage.msg);
+
+	return 0;
 }
 

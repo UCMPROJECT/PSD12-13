@@ -11,6 +11,7 @@
    <myMessage>
     <name></name>
     <msg></msg>
+    <error>0</error>
    </myMessage>
   </ims:sendMessage>
  </SOAP-ENV:Body>

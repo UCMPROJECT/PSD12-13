@@ -244,6 +244,9 @@ int userLogout(LUser* luser,char* nick,char* pass){
 		i++;
 	}
 	if(found == 1 && strcmp(pass,user->pass) == 0){
+		if(user->online == 0){
+			return -2;
+		}
 		user->online = 0;
 		closeFiles(user);
 		return 0;

@@ -19,7 +19,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-27 18:12:16 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-27 18:51:47 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -3921,6 +3921,8 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_Message(struct soap *soap, const char *tag, i
 		return soap->error;
 	if (soap_out_xsd__string(soap, "msg", -1, &a->msg, ""))
 		return soap->error;
+	if (soap_out_int(soap, "error", -1, &a->error, ""))
+		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
 
@@ -3928,6 +3930,7 @@ SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in_Message(struct soap *soap, cons
 {
 	size_t soap_flag_name = 1;
 	size_t soap_flag_msg = 1;
+	size_t soap_flag_error = 1;
 	if (soap_element_begin_in(soap, tag, 0, type))
 		return NULL;
 	a = (struct _Struct_1 *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_Message, sizeof(struct _Struct_1), 0, NULL, NULL, NULL);
@@ -3948,6 +3951,11 @@ SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in_Message(struct soap *soap, cons
 				{	soap_flag_msg--;
 					continue;
 				}
+			if (soap_flag_error && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_int(soap, "error", &a->error, "xsd:int"))
+				{	soap_flag_error--;
+					continue;
+				}
 			if (soap->error == SOAP_TAG_MISMATCH)
 				soap->error = soap_ignore_element(soap);
 			if (soap->error == SOAP_NO_TAG)
@@ -3962,6 +3970,10 @@ SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in_Message(struct soap *soap, cons
 	{	a = (struct _Struct_1 *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_Message, 0, sizeof(struct _Struct_1), 0, NULL);
 		if (soap->body && soap_element_end_in(soap, tag))
 			return NULL;
+	}
+	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_error > 0))
+	{	soap->error = SOAP_OCCURS;
+		return NULL;
 	}
 	return a;
 }
@@ -3987,6 +3999,7 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_default__Struct_1(struct soap *soap, struct _Str
 	(void)soap; (void)a; /* appease -Wall -Werror */
 	soap_default_xsd__string(soap, &a->name);
 	soap_default_xsd__string(soap, &a->msg);
+	soap_default_int(soap, &a->error);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize__Struct_1(struct soap *soap, const struct _Struct_1 *a)
@@ -3994,6 +4007,7 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_serialize__Struct_1(struct soap *soap, const str
 	(void)soap; (void)a; /* appease -Wall -Werror */
 	soap_serialize_xsd__string(soap, &a->name);
 	soap_serialize_xsd__string(soap, &a->msg);
+	soap_embedded(soap, &a->error, SOAP_TYPE_int);
 }
 
 SOAP_FMAC3 int SOAP_FMAC4 soap_out__Struct_1(struct soap *soap, const char *tag, int id, const struct _Struct_1 *a, const char *type)
@@ -4005,6 +4019,8 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out__Struct_1(struct soap *soap, const char *tag,
 		return soap->error;
 	if (soap_out_xsd__string(soap, "msg", -1, &a->msg, ""))
 		return soap->error;
+	if (soap_out_int(soap, "error", -1, &a->error, ""))
+		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
 
@@ -4012,6 +4028,7 @@ SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in__Struct_1(struct soap *soap, co
 {
 	size_t soap_flag_name = 1;
 	size_t soap_flag_msg = 1;
+	size_t soap_flag_error = 1;
 	if (soap_element_begin_in(soap, tag, 0, type))
 		return NULL;
 	a = (struct _Struct_1 *)soap_id_enter(soap, soap->id, a, SOAP_TYPE__Struct_1, sizeof(struct _Struct_1), 0, NULL, NULL, NULL);
@@ -4032,6 +4049,11 @@ SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in__Struct_1(struct soap *soap, co
 				{	soap_flag_msg--;
 					continue;
 				}
+			if (soap_flag_error && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_int(soap, "error", &a->error, "xsd:int"))
+				{	soap_flag_error--;
+					continue;
+				}
 			if (soap->error == SOAP_TAG_MISMATCH)
 				soap->error = soap_ignore_element(soap);
 			if (soap->error == SOAP_NO_TAG)
@@ -4046,6 +4068,10 @@ SOAP_FMAC3 struct _Struct_1 * SOAP_FMAC4 soap_in__Struct_1(struct soap *soap, co
 	{	a = (struct _Struct_1 *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE__Struct_1, 0, sizeof(struct _Struct_1), 0, NULL);
 		if (soap->body && soap_element_end_in(soap, tag))
 			return NULL;
+	}
+	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_error > 0))
+	{	soap->error = SOAP_OCCURS;
+		return NULL;
 	}
 	return a;
 }

@@ -30,6 +30,7 @@
    <sequence>
      <element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- _Struct_1::name -->
      <element name="msg" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- _Struct_1::msg -->
+     <element name="error" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- _Struct_1::error -->
    </sequence>
   </complexType>
   <complexType name="Struct-2"><!-- _Struct_2 -->

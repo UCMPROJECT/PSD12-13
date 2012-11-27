@@ -308,6 +308,9 @@ int ims__haveFriendshipRequest(struct soap *soap, char* user,int *result)
 		*result = usr->numPending;
 		if(DEBUG_MODE) printf("ims__haveFriendshipRequest -> Numero de peticiones %d\n",*result);
 	}
+	else{
+		*result = -1;
+	}
 
 	return SOAP_OK;
 }
@@ -328,6 +331,7 @@ int ims__getFriendshipRequest(struct soap *soap, char* user,String* friend_nick)
 		//*friend_nick = *aux;
 		//printf("Primera peticion %s\n",friend_nick);
 	}
+
 
 	return SOAP_OK;
 }
@@ -491,6 +495,9 @@ int ims__haveFriends(struct soap *soap, char* user,int *result)
 		*result = usr->numFriends;
 		if(DEBUG_MODE) printf("ims__haveFriends -> Numero de amigos %d\n",*result);
 	}
+	else{
+		*result = -1;
+	}
 
 	return SOAP_OK;
 }
@@ -552,6 +559,9 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			*error = -1;
 		}
 	}
+	else{
+		*error = -2;//no esta online
+	}
 
 	return SOAP_OK;
 }
@@ -597,16 +607,18 @@ int ims__receiveMessage (struct soap *soap,char* user,int num,char* friend_nick,
 			//char* result;
 			myMessage->msg = (xsd__string) malloc (IMS_MAX_MSG_SIZE);
 			readDownTo(usr,friend_nick,num,myMessage->msg);
+
+			myMessage->error = 0;
 			//strcpy(myMessage->msg,result);
 			//myMessage->msg = result;
 			//free(result);
 		}else
 		{
-			//*error = -2;// No es amigo
+			myMessage->error = -2;// No es amigo
 		}
 	}else
 	{
-		//*error = -1;// No esta online
+		myMessage->error = -1;// No esta online
 	}
 	return SOAP_OK;
 }

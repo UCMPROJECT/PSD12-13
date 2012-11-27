@@ -53,6 +53,7 @@ struct _Struct_1
 {
 	char *name;	/* optional element of type xsd:string */
 	char *msg;	/* optional element of type xsd:string */
+	int error;	/* required element of type xsd:int */
 };
 #endif
 
