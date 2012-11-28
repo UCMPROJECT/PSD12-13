@@ -39,11 +39,35 @@ User* userInit(char* nick,char* pass){
 // Free the memory
 //
 void userFree(User* usr){
+
+	closeFiles(usr);
+
+	int i;
+	char* aux;
+	if(DEBUG_MODE) printf("userFree -> Cerrando listas...\n");
+	for(i = 0; i < MAXFRIENDS; i++)
+	{
+		aux = usr->friends[i];
+		if(aux != NULL)
+			free(aux);
+		aux = usr->friends_request_pending[i];
+		if(aux != NULL)
+			free(aux);
+		aux = usr->friends_request_send[i];
+		if(aux != NULL)
+			free(aux);
+	}
+
+	if(DEBUG_MODE) printf("userFree -> Cerrando nombre...\n");
+
 	free(usr->nick);
-	*usr->nick = NULL;
+	//*usr->nick = NULL;
 	free(usr->pass);
-	*usr->pass = NULL;
+	//*usr->pass = NULL;
+
 	free(usr);
+	if(DEBUG_MODE) printf("userFree -> Usuario cerrado...\n");
+
 }
 
 //
@@ -427,6 +451,7 @@ int isFileOpen(User* usr,char* friend_nick,int *pos)
 //
 int closeFiles(User* usr)
 {
+	if(DEBUG_MODE) printf("closeFiles -> Entrando\n");
 	char* aux;
 	FILE *file;
 	int i;
@@ -441,6 +466,7 @@ int closeFiles(User* usr)
 			free(usr->files[i]->friend_nick);
 		}
 	}
+	if(DEBUG_MODE) printf("closeFiles -> Saliendo\n");
 	return 0;
 }
 
@@ -474,7 +500,7 @@ int readDownTo(User* usr,char* friend_nick,int num,char* result)
 	if(DEBUG_MODE) printf("readDownTo -> Fichero abierto\n");
 	char* aux = (char*)malloc(256*sizeof(char));
 
-	//strcpy(result,"");
+	strcpy(result,"");
 
 	while(!feof(file))
 	{

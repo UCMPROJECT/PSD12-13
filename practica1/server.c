@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <signal.h>
 
 #include "server_file_admin.h"
 
@@ -18,6 +19,7 @@ pthread_mutex_t mutexBuffer;
 
 
 void *serve_clients(struct soap *soap);
+void signal_kill_handler(int sig);
 
 int main(int argc, char **argv){ 
 
@@ -48,6 +50,8 @@ int main(int argc, char **argv){
 	removeUser(luser,nick);
 
 	serverFree(luser);*/
+
+	signal(SIGINT, signal_kill_handler);
 
 	int m, s;
 	struct soap soap;
@@ -109,6 +113,7 @@ int main(int argc, char **argv){
 	serverFree(luser);
   return 0;
 }
+
 void *serve_clients(struct soap *soap){
 	struct soap *aux_soap = soap_copy(soap);
 
@@ -125,6 +130,17 @@ void *serve_clients(struct soap *soap){
 	//aux_soap = NULL;
 
 	return NULL;
+}
+
+void signal_kill_handler(int sig)
+{
+
+	printf("\nsignal_kill_handler -> Cerrando server...\n");
+
+	pthread_mutex_destroy(&mutexBuffer);
+	serverFree(luser);
+
+	exit(1);
 }
 
 //
@@ -528,6 +544,7 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			if(isFileOpen(usr,myMessage.name,&pos) == 0)
 			{
 				if((file = fopen(path, "a+")) == NULL) perror("Error abriendo fichero");
+				//strcpy(usr->files[pos]->friend_nick,friend->nick);
 			}else
 			{
 				file = usr->files[pos]->file;
@@ -544,6 +561,7 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			if(isFileOpen(friend,user,&pos) == 0)
 			{
 				if((file = fopen(path, "a+")) == NULL) perror("Error abriendo fichero");
+				//strcpy(friend->files[pos]->friend_nick,usr->nick);
 			}else
 			{
 				file = friend->files[pos]->file;
