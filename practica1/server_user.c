@@ -427,6 +427,7 @@ int isFileOpen(User* usr,char* friend_nick,int *pos)
 	char* aux;
 	int i = 0;
 	int found = 0;
+	*pos = -1;
 	while( i < MAXFRIENDS && found == 0)
 	{
 		aux = usr->files[i]->friend_nick;
@@ -439,7 +440,7 @@ int isFileOpen(User* usr,char* friend_nick,int *pos)
 			}
 		}else
 		{
-			*pos = i;
+			if(*pos == -1)*pos = i;
 		}
 		i++;
 	}
