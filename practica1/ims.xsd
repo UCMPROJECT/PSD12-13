@@ -251,6 +251,23 @@
    </complexType>
   </element>
   <!-- operation request element -->
+  <element name="removeFriend">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeFriend::user -->
+     <element name="friend-nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeFriend::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="removeFriendResponse">
+   <complexType>
+    <sequence>
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeFriend::error -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
   <element name="getFriends">
    <complexType>
     <sequence>

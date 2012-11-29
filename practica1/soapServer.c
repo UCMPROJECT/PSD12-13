@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-29 12:27:25 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-29 12:42:28 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
@@ -87,6 +87,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 		return soap_serve_ims__acceptFriendshipRequest(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:rejectFriendshipRequest"))
 		return soap_serve_ims__rejectFriendshipRequest(soap);
+	if (!soap_match_tag(soap, soap->tag, "ims:removeFriend"))
+		return soap_serve_ims__removeFriend(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:getFriends"))
 		return soap_serve_ims__getFriends(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:haveFriends"))
@@ -704,6 +706,50 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__rejectFriendshipRequest(struct soap *s
 	 || soap_putheader(soap)
 	 || soap_body_begin_out(soap)
 	 || soap_put_ims__rejectFriendshipRequestResponse(soap, &soap_tmp_ims__rejectFriendshipRequestResponse, "ims:rejectFriendshipRequestResponse", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap->error;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__removeFriend(struct soap *soap)
+{	struct ims__removeFriend soap_tmp_ims__removeFriend;
+	struct ims__removeFriendResponse soap_tmp_ims__removeFriendResponse;
+	int soap_tmp_int;
+	soap_default_ims__removeFriendResponse(soap, &soap_tmp_ims__removeFriendResponse);
+	soap_default_int(soap, &soap_tmp_int);
+	soap_tmp_ims__removeFriendResponse.error = &soap_tmp_int;
+	soap_default_ims__removeFriend(soap, &soap_tmp_ims__removeFriend);
+	soap->encodingStyle = NULL;
+	if (!soap_get_ims__removeFriend(soap, &soap_tmp_ims__removeFriend, "ims:removeFriend", NULL))
+		return soap->error;
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap->error;
+	soap->error = ims__removeFriend(soap, soap_tmp_ims__removeFriend.user, soap_tmp_ims__removeFriend.friend_nick, soap_tmp_ims__removeFriendResponse.error);
+	if (soap->error)
+		return soap->error;
+	soap_serializeheader(soap);
+	soap_serialize_ims__removeFriendResponse(soap, &soap_tmp_ims__removeFriendResponse);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__removeFriendResponse(soap, &soap_tmp_ims__removeFriendResponse, "ims:removeFriendResponse", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	};
+	if (soap_end_count(soap)
+	 || soap_response(soap, SOAP_OK)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__removeFriendResponse(soap, &soap_tmp_ims__removeFriendResponse, "ims:removeFriendResponse", NULL)
 	 || soap_body_end_out(soap)
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))

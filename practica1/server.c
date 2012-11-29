@@ -491,6 +491,31 @@ int ims__rejectFriendshipRequest(struct soap *soap, char* user ,char* friend_nic
 //
 //
 //
+int ims__removeFriend(struct soap *soap,char* user ,char* friend_nick, int *error)
+{
+	User* usr = getUser(luser,user);
+	if(usr->online == 1)
+	{
+		if(isFriend(usr,friend_nick) == 1)
+		{
+			User *friend = getUser(luser,friend_nick);
+			removeFriend(usr,friend_nick);
+			removeFriend(friend,user);
+		}else
+		{
+			*error = -2;
+		}
+	}else
+	{
+		*error = -1;
+	}
+
+	return SOAP_OK;
+}
+
+//
+//
+//
 int ims__getFriends(struct soap *soap, char* user ,Char_vector *friends)
 {
 	User *usr = getUser(luser,user);

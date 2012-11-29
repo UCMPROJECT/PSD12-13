@@ -144,7 +144,8 @@ void menuHome(struct soap soap,char *serverURL){
 		printf("4.-Ver peticiones de amistad\n");
 		printf("5.-Aceptar peticion de amistad\n");
 		printf("6.-Ver lista de amigos\n");
-		printf("7.-Darse de baja\n");
+		printf("7.-Eliminar amigo\n");
+		printf("8.-Darse de baja\n");
 		printf("0.-Salir.\n");
 
 		scanf("%s",op);
@@ -169,6 +170,9 @@ void menuHome(struct soap soap,char *serverURL){
 			error = getFriends(soap,serverURL);
 		}
 		else if(strcmp(op,"7") == 0){
+			error = removeFriend(soap,serverURL);
+		}
+		else if(strcmp(op,"8") == 0){
 			error = removeUser(soap,serverURL);
 		}
 		else if(strcmp(op,"0") == 0){
@@ -470,7 +474,30 @@ int acceptFriendRequest(struct soap soap,char* serverURL)
 
 	//soap_call_ims__acceptFriendshipRequest(&soap,serverURL,"",user);
 }
+int removeFriend(struct soap soap,char* serverURL){
+	char *friend_nick = (char*)malloc(256*sizeof(char));
+	int error = 1;
+	printf("Introduzca el nombre del amigo: \n");
+	scanf("%s",friend_nick);
 
+	soap_call_ims__removeFriend(&soap, serverURL, "",user ,friend_nick,&error);
+
+	if(error == 1){
+		printf("Hay un problema con la conexion \n");
+		return -1;
+	}
+	else if (error == -1){
+		printf("No estas online\n");
+		return -1;
+	}
+	else if(error == -2){
+		printf("Ese usuario no es tu amigo\n");
+	}
+	else if(error == 0){
+		printf("Amigo elimninado\n");
+	}
+	return 0;
+}
 //
 //
 //

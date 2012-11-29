@@ -39,6 +39,7 @@ int ims__getFriendshipRequest(char* user,String* friend_nick);
 
 int ims__acceptFriendshipRequest(char* user ,char* friend_nick, int *result);
 int ims__rejectFriendshipRequest(char* user ,char* friend_nick, int *result);
+int ims__removeFriend(char* user ,char* friend_nick, int *error);
 
 int ims__getFriends(char* user ,Char_vector *friends);
 int ims__haveFriends(char* user,int *result);

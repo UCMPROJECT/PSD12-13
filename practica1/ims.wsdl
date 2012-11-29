@@ -287,6 +287,23 @@
    </complexType>
   </element>
   <!-- operation request element -->
+  <element name="removeFriend">
+   <complexType>
+    <sequence>
+     <element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeFriend::user -->
+     <element name="friend-nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeFriend::friend_nick -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="removeFriendResponse">
+   <complexType>
+    <sequence>
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeFriend::error -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
   <element name="getFriends">
    <complexType>
     <sequence>
@@ -434,6 +451,14 @@
  <part name="parameters" element="ims:rejectFriendshipRequestResponse"/>
 </message>
 
+<message name="removeFriendRequest">
+ <part name="parameters" element="ims:removeFriend"/><!-- ims__removeFriend::ims__removeFriend -->
+</message>
+
+<message name="removeFriendResponse">
+ <part name="parameters" element="ims:removeFriendResponse"/>
+</message>
+
 <message name="getFriendsRequest">
  <part name="parameters" element="ims:getFriends"/><!-- ims__getFriends::ims__getFriends -->
 </message>
@@ -520,6 +545,11 @@
   <documentation>Service definition of function ims__rejectFriendshipRequest</documentation>
   <input message="tns:rejectFriendshipRequestRequest"/>
   <output message="tns:rejectFriendshipRequestResponse"/>
+ </operation>
+ <operation name="removeFriend">
+  <documentation>Service definition of function ims__removeFriend</documentation>
+  <input message="tns:removeFriendRequest"/>
+  <output message="tns:removeFriendResponse"/>
  </operation>
  <operation name="getFriends">
   <documentation>Service definition of function ims__getFriends</documentation>
@@ -653,6 +683,15 @@
   </output>
  </operation>
  <operation name="rejectFriendshipRequest">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="removeFriend">
   <SOAP:operation soapAction=""/>
   <input>
      <SOAP:body parts="parameters" use="literal"/>
