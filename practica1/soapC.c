@@ -19,7 +19,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-28 09:47:21 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.c ver 2.8.10 2012-11-29 12:27:25 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -236,6 +236,10 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		return soap_in_ims__userLogin(soap, NULL, NULL, "ims:userLogin");
 	case SOAP_TYPE_ims__userLoginResponse:
 		return soap_in_ims__userLoginResponse(soap, NULL, NULL, "ims:userLoginResponse");
+	case SOAP_TYPE_ims__removeUser:
+		return soap_in_ims__removeUser(soap, NULL, NULL, "ims:removeUser");
+	case SOAP_TYPE_ims__removeUserResponse:
+		return soap_in_ims__removeUserResponse(soap, NULL, NULL, "ims:removeUserResponse");
 	case SOAP_TYPE_ims__addUser:
 		return soap_in_ims__addUser(soap, NULL, NULL, "ims:addUser");
 	case SOAP_TYPE_ims__addUserResponse:
@@ -382,6 +386,14 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		if (!soap_match_tag(soap, t, "ims:userLoginResponse"))
 		{	*type = SOAP_TYPE_ims__userLoginResponse;
 			return soap_in_ims__userLoginResponse(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:removeUser"))
+		{	*type = SOAP_TYPE_ims__removeUser;
+			return soap_in_ims__removeUser(soap, NULL, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "ims:removeUserResponse"))
+		{	*type = SOAP_TYPE_ims__removeUserResponse;
+			return soap_in_ims__removeUserResponse(soap, NULL, NULL, NULL);
 		}
 		if (!soap_match_tag(soap, t, "ims:addUser"))
 		{	*type = SOAP_TYPE_ims__addUser;
@@ -567,6 +579,10 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 		return soap_out_ims__userLogin(soap, tag, id, (const struct ims__userLogin *)ptr, "ims:userLogin");
 	case SOAP_TYPE_ims__userLoginResponse:
 		return soap_out_ims__userLoginResponse(soap, tag, id, (const struct ims__userLoginResponse *)ptr, "ims:userLoginResponse");
+	case SOAP_TYPE_ims__removeUser:
+		return soap_out_ims__removeUser(soap, tag, id, (const struct ims__removeUser *)ptr, "ims:removeUser");
+	case SOAP_TYPE_ims__removeUserResponse:
+		return soap_out_ims__removeUserResponse(soap, tag, id, (const struct ims__removeUserResponse *)ptr, "ims:removeUserResponse");
 	case SOAP_TYPE_ims__addUser:
 		return soap_out_ims__addUser(soap, tag, id, (const struct ims__addUser *)ptr, "ims:addUser");
 	case SOAP_TYPE_ims__addUserResponse:
@@ -687,6 +703,12 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_markelement(struct soap *soap, const void *ptr, 
 		break;
 	case SOAP_TYPE_ims__userLoginResponse:
 		soap_serialize_ims__userLoginResponse(soap, (const struct ims__userLoginResponse *)ptr);
+		break;
+	case SOAP_TYPE_ims__removeUser:
+		soap_serialize_ims__removeUser(soap, (const struct ims__removeUser *)ptr);
+		break;
+	case SOAP_TYPE_ims__removeUserResponse:
+		soap_serialize_ims__removeUserResponse(soap, (const struct ims__removeUserResponse *)ptr);
 		break;
 	case SOAP_TYPE_ims__addUser:
 		soap_serialize_ims__addUser(soap, (const struct ims__addUser *)ptr);
@@ -2998,6 +3020,164 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__userLoginResponse(struct soap *soap, con
 SOAP_FMAC3 struct ims__userLoginResponse * SOAP_FMAC4 soap_get_ims__userLoginResponse(struct soap *soap, struct ims__userLoginResponse *p, const char *tag, const char *type)
 {
 	if ((p = soap_in_ims__userLoginResponse(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__removeUser(struct soap *soap, struct ims__removeUser *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_string(soap, &a->nick);
+	soap_default_string(soap, &a->pass);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__removeUser(struct soap *soap, const struct ims__removeUser *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_string(soap, &a->nick);
+	soap_serialize_string(soap, &a->pass);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__removeUser(struct soap *soap, const char *tag, int id, const struct ims__removeUser *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__removeUser), type))
+		return soap->error;
+	if (soap_out_string(soap, "nick", -1, &a->nick, ""))
+		return soap->error;
+	if (soap_out_string(soap, "pass", -1, &a->pass, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__removeUser * SOAP_FMAC4 soap_in_ims__removeUser(struct soap *soap, const char *tag, struct ims__removeUser *a, const char *type)
+{
+	size_t soap_flag_nick = 1;
+	size_t soap_flag_pass = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__removeUser *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__removeUser, sizeof(struct ims__removeUser), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__removeUser(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_nick && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "nick", &a->nick, "xsd:string"))
+				{	soap_flag_nick--;
+					continue;
+				}
+			if (soap_flag_pass && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+				if (soap_in_string(soap, "pass", &a->pass, "xsd:string"))
+				{	soap_flag_pass--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__removeUser *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__removeUser, 0, sizeof(struct ims__removeUser), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__removeUser(struct soap *soap, const struct ims__removeUser *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__removeUser);
+	if (soap_out_ims__removeUser(soap, tag?tag:"ims:removeUser", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__removeUser * SOAP_FMAC4 soap_get_ims__removeUser(struct soap *soap, struct ims__removeUser *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__removeUser(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_ims__removeUserResponse(struct soap *soap, struct ims__removeUserResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	a->error = NULL;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ims__removeUserResponse(struct soap *soap, const struct ims__removeUserResponse *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_serialize_PointerToint(soap, &a->error);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_ims__removeUserResponse(struct soap *soap, const char *tag, int id, const struct ims__removeUserResponse *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)type;
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_ims__removeUserResponse), type))
+		return soap->error;
+	if (soap_out_PointerToint(soap, "error", -1, &a->error, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct ims__removeUserResponse * SOAP_FMAC4 soap_in_ims__removeUserResponse(struct soap *soap, const char *tag, struct ims__removeUserResponse *a, const char *type)
+{
+	size_t soap_flag_error = 1;
+	if (soap_element_begin_in(soap, tag, 0, type))
+		return NULL;
+	a = (struct ims__removeUserResponse *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ims__removeUserResponse, sizeof(struct ims__removeUserResponse), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_ims__removeUserResponse(soap, a);
+	if (soap->body && !*soap->href)
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_error && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToint(soap, "error", &a->error, "xsd:int"))
+				{	soap_flag_error--;
+					continue;
+				}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	else
+	{	a = (struct ims__removeUserResponse *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_ims__removeUserResponse, 0, sizeof(struct ims__removeUserResponse), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_ims__removeUserResponse(struct soap *soap, const struct ims__removeUserResponse *a, const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_ims__removeUserResponse);
+	if (soap_out_ims__removeUserResponse(soap, tag?tag:"ims:removeUserResponse", id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct ims__removeUserResponse * SOAP_FMAC4 soap_get_ims__removeUserResponse(struct soap *soap, struct ims__removeUserResponse *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_ims__removeUserResponse(soap, tag, p, type)))
 		if (soap_getindependent(soap))
 			return NULL;
 	return p;

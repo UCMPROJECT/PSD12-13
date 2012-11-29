@@ -120,6 +120,23 @@
    </complexType>
   </element>
   <!-- operation request element -->
+  <element name="removeUser">
+   <complexType>
+    <sequence>
+     <element name="nick" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeUser::nick -->
+     <element name="pass" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeUser::pass -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="removeUserResponse">
+   <complexType>
+    <sequence>
+     <element name="error" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ims__removeUser::error -->
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation request element -->
   <element name="userLogin">
    <complexType>
     <sequence>
@@ -337,6 +354,14 @@
  <part name="parameters" element="ims:addUserResponse"/>
 </message>
 
+<message name="removeUserRequest">
+ <part name="parameters" element="ims:removeUser"/><!-- ims__removeUser::ims__removeUser -->
+</message>
+
+<message name="removeUserResponse">
+ <part name="parameters" element="ims:removeUserResponse"/>
+</message>
+
 <message name="userLoginRequest">
  <part name="parameters" element="ims:userLogin"/><!-- ims__userLogin::ims__userLogin -->
 </message>
@@ -446,6 +471,11 @@
   <input message="tns:addUserRequest"/>
   <output message="tns:addUserResponse"/>
  </operation>
+ <operation name="removeUser">
+  <documentation>Service definition of function ims__removeUser</documentation>
+  <input message="tns:removeUserRequest"/>
+  <output message="tns:removeUserResponse"/>
+ </operation>
  <operation name="userLogin">
   <documentation>Service definition of function ims__userLogin</documentation>
   <input message="tns:userLoginRequest"/>
@@ -533,6 +563,15 @@
   </output>
  </operation>
  <operation name="addUser">
+  <SOAP:operation soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal"/>
+  </output>
+ </operation>
+ <operation name="removeUser">
   <SOAP:operation soapAction=""/>
   <input>
      <SOAP:body parts="parameters" use="literal"/>

@@ -16,6 +16,7 @@
 
 LUser *luser;
 pthread_mutex_t mutexBuffer;
+struct soap soap;
 
 
 void *serve_clients(struct soap *soap);
@@ -54,7 +55,7 @@ int main(int argc, char **argv){
 	signal(SIGINT, signal_kill_handler);
 
 	int m, s;
-	struct soap soap;
+
 	struct soap aux_soap;
 
 	pthread_t idHilo;
@@ -140,6 +141,8 @@ void signal_kill_handler(int sig)
 	pthread_mutex_destroy(&mutexBuffer);
 	serverFree(luser);
 
+	soap_end(&soap);
+
 	exit(1);
 }
 
@@ -186,7 +189,12 @@ int ims__addUser(struct soap *soap, char* nick, char* pass, int *error)
 
 	return SOAP_OK;
 }
-
+int ims__removeUser(struct soap *soap, char* nick, char* pass, int *error){
+	if(DEBUG_MODE) printf("ims__removeUser -> %s se quiere dar de baja\n",nick);
+	removeUser(luser,nick);
+	if(DEBUG_MODE) printf("ims__removeUser -> %s se ha dado de baja\n",nick);
+	*error = 0;
+}
 //
 //
 //
@@ -387,10 +395,10 @@ int ims__acceptFriendshipRequest(struct soap *soap, char* user ,char* friend_nic
 
 
 
-				sprintf(path,"%s%s%s/%s","rm ",DATA_PATH,user,".pending");
-				if(DEBUG_MODE) printf("ims__acceptFriendshipRequest -> Borrando fichero pendientes path: %s\n",path);
-				system(path);
-
+				//sprintf(path,"%s%s%s/%s","rm ",DATA_PATH,user,".pending");
+				//if(DEBUG_MODE) printf("ims__acceptFriendshipRequest -> Borrando fichero pendientes path: %s\n",path);
+				//system(path);
+/*
 				sprintf(path,"%s%s%s/%s","rm ",DATA_PATH,friend_nick,".send");
 				if(DEBUG_MODE) printf("ims__acceptFriendshipRequest -> Borrando fichero enviados path: %s\n",path);
 				system(path);
@@ -414,7 +422,7 @@ int ims__acceptFriendshipRequest(struct soap *soap, char* user ,char* friend_nic
 				copyToFile(file,friend->friends_request_send,friend->numSend);
 
 				if(fclose(file) == -1) perror("Error cerrando fichero");
-
+*/
 				//free(path);
 
 				*result = usr->numPending;
@@ -544,7 +552,9 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			if(isFileOpen(usr,myMessage.name,&pos) == 0)
 			{
 				if((file = fopen(path, "a+")) == NULL) perror("Error abriendo fichero");
-				//strcpy(usr->files[pos]->friend_nick,friend->nick);
+
+				usr->files[pos]->friend_nick = (char*)malloc(256*sizeof(char));
+				strcpy(usr->files[pos]->friend_nick,friend->nick);
 			}else
 			{
 				file = usr->files[pos]->file;
@@ -561,7 +571,8 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 			if(isFileOpen(friend,user,&pos) == 0)
 			{
 				if((file = fopen(path, "a+")) == NULL) perror("Error abriendo fichero");
-				//strcpy(friend->files[pos]->friend_nick,usr->nick);
+				friend->files[pos]->friend_nick = (char*)malloc(256*sizeof(char));
+				strcpy(friend->files[pos]->friend_nick,usr->nick);
 			}else
 			{
 				file = friend->files[pos]->file;

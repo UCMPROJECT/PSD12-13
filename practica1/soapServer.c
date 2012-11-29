@@ -17,7 +17,7 @@ compiling, linking, and/or using OpenSSL is allowed.
 extern "C" {
 #endif
 
-SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-28 09:47:21 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.10 2012-11-29 12:27:25 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
@@ -67,6 +67,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 		return soap_serve_ims__getLastMessage(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:addUser"))
 		return soap_serve_ims__addUser(soap);
+	if (!soap_match_tag(soap, soap->tag, "ims:removeUser"))
+		return soap_serve_ims__removeUser(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:userLogin"))
 		return soap_serve_ims__userLogin(soap);
 	if (!soap_match_tag(soap, soap->tag, "ims:userLogout"))
@@ -262,6 +264,50 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addUser(struct soap *soap)
 	 || soap_putheader(soap)
 	 || soap_body_begin_out(soap)
 	 || soap_put_ims__addUserResponse(soap, &soap_tmp_ims__addUserResponse, "ims:addUserResponse", NULL)
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap->error;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__removeUser(struct soap *soap)
+{	struct ims__removeUser soap_tmp_ims__removeUser;
+	struct ims__removeUserResponse soap_tmp_ims__removeUserResponse;
+	int soap_tmp_int;
+	soap_default_ims__removeUserResponse(soap, &soap_tmp_ims__removeUserResponse);
+	soap_default_int(soap, &soap_tmp_int);
+	soap_tmp_ims__removeUserResponse.error = &soap_tmp_int;
+	soap_default_ims__removeUser(soap, &soap_tmp_ims__removeUser);
+	soap->encodingStyle = NULL;
+	if (!soap_get_ims__removeUser(soap, &soap_tmp_ims__removeUser, "ims:removeUser", NULL))
+		return soap->error;
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap->error;
+	soap->error = ims__removeUser(soap, soap_tmp_ims__removeUser.nick, soap_tmp_ims__removeUser.pass, soap_tmp_ims__removeUserResponse.error);
+	if (soap->error)
+		return soap->error;
+	soap_serializeheader(soap);
+	soap_serialize_ims__removeUserResponse(soap, &soap_tmp_ims__removeUserResponse);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if (soap->mode & SOAP_IO_LENGTH)
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put_ims__removeUserResponse(soap, &soap_tmp_ims__removeUserResponse, "ims:removeUserResponse", NULL)
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	};
+	if (soap_end_count(soap)
+	 || soap_response(soap, SOAP_OK)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put_ims__removeUserResponse(soap, &soap_tmp_ims__removeUserResponse, "ims:removeUserResponse", NULL)
 	 || soap_body_end_out(soap)
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))

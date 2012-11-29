@@ -26,6 +26,7 @@ int ims__receiveMessage (char* user,int num,char* friend_nick,Message *myMessage
 int ims__getLastMessage(Message *myMessage);
 
 int ims__addUser(char* nick, char* pass, int *error);
+int ims__removeUser(char* nick, char* pass, int *error);
 int ims__userLogin(char* nick, char* pass, int *error);
 int ims__userLogout(char* nick, char* pass, int *error);
 

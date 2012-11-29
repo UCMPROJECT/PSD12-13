@@ -8,6 +8,7 @@ int serverInit(LUser* luser){
 	FILE *user_pass_file;
 	struct dirent   *dit,*dit_user;
 	char *aux_path,*pass, *name;
+	aux_path = (char*)malloc(256*sizeof(char));
 	//char path[100];
 	int num_user = 0,num_friends = 0;
 	User *user;
@@ -96,7 +97,7 @@ int serverInit(LUser* luser){
 				perror("opendir");
 				return 0;
 			}
-			num_friends = 0;
+			//num_friends = 0;
 			user = luser->listU[num_user-1];// Coger el usuario actual
 
 			// Recorrer el directorio del usuario para añadir los amigos
@@ -107,7 +108,7 @@ int serverInit(LUser* luser){
 					if(DEBUG_MODE){
 						printf("serverInit -> %s añade a %s\n",user->nick,dit_user->d_name);
 					}
-					num_friends++;
+					//num_friends++;
 				}
 
 			}
@@ -116,12 +117,13 @@ int serverInit(LUser* luser){
 				perror("closedir");
 				return 0;
 			}
-			user->numFriends = num_friends;
+			//user->numFriends = num_friends;
 				 /*printf("\n%s", dit->d_name);
 				 printf(" %d", dit->d_reclen);*/
 		}
-	 }
 
+	 }
+	free(aux_path);
 	/* int closedir(DIR *dir);
 	 *
 	 * Close the stream to argv[1]. And check for errors. */
@@ -177,6 +179,7 @@ int removeUser(LUser *luser,char* nick){
 	int i;
 	int found = 0;
 	User *usr;
+	if(DEBUG_MODE) printf("removeUser -> buscando usuario y moviendo listas\n");
 	for(i = 0;i < luser->numUser;i++){
 		if(found == 0){
 			if(strcmp(nick,luser->listU[i]->nick) == 0){
@@ -190,7 +193,35 @@ int removeUser(LUser *luser,char* nick){
 		}
 	}
 	if(found == 1){
+		if(DEBUG_MODE) printf("removeUser -> usuario encontrado\n");
+
+		int i;
+		User *friend;
+		if(DEBUG_MODE) printf("removeUser -> borrandose de amigos\n");
+
+		for(i = 0;i<MAXUSER;i++){
+			friend = luser->listU[i];
+			if(friend != NULL){
+				if(DEBUG_MODE) printf("removeUser ->%s le borra de amigos\n",friend->nick);
+
+				removeFriend(friend,nick);
+				if(DEBUG_MODE) printf("removeUser ->%s le borra de pendientes\n",friend->nick);
+
+				removeFriendRequestPending(friend,nick);
+				if(DEBUG_MODE) printf("removeUser ->%s le borra de enviados\n",friend->nick);
+
+				removeFriendRequestSend(friend,nick);
+			}
+		}
+		if(DEBUG_MODE) printf("removeUser -> liberando usuario\n");
 		userFree(usr);
+		char *path = (char*)malloc(256*sizeof(char));
+
+		if(DEBUG_MODE) printf("removeUser -> eliminando directorios\n");
+
+		sprintf(path,"rm -R %s%s",DATA_PATH,nick);
+		system(path);
+		free(path);
 	}
 	luser->numUser--;
 	return 0;

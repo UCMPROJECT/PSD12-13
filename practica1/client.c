@@ -144,6 +144,7 @@ void menuHome(struct soap soap,char *serverURL){
 		printf("4.-Ver peticiones de amistad\n");
 		printf("5.-Aceptar peticion de amistad\n");
 		printf("6.-Ver lista de amigos\n");
+		printf("7.-Darse de baja\n");
 		printf("0.-Salir.\n");
 
 		scanf("%s",op);
@@ -167,6 +168,9 @@ void menuHome(struct soap soap,char *serverURL){
 		else if(strcmp(op,"6") == 0){
 			error = getFriends(soap,serverURL);
 		}
+		else if(strcmp(op,"7") == 0){
+			error = removeUser(soap,serverURL);
+		}
 		else if(strcmp(op,"0") == 0){
 			logout(soap,serverURL);
 		}
@@ -179,6 +183,10 @@ void menuHome(struct soap soap,char *serverURL){
 		}
 	}
 	free(op);
+	free(user);
+	user = NULL;
+	free(password);
+	password = NULL;
 
 }
 
@@ -216,6 +224,33 @@ void addNewUser(struct soap soap,char *serverURL){
 
     free(nick);
     free(pass);
+}
+int removeUser(struct soap soap,char *serverURL){
+	char *aux_pass = (char*)malloc(256*sizeof(char));
+	int error = 1;
+
+	printf("Introducir su contraseña para confirmar: \n");
+	scanf("%s",aux_pass);
+	if(strcmp(password,aux_pass) == 0){
+		free(aux_pass);
+		soap_call_ims__removeUser(&soap, serverURL, "",user,password,&error);
+		if(error == 1){
+			printf("Ha habido un problema con la conexion\n");
+			return -1;
+		}
+		else{
+			printf("Usuario eliminado\n");
+			/*free(user);
+			user = NULL;
+			free(password);
+			password = NULL;*/
+			return -1;
+		}
+	}
+	else{
+		printf("Contraseña incorrecta\n");
+	}
+	return 0;
 }
 
 //
@@ -262,10 +297,10 @@ void logout(struct soap soap,char* serverURL)
 	int res;
 	soap_call_ims__userLogout(&soap, serverURL, "",user,password,&res);
 
-	free(user);
+	/*free(user);
 	user = NULL;
 	free(password);
-	password = NULL;
+	password = NULL;*/
 }
 
 //

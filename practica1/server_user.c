@@ -124,20 +124,27 @@ int addFriend(User* usr,char* friend_nick){
 int removeFriend(User* usr,char* friend_nick){
 	int i = 0;
 	int found = 0;
-	User* aux;
+	char* aux;
 	while(i < MAXFRIENDS && found == 0){
 		aux = usr->friends[i];
 		if(aux != NULL){
-			if(strcasecmp(aux->nick,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}
-		if(found == 0)
+		//if(found == 0)
 			i++;
 	}
 	if(found == 1){
-		usr->friends[i] = NULL;
+		free(usr->friends[i-1]);
+		usr->friends[i-1] = NULL;
 		usr->numFriends--;
+
+		char *path = (char*)malloc(256*sizeof(char));
+
+		sprintf(path,"rm %s%s/%s",DATA_PATH,usr->nick,friend_nick);
+		system(path);
+		free(path);
 	}
 	return found;
 }
@@ -153,7 +160,7 @@ int isFriend(User* usr,char *friend_nick){
 	while(found == 0 && i < MAXFRIENDS){
 		if(usr->friends[i] != NULL){
 			aux = usr->friends[i];
-			if(strcasecmp(aux,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -202,7 +209,7 @@ int addFriendRequestSend(User* usr,char* friend_nick)
 		aux = usr->friends_request_send[i];
 		if(aux != NULL)
 		{
-			if(strcasecmp(aux,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}else if(j == -1)
@@ -231,7 +238,7 @@ int removeFriendRequestSend(User* usr,char* friend_nick)
 	while(i < MAXFRIENDS && found == 0){
 		aux = usr->friends_request_send[i];
 		if(aux != NULL){
-			if(strcasecmp(aux,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -239,8 +246,23 @@ int removeFriendRequestSend(User* usr,char* friend_nick)
 			i++;
 	}
 	if(found == 1){
+		free(usr->friends_request_send[i]);
 		usr->friends_request_send[i] = NULL;
 		usr->numSend--;
+		char* path = (char*)malloc(256*sizeof(char));
+		sprintf(path,"%s%s%s/%s","rm ",DATA_PATH,usr->nick,".send");
+		if(DEBUG_MODE) printf("removeFriendshipRequestSend -> Borrando fichero enviados path: %s\n",path);
+		system(path);
+		sprintf(path,"%s%s/%s",DATA_PATH,usr->nick,".send");
+		FILE* file;
+		if(DEBUG_MODE) printf("removeFriendshipRequestSend -> Rescribiendo fichero enviados path: %s\n",path);
+
+		if((file = fopen(path, "w")) == NULL) perror("Error abriendo fichero");
+
+		copyToFile(file,usr->friends_request_send,usr->numSend);
+
+		if(fclose(file) == -1) perror("Error cerrando fichero");
+		free(path);
 	}
 	return found;
 }
@@ -257,7 +279,7 @@ int isFriendRequestSend(User* usr,char* friend_nick)
 	while(found == 0 && i < MAXFRIENDS){
 		if(usr->friends_request_send[i] != NULL){
 			aux = usr->friends_request_send[i];
-			if(strcasecmp(aux,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -283,7 +305,7 @@ int addFriendRequestPending(User* usr,char* friend_nick)
 		aux = usr->friends_request_pending[i];
 		if(aux != NULL)
 		{
-			if(strcasecmp(aux,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}else if(j == -1)
@@ -312,7 +334,7 @@ int removeFriendRequestPending(User* usr,char* friend_nick)
 	while(i < MAXFRIENDS && found == 0){
 		aux = usr->friends_request_pending[i];
 		if(aux != NULL){
-			if(strcasecmp(aux,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}
@@ -320,8 +342,25 @@ int removeFriendRequestPending(User* usr,char* friend_nick)
 			i++;
 	}
 	if(found == 1){
+		free(usr->friends_request_pending[i]);
 		usr->friends_request_pending[i] = NULL;
 		usr->numPending--;
+		char* path = (char*)malloc(256*sizeof(char));
+		sprintf(path,"%s%s%s/%s","rm ",DATA_PATH,usr->nick,".pending");
+		if(DEBUG_MODE) printf("removeFriendshipRequestSend -> Borrando fichero pendientes path: %s\n",path);
+		FILE* file;
+
+		sprintf(path,"%s%s/%s",DATA_PATH,usr->nick,".pending");
+		if(DEBUG_MODE) printf("removeFriendshipRequestSend -> Rescribiendo fichero pendientes path: %s\n",path);
+
+		if((file = fopen(path, "w")) == NULL) perror("Error abriendo fichero");
+
+		copyToFile(file,usr->friends_request_pending,usr->numPending);
+
+		if(fclose(file) == -1) perror("Error cerrando fichero");
+
+		system(path);
+		free(path);
 	}
 	return found;
 }
@@ -338,7 +377,7 @@ int isFriendRequestPending(User* usr,char* friend_nick)
 	while(found == 0 && i < MAXFRIENDS){
 		if(usr->friends[i] != NULL){
 			aux = usr->friends_request_pending[i];
-			if(strcasecmp(aux,friend_nick) == 0){
+			if(strcmp(aux,friend_nick) == 0){
 				found = 1;
 			}
 		}

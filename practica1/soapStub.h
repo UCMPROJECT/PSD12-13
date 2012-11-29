@@ -153,8 +153,27 @@ struct ims__addUser
 };
 #endif
 
+#ifndef SOAP_TYPE_ims__removeUserResponse
+#define SOAP_TYPE_ims__removeUserResponse (30)
+/* ims:removeUserResponse */
+struct ims__removeUserResponse
+{
+	int *error;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* optional element of type xsd:int */
+};
+#endif
+
+#ifndef SOAP_TYPE_ims__removeUser
+#define SOAP_TYPE_ims__removeUser (31)
+/* ims:removeUser */
+struct ims__removeUser
+{
+	char *nick;	/* optional element of type xsd:string */
+	char *pass;	/* optional element of type xsd:string */
+};
+#endif
+
 #ifndef SOAP_TYPE_ims__userLoginResponse
-#define SOAP_TYPE_ims__userLoginResponse (30)
+#define SOAP_TYPE_ims__userLoginResponse (33)
 /* ims:userLoginResponse */
 struct ims__userLoginResponse
 {
@@ -163,7 +182,7 @@ struct ims__userLoginResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__userLogin
-#define SOAP_TYPE_ims__userLogin (31)
+#define SOAP_TYPE_ims__userLogin (34)
 /* ims:userLogin */
 struct ims__userLogin
 {
@@ -173,7 +192,7 @@ struct ims__userLogin
 #endif
 
 #ifndef SOAP_TYPE_ims__userLogoutResponse
-#define SOAP_TYPE_ims__userLogoutResponse (33)
+#define SOAP_TYPE_ims__userLogoutResponse (36)
 /* ims:userLogoutResponse */
 struct ims__userLogoutResponse
 {
@@ -182,7 +201,7 @@ struct ims__userLogoutResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__userLogout
-#define SOAP_TYPE_ims__userLogout (34)
+#define SOAP_TYPE_ims__userLogout (37)
 /* ims:userLogout */
 struct ims__userLogout
 {
@@ -192,7 +211,7 @@ struct ims__userLogout
 #endif
 
 #ifndef SOAP_TYPE_ims__addFriendResponse
-#define SOAP_TYPE_ims__addFriendResponse (36)
+#define SOAP_TYPE_ims__addFriendResponse (39)
 /* ims:addFriendResponse */
 struct ims__addFriendResponse
 {
@@ -201,7 +220,7 @@ struct ims__addFriendResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__addFriend
-#define SOAP_TYPE_ims__addFriend (37)
+#define SOAP_TYPE_ims__addFriend (40)
 /* ims:addFriend */
 struct ims__addFriend
 {
@@ -211,7 +230,7 @@ struct ims__addFriend
 #endif
 
 #ifndef SOAP_TYPE_ims__sendFriendshipRequestResponse
-#define SOAP_TYPE_ims__sendFriendshipRequestResponse (39)
+#define SOAP_TYPE_ims__sendFriendshipRequestResponse (42)
 /* ims:sendFriendshipRequestResponse */
 struct ims__sendFriendshipRequestResponse
 {
@@ -220,7 +239,7 @@ struct ims__sendFriendshipRequestResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__sendFriendshipRequest
-#define SOAP_TYPE_ims__sendFriendshipRequest (40)
+#define SOAP_TYPE_ims__sendFriendshipRequest (43)
 /* ims:sendFriendshipRequest */
 struct ims__sendFriendshipRequest
 {
@@ -230,7 +249,7 @@ struct ims__sendFriendshipRequest
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriendshipRequestsResponse
-#define SOAP_TYPE_ims__getFriendshipRequestsResponse (43)
+#define SOAP_TYPE_ims__getFriendshipRequestsResponse (46)
 /* ims:getFriendshipRequestsResponse */
 struct ims__getFriendshipRequestsResponse
 {
@@ -239,7 +258,7 @@ struct ims__getFriendshipRequestsResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriendshipRequests
-#define SOAP_TYPE_ims__getFriendshipRequests (44)
+#define SOAP_TYPE_ims__getFriendshipRequests (47)
 /* ims:getFriendshipRequests */
 struct ims__getFriendshipRequests
 {
@@ -248,7 +267,7 @@ struct ims__getFriendshipRequests
 #endif
 
 #ifndef SOAP_TYPE_ims__haveFriendshipRequestResponse
-#define SOAP_TYPE_ims__haveFriendshipRequestResponse (46)
+#define SOAP_TYPE_ims__haveFriendshipRequestResponse (49)
 /* ims:haveFriendshipRequestResponse */
 struct ims__haveFriendshipRequestResponse
 {
@@ -257,7 +276,7 @@ struct ims__haveFriendshipRequestResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__haveFriendshipRequest
-#define SOAP_TYPE_ims__haveFriendshipRequest (47)
+#define SOAP_TYPE_ims__haveFriendshipRequest (50)
 /* ims:haveFriendshipRequest */
 struct ims__haveFriendshipRequest
 {
@@ -266,7 +285,7 @@ struct ims__haveFriendshipRequest
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriendshipRequestResponse
-#define SOAP_TYPE_ims__getFriendshipRequestResponse (50)
+#define SOAP_TYPE_ims__getFriendshipRequestResponse (53)
 /* ims:getFriendshipRequestResponse */
 struct ims__getFriendshipRequestResponse
 {
@@ -275,7 +294,7 @@ struct ims__getFriendshipRequestResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriendshipRequest
-#define SOAP_TYPE_ims__getFriendshipRequest (51)
+#define SOAP_TYPE_ims__getFriendshipRequest (54)
 /* ims:getFriendshipRequest */
 struct ims__getFriendshipRequest
 {
@@ -284,7 +303,7 @@ struct ims__getFriendshipRequest
 #endif
 
 #ifndef SOAP_TYPE_ims__acceptFriendshipRequestResponse
-#define SOAP_TYPE_ims__acceptFriendshipRequestResponse (53)
+#define SOAP_TYPE_ims__acceptFriendshipRequestResponse (56)
 /* ims:acceptFriendshipRequestResponse */
 struct ims__acceptFriendshipRequestResponse
 {
@@ -293,7 +312,7 @@ struct ims__acceptFriendshipRequestResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__acceptFriendshipRequest
-#define SOAP_TYPE_ims__acceptFriendshipRequest (54)
+#define SOAP_TYPE_ims__acceptFriendshipRequest (57)
 /* ims:acceptFriendshipRequest */
 struct ims__acceptFriendshipRequest
 {
@@ -303,7 +322,7 @@ struct ims__acceptFriendshipRequest
 #endif
 
 #ifndef SOAP_TYPE_ims__rejectFriendshipRequestResponse
-#define SOAP_TYPE_ims__rejectFriendshipRequestResponse (56)
+#define SOAP_TYPE_ims__rejectFriendshipRequestResponse (59)
 /* ims:rejectFriendshipRequestResponse */
 struct ims__rejectFriendshipRequestResponse
 {
@@ -312,7 +331,7 @@ struct ims__rejectFriendshipRequestResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__rejectFriendshipRequest
-#define SOAP_TYPE_ims__rejectFriendshipRequest (57)
+#define SOAP_TYPE_ims__rejectFriendshipRequest (60)
 /* ims:rejectFriendshipRequest */
 struct ims__rejectFriendshipRequest
 {
@@ -322,7 +341,7 @@ struct ims__rejectFriendshipRequest
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriendsResponse
-#define SOAP_TYPE_ims__getFriendsResponse (59)
+#define SOAP_TYPE_ims__getFriendsResponse (62)
 /* ims:getFriendsResponse */
 struct ims__getFriendsResponse
 {
@@ -331,7 +350,7 @@ struct ims__getFriendsResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__getFriends
-#define SOAP_TYPE_ims__getFriends (60)
+#define SOAP_TYPE_ims__getFriends (63)
 /* ims:getFriends */
 struct ims__getFriends
 {
@@ -340,7 +359,7 @@ struct ims__getFriends
 #endif
 
 #ifndef SOAP_TYPE_ims__haveFriendsResponse
-#define SOAP_TYPE_ims__haveFriendsResponse (62)
+#define SOAP_TYPE_ims__haveFriendsResponse (65)
 /* ims:haveFriendsResponse */
 struct ims__haveFriendsResponse
 {
@@ -349,7 +368,7 @@ struct ims__haveFriendsResponse
 #endif
 
 #ifndef SOAP_TYPE_ims__haveFriends
-#define SOAP_TYPE_ims__haveFriends (63)
+#define SOAP_TYPE_ims__haveFriends (66)
 /* ims:haveFriends */
 struct ims__haveFriends
 {
@@ -360,7 +379,7 @@ struct ims__haveFriends
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (64)
+#define SOAP_TYPE_SOAP_ENV__Header (67)
 /* SOAP Header: */
 struct SOAP_ENV__Header
 {
@@ -375,7 +394,7 @@ struct SOAP_ENV__Header
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (65)
+#define SOAP_TYPE_SOAP_ENV__Code (68)
 /* SOAP Fault Code: */
 struct SOAP_ENV__Code
 {
@@ -389,7 +408,7 @@ struct SOAP_ENV__Code
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (67)
+#define SOAP_TYPE_SOAP_ENV__Detail (70)
 /* SOAP-ENV:Detail */
 struct SOAP_ENV__Detail
 {
@@ -404,7 +423,7 @@ struct SOAP_ENV__Detail
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (70)
+#define SOAP_TYPE_SOAP_ENV__Reason (73)
 /* SOAP-ENV:Reason */
 struct SOAP_ENV__Reason
 {
@@ -417,7 +436,7 @@ struct SOAP_ENV__Reason
 #ifndef WITH_NOGLOBAL
 
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (71)
+#define SOAP_TYPE_SOAP_ENV__Fault (74)
 /* SOAP Fault: */
 struct SOAP_ENV__Fault
 {
@@ -494,6 +513,8 @@ SOAP_FMAC5 int SOAP_FMAC6 ims__getLastMessage(struct soap*, struct _Struct_1 *my
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__addUser(struct soap*, char *nick, char *pass, int *error);
 
+SOAP_FMAC5 int SOAP_FMAC6 ims__removeUser(struct soap*, char *nick, char *pass, int *error);
+
 SOAP_FMAC5 int SOAP_FMAC6 ims__userLogin(struct soap*, char *nick, char *pass, int *error);
 
 SOAP_FMAC5 int SOAP_FMAC6 ims__userLogout(struct soap*, char *nick, char *pass, int *error);
@@ -534,6 +555,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__getLastMessage(struct soap*);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__addUser(struct soap*);
 
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__removeUser(struct soap*);
+
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__userLogin(struct soap*);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_ims__userLogout(struct soap*);
@@ -570,6 +593,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__receiveMessage(struct soap *soap, const
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__getLastMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _Struct_1 *myMessage);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__addUser(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, char *pass, int *error);
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__removeUser(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, char *pass, int *error);
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_ims__userLogin(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *nick, char *pass, int *error);
 
