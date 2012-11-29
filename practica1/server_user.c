@@ -56,14 +56,18 @@ void userFree(User* usr){
 		aux = usr->friends_request_send[i];
 		if(aux != NULL)
 			free(aux);
+		free(usr->files[i]);
+
 	}
 
-	if(DEBUG_MODE) printf("userFree -> Cerrando nombre...\n");
+	if(DEBUG_MODE) printf("userFree -> Liberando nick...\n");
 
 	free(usr->nick);
 	//*usr->nick = NULL;
+	if(DEBUG_MODE) printf("userFree -> Liberando pass...\n");
 	free(usr->pass);
 	//*usr->pass = NULL;
+	if(DEBUG_MODE) printf("userFree -> Liberando usuario...\n");
 
 	free(usr);
 	if(DEBUG_MODE) printf("userFree -> Usuario cerrado...\n");

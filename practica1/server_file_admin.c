@@ -144,7 +144,7 @@ void serverFree(LUser* luser){
 	int i;
 	User *usr;
 	for(i = 0;i<luser->numUser;i++){
-		usr = luser->listU[1];
+		usr = luser->listU[i];
 		userFree(usr);
 	}
 	free(luser);
