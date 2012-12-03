@@ -12,7 +12,7 @@ int serverInit(LUser* luser){
 	//char path[100];
 	int num_user = 0,num_friends = 0;
 	User *user;
-
+	luser->numUser = 0;
 	// Abrir el directorio server_data
 	if ((dir = opendir(DATA_PATH)) == NULL){
 		perror("opendir");
@@ -117,6 +117,8 @@ int serverInit(LUser* luser){
 				perror("closedir");
 				return 0;
 			}
+			free(pass);
+			free(name);
 			//user->numFriends = num_friends;
 				 /*printf("\n%s", dit->d_name);
 				 printf(" %d", dit->d_reclen);*/

@@ -194,6 +194,8 @@ int ims__removeUser(struct soap *soap, char* nick, char* pass, int *error){
 	removeUser(luser,nick);
 	if(DEBUG_MODE) printf("ims__removeUser -> %s se ha dado de baja\n",nick);
 	*error = 0;
+
+	return SOAP_OK;
 }
 //
 //
@@ -555,7 +557,7 @@ int ims__haveFriends(struct soap *soap, char* user,int *result)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int ims__getLastMessage(struct soap *soap,Message *myMessage){
-
+	return SOAP_OK;
 }
 
 int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *error){
