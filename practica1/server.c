@@ -248,7 +248,14 @@ int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick,
 {
 	User *usr = getUser(luser,user);
 	User *friend = getUser(luser,friend_nick);
-
+	if(usr->numFriends == MAXFRIENDS){
+		*error = -5;
+		return SOAP_OK;
+	}
+	if(friend->numFriends == MAXFRIENDS){
+		*error = -6;
+		return SOAP_OK;
+	}
 	if(friend == NULL)
 	{
 		*error = -3;

@@ -222,7 +222,7 @@ void addNewUser(struct soap soap,char *serverURL){
 	else if( res == 1){
 		printf("Hay un problema con la conexion\n");
 	}
-	else if( res == 1){
+	else if( res == 0){
 		printf("Usuario añadido con exito\n");
 	}
 
@@ -371,6 +371,14 @@ int sendFriendRequest(struct soap soap,char *serverURL)
 	}
 	else if(result == 1){
 		printf("Hay un problema con la conexion\n");
+		return -1;
+	}
+	else if(result == -5){
+		printf("No puedes tener mas amigos \n");
+		return -1;
+	}
+	else if(result == -6){
+		printf("Ese usuario no puede tener mas amigos\n");
 		return -1;
 	}
 
