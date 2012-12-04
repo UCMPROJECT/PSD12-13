@@ -501,7 +501,7 @@ int removeFriend(struct soap soap,char* serverURL){
 	else if(error == -2){
 		printf("Ese usuario no es tu amigo\n");
 	}
-	else if(error == -2){
+	else if(error == -3){
 		printf("No puedes borrarte a ti mismo de amigos\n");
 	}
 	else if(error == 0){
