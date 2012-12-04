@@ -150,7 +150,7 @@ void menuHome(struct soap soap,char *serverURL){
 
 		scanf("%s",op);
 		//choose = (int)op;
-		printf("%s\n",op);
+		//printf("%s\n",op);
 		if(strcmp(op,"1") == 0){
 			error = sendMessage(soap,serverURL);
 		}
@@ -501,6 +501,9 @@ int removeFriend(struct soap soap,char* serverURL){
 	else if(error == -2){
 		printf("Ese usuario no es tu amigo\n");
 	}
+	else if(error == -2){
+		printf("No puedes borrarte a ti mismo de amigos\n");
+	}
 	else if(error == 0){
 		printf("Amigo elimninado\n");
 	}
@@ -637,6 +640,9 @@ int receiveMessage(struct soap soap,char *serverURL)
 	}
 	else if(myMessage.error == -2){
 		printf("Ese no es tu amigo\n");
+	}
+	else if(myMessage.error == -3){
+		printf("No puedes leer mensajes de ti mismo, buscate un amigo\n");
 	}
 
 

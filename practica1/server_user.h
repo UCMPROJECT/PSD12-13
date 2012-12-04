@@ -11,11 +11,12 @@
 #include "soapH.h"
 #include <stdio.h>
 
-#define MAXFRIENDS 100
 
 #define DEBUG_MODE 1
 
 #define DATA_PATH "server_data/"
+
+#define MAXFRIENDS 100
 
 struct Files{
 	FILE *file;

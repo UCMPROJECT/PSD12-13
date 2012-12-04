@@ -503,6 +503,10 @@ int ims__rejectFriendshipRequest(struct soap *soap, char* user ,char* friend_nic
 int ims__removeFriend(struct soap *soap,char* user ,char* friend_nick, int *error)
 {
 	User* usr = getUser(luser,user);
+	if(strcmp(user,friend_nick) == 0){
+		*error = -3;
+		return SOAP_OK;
+	}
 	if(usr->online == 1)
 	{
 		if(isFriend(usr,friend_nick) == 1)
@@ -647,6 +651,10 @@ int ims__receiveMessage (struct soap *soap,char* user,int num,char* friend_nick,
 	User *friend = getUser(luser,friend_nick);
 	if(DEBUG_MODE) printf("ims__receiveMessage -> getUser friend: \n");
 
+	if(strcmp(user,friend_nick) == 0){
+		myMessage->error = -1;
+		return SOAP_OK;
+	}
 
 	if(usr->online == 1)
 	{
