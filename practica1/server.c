@@ -652,7 +652,7 @@ int ims__receiveMessage (struct soap *soap,char* user,int num,char* friend_nick,
 	if(DEBUG_MODE) printf("ims__receiveMessage -> getUser friend: \n");
 
 	if(strcmp(user,friend_nick) == 0){
-		myMessage->error = -1;
+		myMessage->error = -3;
 		return SOAP_OK;
 	}
 
