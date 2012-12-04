@@ -582,6 +582,8 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 
 				usr->files[pos]->friend_nick = (char*)malloc(256*sizeof(char));
 				strcpy(usr->files[pos]->friend_nick,friend->nick);
+
+				usr->files[pos]->file = file;
 			}else
 			{
 				file = usr->files[pos]->file;
@@ -600,6 +602,8 @@ int ims__sendMessage (struct soap *soap,char* user,  Message myMessage, int *err
 				if((file = fopen(path, "a+")) == NULL) perror("Error abriendo fichero");
 				friend->files[pos]->friend_nick = (char*)malloc(256*sizeof(char));
 				strcpy(friend->files[pos]->friend_nick,usr->nick);
+
+				friend->files[pos]->file = file;
 			}else
 			{
 				file = friend->files[pos]->file;
