@@ -252,15 +252,17 @@ int ims__sendFriendshipRequest(struct soap *soap, char* user ,char* friend_nick,
 		*error = -5;
 		return SOAP_OK;
 	}
-	if(friend->numFriends == MAXFRIENDS){
-		*error = -6;
-		return SOAP_OK;
-	}
+
 	if(friend == NULL)
 	{
 		*error = -3;
 	}else if(usr->online == 1)
 	{
+		if(friend->numFriends == MAXFRIENDS){
+			*error = -6;
+			return SOAP_OK;
+		}
+
 		*error = isFriend(usr,friend_nick);
 		if(*error == 1){
 			*error = -4;
