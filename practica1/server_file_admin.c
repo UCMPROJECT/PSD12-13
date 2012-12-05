@@ -15,6 +15,8 @@ int serverInit(LUser* luser){
 	luser->numUser = 0;
 	// Abrir el directorio server_data
 	if ((dir = opendir(DATA_PATH)) == NULL){
+		sprintf(aux_path,"mkdir %s",DATA_PATH);
+		system(aux_path);
 		perror("opendir");
 		return 0;
 	}
