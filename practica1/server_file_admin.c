@@ -17,7 +17,7 @@ int serverInit(LUser* luser){
 	if ((dir = opendir(DATA_PATH)) == NULL){
 		sprintf(aux_path,"mkdir %s",DATA_PATH);
 		system(aux_path);
-		perror("opendir");
+		//perror("opendir");
 		return 0;
 	}
 	if(DEBUG_MODE) printf("serverInit -> Directorio: %s\n",DATA_PATH);
