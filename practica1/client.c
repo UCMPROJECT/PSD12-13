@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 #define NUM_MESSAGES 5
 #define MAXFRIENDS 100
 

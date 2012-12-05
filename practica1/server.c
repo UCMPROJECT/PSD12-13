@@ -11,7 +11,7 @@
 #include "server_file_admin.h"
 
 
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 #define DATA_PATH "server_data/"
 
 LUser *luser;

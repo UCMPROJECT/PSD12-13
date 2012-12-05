@@ -15,7 +15,7 @@
 #include <stdio.h>
 
 #define  MAXUSER 100
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 #define DATA_PATH "server_data/"
 
