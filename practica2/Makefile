@@ -1,4 +1,4 @@
-OPTIONS= -Wall
+OPTIONS= -Wall -g
 
 all: hackerMPI
 
