@@ -5,9 +5,9 @@
 #define TAG 1
 #define DEBUG 0
 
-#define MAXCOLS 3
-#define MAXROWS 3
-#define NUMCORES 3
+//#define MAXCOLS 3
+//#define MAXROWS 3
+//#define NUMCORES 3
 
 
 int main(int argc, char* argv[]) {
@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 					{0,0,0}};
 
 	*/
-
+/*
 	int size, rank;
 	int Matrix[MAXROWS][MAXCOLS];
 	int bitMap[MAXCOLS];
@@ -52,10 +52,11 @@ int main(int argc, char* argv[]) {
 	{
 		compareMatrixRow(Matrix[rank],bitMap,rank);
 		int auxFin = 0;
-		for(int i = 1;i < MAXCOLS; i++)
+
+		for( i = 1;i < MAXCOLS; i++)
 		{
 			if(auxFin == 0) auxFin = bitMap[i];
-			Matrix[rank] = Matrix[rank][i] + bitMap[i];
+			Matrix[rank][i] = Matrix[rank][i] + bitMap[i];
 		}
 
 		if(auxFin == 0) fin = 1;
@@ -71,37 +72,95 @@ int main(int argc, char* argv[]) {
 
 		//comparar la matriz final
 	}
+*/
 
-	/*
+	int size, rank;
+	int data[MAX_COLS];
+	int ok[MAX_COLS];
+	int res[MAX_ROWS][MAX_COLS];
 
-	MPI_Scatter(res,9,MPI_INT,data,3,MPI_INT,0,MPI_COMM_WORLD);
+	int i,j = 0;
+	for(i = 0; i < MAX_ROWS;i++){
+		for(j=0;j < MAX_COLS; j++){
+			res[i][j] = 0;
+		}
+		ok[i] = 1;
+		data[i] = 0;
+	}
+	// Init
+	MPI_Init(&argc, &argv);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-	int end = 0,aux_ok = 1;
-	int i;
-	while(end == 0){
-		compareMatrixRow(data,ok,rank);
-		for(i = 0;i<=3;i++){
-			if(ok[i] == 1){
-				data[i]++;
-				aux_ok = 0;
+
+	initSystem(rank);
+
+	int block = MAX_ROWS/size;
+	int frag_res[size][MAX_COLS];
+	int num_data_send = size;
+	int num_data_recive = MAX_COLS;
+
+
+	int num;
+	for(num = 0; num < block;num++){
+
+		for(i = 0; i < size;i++){
+			for(j=0;j < MAX_COLS; j++){
+				frag_res[i][j] = 0;
 			}
 		}
-		if(aux_ok == 1){
-			end = 1;
+
+		MPI_Scatter(frag_res,num_data_send,MPI_INT,data,num_data_recive,MPI_INT,0,MPI_COMM_WORLD);
+
+
+		int end = 0,aux_ok = 1;
+		//int i;
+		while(end == 0){
+			compareMatrixRow(data,ok,rank);
+			aux_ok = 1;
+			for(i = 0;i<MAX_COLS;i++){
+				if(ok[i] == 1){
+					data[i]++;
+					aux_ok = 0;
+				}
+
+			}
+
+			if(aux_ok == 1){
+				end = 1;
+			}
+		}
+
+
+
+		MPI_Gather(data,num_data_recive,MPI_INT,&frag_res,num_data_recive,MPI_INT,0,MPI_COMM_WORLD);
+
+
+		if(rank == 0){
+			int aux_i = 0;
+			for(i = num*size; i < (num*size)+size;i++){
+				for(j=0;j < MAX_COLS; j++){
+					res[i][j] = frag_res[aux_i][j];
+				}
+				aux_i++;
+			}
 		}
 	}
-	MPI_Gather(res,9,MPI_INT,data,3,MPI_INT,0,MPI_COMM_WORLD);
 
-	int finish_him = checkCurrentKey(res);
 
-	if(finish_him == 1){
-		printf("Conseguido");
+	if(rank == 0){
+		printMatrix(res);
+
+		int finish_him = checkCurrentKey(res);
+
+
+		if(finish_him == 1){
+			printf("Conseguido\n");
+		}
+		else{
+			printf("FAIL\n");
+		}
 	}
-	else{
-		printf("FAIL");
-	}
-
-	*/
 	MPI_Finalize();
 	exit(0);
 }
