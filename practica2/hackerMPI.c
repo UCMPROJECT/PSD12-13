@@ -10,6 +10,7 @@
 //#define NUMCORES 3
 
 
+
 int main(int argc, char* argv[]) {
 
 	/*
@@ -21,59 +22,142 @@ int main(int argc, char* argv[]) {
 					{0,0,0}};
 
 	*/
-/*
+
 	int size, rank;
-	int Matrix[MAXROWS][MAXCOLS];
-	int bitMap[MAXCOLS];
+	int res[MAX_ROWS][MAX_COLS];
+	int bitMap[MAX_COLS];
+	MPI_Status status;
+
 
 	int i,j;
-	for(i = 0; i < MAXROWS; i++)
-		for(j = 0; j < MAXCOLS; j++)
-			Matrix[i][j] = 0;
+	for(i = 0; i < MAX_ROWS; i++){
+		for(j = 0; j < MAX_COLS; j++){
+			res[i][j] = 0;
+		}
+	}
 
-	for(i = 0; i < MAXCOLS; i++)
-		bitMap[i] = 1;
-
+	for(i = 0; i < MAX_COLS; i++){
+		bitMap[i] = 0;
+	}
 	// Init
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-	if(rank == 0)
-	{
-		for(i = 1;i < NUMCORES-1; i++)
-			MPI_send();
-	}
-
 	initSystem(rank);
 
-	int fin = 0;
-	do
-	{
-		compareMatrixRow(Matrix[rank],bitMap,rank);
-		int auxFin = 0;
+	int tag[size];
+	int it = MAX_ROWS/(size-1);
 
-		for( i = 1;i < MAXCOLS; i++)
+	int num;
+	for(num = 0;num<it;num++){
+		int row = num*(size-1);
+		if(rank == 0)
 		{
-			if(auxFin == 0) auxFin = bitMap[i];
-			Matrix[rank][i] = Matrix[rank][i] + bitMap[i];
+
+			for(i = 1;i <= size-1; i++){
+				MPI_Send(res[(row+i)-1],MAX_COLS,MPI_INT,i,1,MPI_COMM_WORLD);
+			}
+			for(i = 1;i <= size-1; i++){
+				MPI_Recv(&res[(row+i)-1],MAX_COLS,MPI_INT,i,1,MPI_COMM_WORLD,&status);
+			}
+			printMatrix(res);
+
 		}
+		else{
+			int ok[MAX_COLS];
+			for(i = 0; i < MAX_COLS; i++){
+				bitMap[i] = 0;
+				ok[i] = 1;
+			}
+			MPI_Recv(&bitMap,MAX_COLS,MPI_INT,0,1,MPI_COMM_WORLD,&status);
 
-		if(auxFin == 0) fin = 1;
 
-	}while(fin == 0);
+			int fin = 0;
 
-	if(rank != 0)
-		MPI_send();
-	else
-	{
-		for(i = 1; i < MAXCOLS; i++)
-			MPI_receive();
+			int end = 0,aux_ok = 1;
+				//int i;
+			while(end == 0){
+				compareMatrixRow(bitMap,ok,(row+rank)-1);
+				aux_ok = 1;
+				for(i = 0;i<MAX_COLS;i++){
+					if(ok[i] == 1){
+						bitMap[i]++;
+						aux_ok = 0;
+					}
 
-		//comparar la matriz final
+				}
+
+				if(aux_ok == 1){
+					end = 1;
+				}
+			}
+
+			MPI_Send(bitMap,MAX_COLS,MPI_INT,0,1,MPI_COMM_WORLD);
+		}
 	}
-*/
 
+
+	int last = MAX_ROWS - ((size-1) * it);
+	if(last > 0){
+		int row = it*(size-1);
+		if(rank == 0)
+		{
+
+			for(i = 1;i <= last; i++){
+				MPI_Send(res[(row+i)-1],MAX_COLS,MPI_INT,i,1,MPI_COMM_WORLD);
+			}
+			for(i = 1;i <= last; i++){
+				MPI_Recv(&res[(row+i)-1],MAX_COLS,MPI_INT,i,1,MPI_COMM_WORLD,&status);
+			}
+		}
+		else if(rank <= last){
+			MPI_Recv(&bitMap,MAX_COLS,MPI_INT,0,1,MPI_COMM_WORLD,&status);
+			int ok[MAX_COLS];
+
+
+			int fin = 0;
+
+			int end = 0,aux_ok = 1;
+				//int i;
+			while(end == 0){
+				compareMatrixRow(bitMap,ok,(row+rank)-1);
+				aux_ok = 1;
+				for(i = 0;i<MAX_COLS;i++){
+					if(ok[i] == 1){
+						bitMap[i]++;
+						aux_ok = 0;
+					}
+
+				}
+
+				if(aux_ok == 1){
+					end = 1;
+				}
+			}
+
+			MPI_Send(bitMap,MAX_COLS,MPI_INT,0,1,MPI_COMM_WORLD);
+		}
+	}
+	if(rank == 0){
+		printMatrix(res);
+
+		int finish_him = checkCurrentKey(res);
+
+
+		if(finish_him == 1){
+			printf("Conseguido\n");
+		}
+		else{
+			printf("FAIL\n");
+		}
+	}
+	MPI_Finalize();
+	exit(0);
+
+/*************************************************************************
+ * *ESTATICO
+ *************************************************************************/
+/*
 	int size, rank;
 	int data[MAX_COLS];
 	int ok[MAX_COLS];
@@ -163,6 +247,8 @@ int main(int argc, char* argv[]) {
 	}
 	MPI_Finalize();
 	exit(0);
+
+	*/
 }
 
 
