@@ -13,16 +13,10 @@
 
 int main(int argc, char* argv[]) {
 
-	/*
-	int size, rank;
-	int data[3];
-	int ok[3] = {1,1,1};
-	int res[3][3] = {{0,0,0},
-					{0,0,0},
-					{0,0,0}};
-
-	*/
-
+/*************************************************************************
+ * *DINAMICO
+ *************************************************************************/
+/*
 	int size, rank;
 	int res[MAX_ROWS][MAX_COLS];
 	int bitMap[MAX_COLS];
@@ -45,7 +39,6 @@ int main(int argc, char* argv[]) {
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	initSystem(rank);
 
-	int tag[size];
 	int it = MAX_ROWS/(size-1);
 
 	int num;
@@ -60,7 +53,6 @@ int main(int argc, char* argv[]) {
 			for(i = 1;i <= size-1; i++){
 				MPI_Recv(&res[(row+i)-1],MAX_COLS,MPI_INT,i,1,MPI_COMM_WORLD,&status);
 			}
-			printMatrix(res);
 
 		}
 		else{
@@ -139,7 +131,6 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	if(rank == 0){
-		printMatrix(res);
 
 		int finish_him = checkCurrentKey(res);
 
@@ -153,11 +144,11 @@ int main(int argc, char* argv[]) {
 	}
 	MPI_Finalize();
 	exit(0);
-
+*/
 /*************************************************************************
  * *ESTATICO
  *************************************************************************/
-/*
+
 	int size, rank;
 	int data[MAX_COLS];
 	int ok[MAX_COLS];
@@ -194,13 +185,12 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		MPI_Scatter(frag_res,num_data_send,MPI_INT,data,num_data_recive,MPI_INT,0,MPI_COMM_WORLD);
-
+		MPI_Scatter(frag_res,num_data_recive,MPI_INT,&data,num_data_recive,MPI_INT,0,MPI_COMM_WORLD);
 
 		int end = 0,aux_ok = 1;
-		//int i;
+
 		while(end == 0){
-			compareMatrixRow(data,ok,rank);
+			compareMatrixRow(data,ok,(num*size)+rank);
 			aux_ok = 1;
 			for(i = 0;i<MAX_COLS;i++){
 				if(ok[i] == 1){
@@ -229,17 +219,18 @@ int main(int argc, char* argv[]) {
 				aux_i++;
 			}
 		}
+		if(rank == 0)
+			printMatrix(res);
 	}
 
 
 	if(rank == 0){
-		printMatrix(res);
 
 		int finish_him = checkCurrentKey(res);
 
 
 		if(finish_him == 1){
-			printf("Conseguido\n");
+			printf("Conseguido, DEAL WITH IT\n");
 		}
 		else{
 			printf("FAIL\n");
@@ -248,7 +239,7 @@ int main(int argc, char* argv[]) {
 	MPI_Finalize();
 	exit(0);
 
-	*/
+
 }
 
 
