@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 /*************************************************************************
  * *DINAMICO
  *************************************************************************/
-/*
+
 	int size, rank;
 	int res[MAX_ROWS][MAX_COLS];
 	int bitMap[MAX_COLS];
@@ -131,12 +131,12 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	if(rank == 0){
-
+		printMatrix(res);
 		int finish_him = checkCurrentKey(res);
 
 
 		if(finish_him == 1){
-			printf("Conseguido\n");
+			printf("Conseguido, DEAL WITH IT\n");
 		}
 		else{
 			printf("FAIL\n");
@@ -144,11 +144,11 @@ int main(int argc, char* argv[]) {
 	}
 	MPI_Finalize();
 	exit(0);
-*/
+
 /*************************************************************************
  * *ESTATICO
  *************************************************************************/
-
+/*
 	int size, rank;
 	int data[MAX_COLS];
 	int ok[MAX_COLS];
@@ -219,15 +219,14 @@ int main(int argc, char* argv[]) {
 				aux_i++;
 			}
 		}
-		if(rank == 0)
-			printMatrix(res);
+
 	}
 
 
 	if(rank == 0){
 
 		int finish_him = checkCurrentKey(res);
-
+		printMatrix(res);
 
 		if(finish_him == 1){
 			printf("Conseguido, DEAL WITH IT\n");
@@ -238,7 +237,7 @@ int main(int argc, char* argv[]) {
 	}
 	MPI_Finalize();
 	exit(0);
-
+*/
 
 }
 
